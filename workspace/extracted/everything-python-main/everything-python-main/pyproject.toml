@@ -1,0 +1,17 @@
+[project]
+name = "everything-python"
+version = "4.1.0"
+description = "FastAPI port of the EVERYTHING app: 210-agent desk, provider-fleet AI chat, live market signals, pipelines, job queue, MIDI composer."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "jvrboy" }]
+keywords = ["fastapi", "agents", "trading", "signals", "midi"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

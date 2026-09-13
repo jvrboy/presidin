@@ -1,0 +1,54 @@
+{
+  "rule_set_version": 1,
+  "rule_set_name": "nexus_confluence_governance",
+  "created": "2026-08-22",
+  "purpose": "Binding operating rules for every agent, tool, model, and script in this repository that produces or consumes a trading signal. Enforced in code by app/services/confluence_orchestrator.py (validate_confluence_inputs / ConfluenceOrchestrator) -- this file is the single source of truth those functions read at runtime, not just documentation.",
+  "scope": "Applies to every analysis tool, indicator, specialist agent, neural model, MARL agent, divergence/SMT detector, regime classifier, and strategy in app/services/*, without exception.",
+  "rules": [
+    {
+      "id": "R1_CONFLUENCE_NOT_AUTHORITY",
+      "statement": "No single tool, agent, indicator, or model may unilaterally declare a final BUY/SELL decision. Every component output is one weighted VOTE into the confluence layer. A signal is only emitted when the aggregated, weighted vote across all enabled voters crosses the configured confidence threshold.",
+      "enforced_by": "ConfluenceOrchestrator.aggregate() rejects any caller-supplied 'final_decision' field from a sub-component and recomputes the decision itself from the vote list."
+    },
+    {
+      "id": "R2_ALL_TIMEFRAMES_ALWAYS",
+      "statement": "Every analysis run for a symbol must evaluate ALL timeframes in Settings.all_timeframes (1m,5m,15m,30m,1h,2h,4h,8h,1d,1w) -- never a subset -- and the per-timeframe results must all be surfaced in the aggregated output, not discarded after a subset is used to decide direction.",
+      "enforced_by": "ConfluenceOrchestrator.run_symbol() iterates Settings.all_timeframes unconditionally; a timeframe that fails to fetch data is recorded with status=DATA_UNAVAILABLE rather than silently skipped."
+    },
+    {
+      "id": "R3_REAL_DATA_ONLY_FOR_TRAINING",
+      "statement": "Training, backtesting, forward-testing, and 'learned pattern' persistence MUST use source='deriv' (real historical candles from Deriv's public API). The 'demo' data source is permitted ONLY for unit tests and ad-hoc API smoke checks; it must never be the source for a run whose output is saved as a learned pattern, a trained model artifact, or a report claiming real-market validation.",
+      "enforced_by": "scripts/run_real_data_training_pipeline.py hardcodes source='deriv' and refuses a --source demo flag for its training/backtest/forward-test stages; TrainingRun.metrics_json always records the data_source and the actual date range used."
+    },
+    {
+      "id": "R4_NO_STOP_LOSS_GUESSING",
+      "statement": "A generated signal's stop-loss and take-profit must be derived from measured volatility/structure evidence for that specific symbol+timeframe (ATR, historical MAE/MFE distributions, or validated support/resistance/swing levels) -- never a flat pip guess applied uniformly across all symbols. Every SL/TP calculation must record which method produced it.",
+      "enforced_by": "app/services/tp_sl_calibration.py:calibrate_stop_target() is the only sanctioned path to a signal's stop_loss/take_profit; it requires a symbol+timeframe-specific ATR and (once available) a per-symbol MAE/MFE calibration record persisted by the training pipeline."
+    },
+    {
+      "id": "R5_PERSIST_AND_LEARN_FROM_EVERY_SIGNAL",
+      "statement": "Every signal emitted by the confluence layer must be persisted (SignalOutcome + the JSONL signal ledger) before being returned to the caller. The next time a signal is generated for the same symbol+strategy, the orchestrator must look up that instrument's prior resolved outcomes and mistake categories and factor them into the current vote weighting (recent win-rate adjusts that voter's confluence weight).",
+      "enforced_by": "ConfluenceOrchestrator.run_symbol() calls SignalLedger.record() unconditionally and SignalLedger.recent_performance(symbol, strategy) to bias per-voter weights before the vote is finalized."
+    },
+    {
+      "id": "R6_EVERY_SIGNAL_HAS_FOUR_FIELDS",
+      "statement": "Every emitted signal must include, at minimum: entry, stop_loss, take_profit, and win_rate (the strategy/symbol/timeframe's historically measured win rate from the training pipeline, or null with an explicit 'insufficient_history' reason if none exists yet -- never a fabricated number).",
+      "enforced_by": "ConfluenceSignal dataclass in confluence_orchestrator.py has these as required non-optional fields (win_rate may be None + win_rate_reason set)."
+    },
+    {
+      "id": "R7_PAPER_DEMO_EXECUTION_ONLY",
+      "statement": "This tool generates signals for a human to act on manually with real capital. It must never place, modify, or close a live broker order. TRADING_MODE and EXECUTION_MODE remain hard-gated to demo/paper everywhere, matching every existing execution path in this repository (see README 'Continuous per-signal learning loop').",
+      "enforced_by": "app/core/config.py Settings.execution_mode: Literal['paper'] (type-level constraint, not just a default)."
+    },
+    {
+      "id": "R8_HONEST_DATA_WINDOW_DISCLOSURE",
+      "statement": "Any report, training run, or commentary referencing 'historical data' for a Deriv-sourced symbol must disclose the actual date range used and must not imply more history exists than Deriv's public API actually serves (~350 days rolling window; see docs/deriv_symbol_verification.md).",
+      "enforced_by": "TrainingRun.metrics_json and every reports/*_summary.md generator include data_start/data_end/source fields sourced from the real HistoricalDataProvider response, never a hardcoded date range."
+    },
+    {
+      "id": "R9_NO_SILENT_FAILURE_IN_BATCH_RUNS",
+      "statement": "A systematic sweep across symbols/timeframes/strategies must record every failure explicitly (status=ERROR + exception message) in its raw output rather than silently dropping the row. Aggregate summaries must report error counts alongside success counts.",
+      "enforced_by": "Existing pattern in scripts/run_backtest_report.py and scripts/run_forward_test_report.py, extended to scripts/run_real_data_training_pipeline.py."
+    }
+  ]
+}

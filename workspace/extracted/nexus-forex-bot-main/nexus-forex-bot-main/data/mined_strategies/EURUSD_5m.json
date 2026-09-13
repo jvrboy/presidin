@@ -1,0 +1,179 @@
+{
+  "symbol": "EURUSD",
+  "timeframe": "5m",
+  "data_source": "demo",
+  "fallback_reason": "RuntimeError: Historical data set is too short; at least 30 bars are required",
+  "bars_mined": 4000,
+  "horizon_bars": 12,
+  "strategy_count": 3,
+  "strategies": [
+    {
+      "indicator_a": "SQZ_MOMENTUM",
+      "operator_a": ">",
+      "value_a": 0.0013755205,
+      "indicator_b": "MACD",
+      "operator_b": "<",
+      "value_b": 0.0,
+      "direction": "BUY",
+      "train_samples": 278,
+      "train_hit_rate": 1.0,
+      "train_baseline": 0.5129,
+      "train_edge": 0.4871,
+      "validation_samples": 134,
+      "validation_hit_rate": 0.9925,
+      "validation_edge": 0.4797,
+      "score": 0.538941,
+      "stop_atr_multiple": 1.8,
+      "target_atr_multiple": 3.2,
+      "horizon_bars": 12,
+      "config": {
+        "entry_rules": [
+          {
+            "indicator": "SQZ_MOMENTUM",
+            "operator": ">",
+            "value": 0.0013755205
+          },
+          {
+            "indicator": "MACD",
+            "operator": "<",
+            "value": 0.0
+          }
+        ],
+        "exit_rules": [
+          {
+            "indicator": "SQZ_MOMENTUM",
+            "operator": "<",
+            "value": 0.0
+          }
+        ],
+        "logic": "AND",
+        "direction": "BUY",
+        "atr_stop_multiple": 1.8,
+        "take_profit_multiple": 3.2,
+        "risk_per_trade_pct": 0.5,
+        "max_bars_in_trade": 24
+      },
+      "rank": 1,
+      "id": "mined_buy_sqz_momentum_and_macd_h12",
+      "backtest": {
+        "net_profit_pct": 4.877,
+        "trades": 3,
+        "win_rate_pct": 100.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 0.177
+      }
+    },
+    {
+      "indicator_a": "ELDER_IMPULSE",
+      "operator_a": ">",
+      "value_a": 0.5,
+      "indicator_b": "MACD",
+      "operator_b": "<",
+      "value_b": 0.0,
+      "direction": "BUY",
+      "train_samples": 377,
+      "train_hit_rate": 1.0,
+      "train_baseline": 0.5129,
+      "train_edge": 0.4871,
+      "validation_samples": 175,
+      "validation_hit_rate": 0.9829,
+      "validation_edge": 0.47,
+      "score": 0.53618,
+      "stop_atr_multiple": 1.8,
+      "target_atr_multiple": 3.2,
+      "horizon_bars": 12,
+      "config": {
+        "entry_rules": [
+          {
+            "indicator": "ELDER_IMPULSE",
+            "operator": ">",
+            "value": 0.5
+          },
+          {
+            "indicator": "MACD",
+            "operator": "<",
+            "value": 0.0
+          }
+        ],
+        "exit_rules": [
+          {
+            "indicator": "ELDER_IMPULSE",
+            "operator": "<",
+            "value": 0.0
+          }
+        ],
+        "logic": "AND",
+        "direction": "BUY",
+        "atr_stop_multiple": 1.8,
+        "take_profit_multiple": 3.2,
+        "risk_per_trade_pct": 0.5,
+        "max_bars_in_trade": 24
+      },
+      "rank": 2,
+      "id": "mined_buy_elder_impulse_and_macd_h12",
+      "backtest": {
+        "net_profit_pct": 6.555,
+        "trades": 4,
+        "win_rate_pct": 100.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 0.107
+      }
+    },
+    {
+      "indicator_a": "WAVE_TREND",
+      "operator_a": ">",
+      "value_a": 9.4192866719,
+      "indicator_b": "MACD",
+      "operator_b": "<",
+      "value_b": 0.0,
+      "direction": "BUY",
+      "train_samples": 284,
+      "train_hit_rate": 1.0,
+      "train_baseline": 0.5129,
+      "train_edge": 0.4871,
+      "validation_samples": 137,
+      "validation_hit_rate": 0.9781,
+      "validation_edge": 0.4652,
+      "score": 0.530494,
+      "stop_atr_multiple": 1.8,
+      "target_atr_multiple": 3.2,
+      "horizon_bars": 12,
+      "config": {
+        "entry_rules": [
+          {
+            "indicator": "WAVE_TREND",
+            "operator": ">",
+            "value": 9.4192866719
+          },
+          {
+            "indicator": "MACD",
+            "operator": "<",
+            "value": 0.0
+          }
+        ],
+        "exit_rules": [
+          {
+            "indicator": "WAVE_TREND",
+            "operator": "<",
+            "value": 0.0
+          }
+        ],
+        "logic": "AND",
+        "direction": "BUY",
+        "atr_stop_multiple": 1.8,
+        "take_profit_multiple": 3.2,
+        "risk_per_trade_pct": 0.5,
+        "max_bars_in_trade": 24
+      },
+      "rank": 3,
+      "id": "mined_buy_wave_trend_and_macd_h12",
+      "backtest": {
+        "net_profit_pct": 4.877,
+        "trades": 3,
+        "win_rate_pct": 100.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 0.1
+      }
+    }
+  ]
+}

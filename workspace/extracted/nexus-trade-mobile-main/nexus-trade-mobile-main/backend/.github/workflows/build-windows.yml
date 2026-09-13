@@ -1,0 +1,109 @@
+name: Build Windows App
+
+# Builds the complete native Windows desktop application:
+#   1. NexusTradeEngine.exe  — the Python trading engine (PyInstaller, headless)
+#   2. NexusTrade.exe        — the native C# desktop shell (WinForms + WebView2)
+#   3. NexusTrade-Setup.exe  — Inno Setup installation wizard
+#
+# The result is a real installer (like FL Studio / Photoshop): Welcome →
+# License → Install folder → Desktop icon → Finish. No cmd, no browser,
+# no Python, no .NET runtime needed on the user's PC.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ---------------- 1. Python engine (frozen, headless) ----------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install engine dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r python_app/requirements.txt
+          pip install pyinstaller
+
+      - name: Build trading engine EXE
+        working-directory: python_app
+        # --distpath matters: the Inno script and packaging steps reference
+        # python_app/dist_engine/... — the default './dist' would mismatch.
+        run: pyinstaller nexus_engine.spec --clean --noconfirm --distpath dist_engine
+
+      # ---------------- 2. Native C# desktop shell ------------------------
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Publish native desktop shell (self-contained win-x64)
+        working-directory: desktop_shell
+        run: dotnet publish NexusTrade.Desktop.csproj -c Release -r win-x64 --self-contained true -o publish
+
+      # ---------------- 3. Inno Setup wizard installer --------------------
+      # Chocolatey is preinstalled on GitHub Windows runners. If the choco
+      # feed hiccups we fall back to the official pinned installer.
+      - name: Install Inno Setup
+        id: inno
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          choco install innosetup --no-progress -y
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            Write-Host "Chocolatey install did not place ISCC — falling back to direct download"
+            Invoke-WebRequest -Uri "https://files.jrsoftware.org/is/6/innosetup-6.4.3.exe" -OutFile "$env:TEMP\innosetup.exe"
+            Start-Process -FilePath "$env:TEMP\innosetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART" -Wait
+          }
+          if (-not (Test-Path $iscc)) { throw "Inno Setup not available at $iscc" }
+          Write-Host "Inno Setup ready: $iscc"
+
+      - name: Compile installer wizard
+        working-directory: desktop_shell/installer
+        shell: pwsh
+        run: |
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { $iscc = (Get-Command ISCC.exe -ErrorAction Stop).Source }
+          & $iscc NexusTrade.iss
+          if ($LASTEXITCODE -ne 0) { throw "ISCC failed with exit code $LASTEXITCODE" }
+
+      # ---------------- 4. Publish artifacts ------------------------------
+      - name: Upload installer
+        if: success() && hashFiles('dist_installer/NexusTrade-Setup.exe') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: NexusTrade-Setup
+          path: dist_installer/NexusTrade-Setup.exe
+          retention-days: 30
+
+      # The portable build ALWAYS uploads, even if the installer step fails —
+      # so you can always get a working app regardless.
+      - name: Package portable build
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not (Test-Path 'desktop_shell/publish')) { throw 'desktop_shell/publish missing — shell build failed' }
+          if (-not (Test-Path 'python_app/dist_engine/NexusTradeEngine')) { throw 'engine dist missing — PyInstaller output path mismatch' }
+          New-Item -ItemType Directory -Force -Path portable/NexusTrade | Out-Null
+          Copy-Item -Recurse desktop_shell/publish/* portable/NexusTrade/
+          Copy-Item -Recurse python_app/dist_engine/NexusTradeEngine portable/NexusTrade/engine
+          Compress-Archive -Path portable/NexusTrade -DestinationPath NexusTrade-Portable.zip
+          Write-Host "Portable package: $((Get-Item NexusTrade-Portable.zip).Length / 1MB) MB"
+
+      - name: Upload portable build (no-install fallback)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NexusTrade-Portable
+          path: NexusTrade-Portable.zip
+          retention-days: 30

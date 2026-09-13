@@ -1,0 +1,90 @@
+# systemd unit file for the Nexus Trade FastAPI backend.
+#
+# Usage:
+#   sudo cp backend/python_app/nexus-backend.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable nexus-backend
+#   sudo systemctl start nexus-backend
+#   sudo journalctl -u nexus-backend -f   # tail logs
+#
+# Prerequisites:
+#   - Python 3.12 installed at /usr/bin/python3
+#   - Virtualenv at /opt/nexus-backend/venv with deps installed
+#   - App code at /opt/nexus-backend/app
+#   - Data dir at /var/lib/nexus-backend (writable by the nexus user)
+#   - .env file at /opt/nexus-backend/app/.env with required vars
+#
+# Or skip the manual setup and use the bundled Docker image instead:
+#   docker compose -f backend/python_app/docker-compose.yml up -d
+
+[Unit]
+Description=Nexus Trade FastAPI Backend
+Documentation=https://github.com/jvrboy/nexus-trade-mobile
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+
+# Run as a dedicated non-root user.
+User=nexus
+Group=nexus
+
+# Working directory = the FastAPI app root (where main.py lives).
+WorkingDirectory=/opt/nexus-backend/app
+
+# Environment file (NEXUS_API_TOKEN, NEXUS_ENCRYPT_KEYS, etc.).
+EnvironmentFile=/opt/nexus-backend/app/.env
+
+# Use the dedicated virtualenv's gunicorn.
+ExecStart=/opt/nexus-backend/venv/bin/gunicorn \
+    -c /opt/nexus-backend/app/gunicorn.conf.py \
+    main:app
+
+# Graceful shutdown — gunicorn receives SIGTERM, has 30s to drain.
+KillSignal=SIGTERM
+TimeoutStopSec=30
+SendSIGKILL=no
+
+# Restart policy — auto-restart on crash, but back off if it keeps
+# dying (rate-limit to once per 10s).
+Restart=on-failure
+RestartSec=10s
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+# Hardening — minimize what the service can do even if compromised.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectProc=invisible
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=false  # Python needs JIT, can't enable this
+RestrictNamespaces=true
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources @mount @swap
+
+# Read-only app directory — only the data dir is writable.
+ReadWritePaths=/var/lib/nexus-backend
+ReadOnlyPaths=/opt/nexus-backend/app
+RuntimeDirectory=nexus-backend
+RuntimeDirectoryMode=0700
+
+# Resource limits — protect the host from a runaway process.
+LimitNOFILE=65536
+LimitNPROC=256
+TasksMax=256
+
+[Install]
+WantedBy=multi-user.target

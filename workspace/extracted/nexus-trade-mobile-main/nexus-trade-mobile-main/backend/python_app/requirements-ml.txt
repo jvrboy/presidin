@@ -1,0 +1,9 @@
+# ── Optional deep-RL stack for PPO training ─────────────────────────────────
+# Pulls in PyTorch (a large download, ~1–2 GB on Windows). The bot runs fine
+# without it — the tabular RL learner and the rule-based agents keep working,
+# and PPO voters stay neutral until you install this and train a champion.
+#
+#   python -m pip install -r requirements-ml.txt
+#
+-r requirements.txt
+stable_baselines3>=2.3

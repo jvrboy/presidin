@@ -1,0 +1,31 @@
+{
+  "appId": "com.presidin.app",
+  "appName": "PRESIDIN",
+  "webDir": "out",
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "https"
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon",
+      "iconColor": "#8B5CF6",
+      "sound": "bell.wav"
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    },
+    "Haptics": {},
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#06081A"
+    },
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "backgroundColor": "#06081A",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false
+    }
+  },
+  "cordova": {}
+}

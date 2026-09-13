@@ -1,0 +1,166 @@
+{
+  "stamp": "20260829T195920Z",
+  "engine": "quantum-pack-v1",
+  "commit": "5f60760",
+  "sources": 19,
+  "horizon_bars": 10,
+  "conf_gate": 0.7,
+  "split": "60/40 walk-forward",
+  "per_symbol": {
+    "1HZ75V": {
+      "n": 0,
+      "wr": 0,
+      "pnl": 0,
+      "msg": "no trades passed gate"
+    },
+    "DSI20": {
+      "n": 0,
+      "wr": 0,
+      "pnl": 0,
+      "msg": "no trades passed gate"
+    },
+    "R_25": {
+      "n": 0,
+      "wr": 0,
+      "pnl": 0,
+      "msg": "no trades passed gate"
+    },
+    "R_10": {
+      "n": 0,
+      "wr": 0,
+      "pnl": 0,
+      "msg": "no trades passed gate"
+    },
+    "1HZ50V": {
+      "n": 0,
+      "wr": 0,
+      "pnl": 0,
+      "msg": "no trades passed gate"
+    },
+    "DSI30": {
+      "n": 2,
+      "wr": 1.0,
+      "pnl_pct": 0.0853,
+      "tp": 2,
+      "sl": 0,
+      "horizon": 0,
+      "best_source_idx": 7,
+      "source_names": [
+        "ema_ribbon",
+        "macd_rsi",
+        "q_regime_trend",
+        "q_adaptive_mr",
+        "q_liq_sweep",
+        "q_vol_contraction",
+        "q_mtf_div",
+        "q_bb_walk",
+        "q_donchian_pull",
+        "q_atr_expansion",
+        "q_exhaustion",
+        "q_triple_ema",
+        "q_session_break",
+        "q_vol_mom",
+        "q_mlp_wide",
+        "q_mlp_deep",
+        "q_gru_lite",
+        "q_bilstm_lite",
+        "q_conv1d_lite",
+        "q_transformer_lite"
+      ],
+      "top_5_weights": [
+        [
+          "q_bb_walk",
+          -0.6296
+        ],
+        [
+          "q_triple_ema",
+          0.3323
+        ],
+        [
+          "q_session_break",
+          0.2845
+        ],
+        [
+          "ema_ribbon",
+          0.2402
+        ],
+        [
+          "q_regime_trend",
+          -0.2138
+        ]
+      ]
+    },
+    "R_75": {
+      "n": 0,
+      "wr": 0,
+      "pnl": 0,
+      "msg": "no trades passed gate"
+    },
+    "1HZ25V": {
+      "n": 0,
+      "wr": 0,
+      "pnl": 0,
+      "msg": "no trades passed gate"
+    },
+    "JD10": {
+      "n": 0,
+      "wr": 0,
+      "pnl": 0,
+      "msg": "no trades passed gate"
+    },
+    "BOOM500": {
+      "n": 13,
+      "wr": 0.8462,
+      "pnl_pct": 0.4214,
+      "tp": 11,
+      "sl": 2,
+      "horizon": 0,
+      "best_source_idx": 7,
+      "source_names": [
+        "ema_ribbon",
+        "macd_rsi",
+        "q_regime_trend",
+        "q_adaptive_mr",
+        "q_liq_sweep",
+        "q_vol_contraction",
+        "q_mtf_div",
+        "q_bb_walk",
+        "q_donchian_pull",
+        "q_atr_expansion",
+        "q_exhaustion",
+        "q_triple_ema",
+        "q_session_break",
+        "q_vol_mom",
+        "q_mlp_wide",
+        "q_mlp_deep",
+        "q_gru_lite",
+        "q_bilstm_lite",
+        "q_conv1d_lite",
+        "q_transformer_lite"
+      ],
+      "top_5_weights": [
+        [
+          "q_bb_walk",
+          -1.1979
+        ],
+        [
+          "q_regime_trend",
+          -0.4568
+        ],
+        [
+          "ema_ribbon",
+          -0.4353
+        ],
+        [
+          "q_exhaustion",
+          -0.2003
+        ],
+        [
+          "q_vol_mom",
+          0.1304
+        ]
+      ]
+    }
+  },
+  "universe_size": 10
+}

@@ -1,0 +1,38 @@
+{
+  "label": "wf_JD25_s3",
+  "n": 102,
+  "wins": 81,
+  "losses": 21,
+  "winRate": 0.7941,
+  "skipRegime": 60,
+  "skipHold": 174,
+  "skipTop": 545,
+  "skipBlender": 66,
+  "params": {
+    "AGREE": 0.55,
+    "NET": 0.1,
+    "BASE_SL": 2,
+    "BASE_TP": 0.4,
+    "REQUIRE_TOP": 1,
+    "CHOP_MIN": 30,
+    "CHOP_MAX": 70,
+    "BLENDER_MIN": 0.3
+  },
+  "avgWin": 0.0203,
+  "avgLoss": -0.06,
+  "profitFactor": 1.3039,
+  "expectancy": 0.0038,
+  "total": 0.3827,
+  "maxDrawdownPct": -0.4286,
+  "exits": {
+    "TP": 81,
+    "HORIZON": 7,
+    "SL": 14
+  },
+  "volBreakdown": {
+    "low": 35,
+    "mid": 34,
+    "extreme": 13,
+    "high": 20
+  }
+}

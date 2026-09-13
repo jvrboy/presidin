@@ -1,0 +1,128 @@
+{
+  "data": {
+    "candles": 1000,
+    "source": "deriv_ohlc.json live R_50",
+    "window": 240
+  },
+  "stats": {
+    "n": 50,
+    "wins": 18,
+    "losses": 32,
+    "winRate": 0.36,
+    "avgWin": 0.1311,
+    "avgLoss": -0.0511,
+    "profitFactor": 1.4435,
+    "expectancy": 0.0145,
+    "total": 0.7248,
+    "baselineWinRate": 0.28,
+    "nexusWinRate": 0.34,
+    "exits": {
+      "SL": 28,
+      "TP": 18,
+      "HORIZON": 4
+    }
+  },
+  "smoke": {
+    "priorityVotes": 12,
+    "priorityVotesNonHold": 11,
+    "priorityDivergences": 9,
+    "priorityDivergencesFiring": 0,
+    "regime": {
+      "frama": 95.87977692082536,
+      "hurst": 0.7104820938007431,
+      "volRank": 0,
+      "er": 0.11383108935128945,
+      "tqi": -0.4487182970821322,
+      "chop": 52.73280653320097,
+      "zone": "TRANSITION"
+    },
+    "trend": {
+      "ttmDir": 1,
+      "ttmStr": 0.16666666666666666,
+      "zlema": 95.92103026786883,
+      "trendIntensity": 33.33333333333333,
+      "adxDelta": 0.0033438438866171052,
+      "slopes": [
+        0.0002845832941124862,
+        0.00014523342009143813,
+        0.00012170853963219355,
+        0.00009298519349733087
+      ],
+      "bull": true,
+      "bear": false,
+      "alignment": 4,
+      "squeeze": {
+        "squeeze": false,
+        "release": "UP"
+      }
+    },
+    "volume": {
+      "pvtSlope": -0.000010391006483615893,
+      "volDelta": 0.035700000000005616,
+      "klingerLine": 0,
+      "klingerSig": 0,
+      "klingerFlip": "FLAT",
+      "evr": 0.4799648692778192,
+      "absorption": 0.3,
+      "volZ": -1.660657219714128
+    },
+    "power": {
+      "elderBull": 0.06801437436308788,
+      "elderBear": 0.028914374363083084,
+      "impulse": 1,
+      "forceRatio": 0.13223668845811168,
+      "rei": -64.71119133573497,
+      "rocDelta": 0.050411956179620354,
+      "bullPower": 0.06801437436308788,
+      "bearPower": 0.028914374363083084,
+      "net": 0.09692874872617097,
+      "rsiPower": 0.47415520143288453
+    },
+    "momentum": {
+      "rsiDelta3": 7.228712856051537,
+      "smi": 59.603211719411256,
+      "awesomeDelta": 0.0008967647059137107,
+      "tsiAccel": 1.576114785121982,
+      "momentumPersistence": 0.4,
+      "rsiEmaSlope": 2.520585736336919,
+      "macdZeroCross": -0.8
+    },
+    "neuralModels": {
+      "ensemble": {
+        "direction": "HOLD",
+        "confidence": 0.184,
+        "parts": [
+          0.498,
+          0.503,
+          0.222
+        ]
+      },
+      "regimeMlp": {
+        "direction": "HOLD",
+        "confidence": 0.009,
+        "prob": 0.505,
+        "zone": "TRANSITION"
+      },
+      "attention": {
+        "direction": "HOLD",
+        "confidence": 0.017,
+        "prob": 0.508,
+        "topAttnFeatures": [
+          {
+            "i": 0,
+            "w": 0.111
+          },
+          {
+            "i": 1,
+            "w": 0.111
+          },
+          {
+            "i": 3,
+            "w": 0.111
+          }
+        ]
+      }
+    }
+  },
+  "generated": "2026-08-27"
+}

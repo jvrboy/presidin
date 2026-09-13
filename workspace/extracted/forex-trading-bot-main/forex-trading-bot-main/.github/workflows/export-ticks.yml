@@ -1,0 +1,73 @@
+name: Export ticks + train model
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  export-train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Export ticks from Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          python3 << 'PY'
+          import csv, json, os, urllib.request
+          base = os.environ["SUPABASE_URL"].rstrip("/")
+          key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
+          url = base + "/rest/v1/ticks?select=symbol,epoch,quote,created_at&order=epoch.desc&limit=50000"
+          req = urllib.request.Request(url, headers={"apikey": key, "Authorization": f"Bearer {key}"})
+          with urllib.request.urlopen(req) as r:
+              rows = list(reversed(json.loads(r.read().decode())))
+          os.makedirs("data", exist_ok=True)
+          with open("data/ticks.csv", "w", newline="") as f:
+              w = csv.DictWriter(f, fieldnames=["symbol", "epoch", "quote", "created_at"])
+              w.writeheader()
+              for row in rows:
+                  w.writerow(row)
+          print(f"Exported {len(rows)} ticks")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ticks-csv
+          path: data/ticks.csv
+
+      - name: Train + upload HF weights
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          TICKS_CSV: data/ticks.csv
+        run: |
+          pip install -q scikit-learn pandas numpy huggingface_hub websockets
+          python kaggle/train_logistic.py || echo "Train skipped"
+
+      - name: Push dataset to Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          if [ -z "$KAGGLE_API_TOKEN" ] && [ -z "$KAGGLE_KEY" ]; then
+            echo "No Kaggle credentials — skip"
+            exit 0
+          fi
+          pip install -q kaggle
+          mkdir -p ~/.kaggle kaggle_dataset
+          if [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
+            chmod 600 ~/.kaggle/kaggle.json
+          fi
+          cp data/ticks.csv kaggle_dataset/
+          cat > kaggle_dataset/dataset-metadata.json << EOF
+          {
+            "title": "forex-bot-ticks",
+            "id": "justinsimpsad/forex-bot-ticks",
+            "licenses": [{"name": "CC0-1.0"}]
+          }
+          EOF
+          kaggle datasets create -p kaggle_dataset --dir-mode zip || kaggle datasets version -p kaggle_dataset -m "auto ticks $(date -u +%Y%m%d%H%M)" --dir-mode zip || true

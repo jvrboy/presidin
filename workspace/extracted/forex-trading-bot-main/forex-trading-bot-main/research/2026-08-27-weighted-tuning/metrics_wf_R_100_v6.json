@@ -1,0 +1,30 @@
+{
+  "label": "wf_R_100_v6",
+  "n": 115,
+  "wins": 76,
+  "losses": 39,
+  "winRate": 0.6609,
+  "skippedHold": 195,
+  "skippedRegime": 46,
+  "skippedTop": 591,
+  "thresholds": {
+    "AGREE": 0.55,
+    "NET": 0.1,
+    "SL_M": 1.8,
+    "TP_M": 0.5,
+    "REQUIRE_TOP": 2,
+    "CHOP_MIN": 30,
+    "CHOP_MAX": 70
+  },
+  "avgWin": 0.0959,
+  "avgLoss": -0.2519,
+  "profitFactor": 0.7421,
+  "expectancy": -0.022,
+  "total": -2.5341,
+  "maxDrawdownPct": -2.8065,
+  "exits": {
+    "TP": 76,
+    "SL": 29,
+    "HORIZON": 10
+  }
+}

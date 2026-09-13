@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-08-30T01:42:51Z",
+  "generated_epoch": 1788054171,
+  "knowledge_version": "2026-08-29-dsi-vol-v2-final",
+  "universe_size": 19,
+  "data_bars_per_symbol": 1200,
+  "granularity_sec": 60,
+  "engine": "v4_analysis_driven",
+  "adapted_priors": {
+    "sl_widen": 1.15,
+    "kind_edge": {
+      "mean_reversion_fade": -0.16666666666666669,
+      "full_confluence": 0.5
+    },
+    "sym_edge": {
+      "JD10": 0.0,
+      "DSI20": 0.0
+    },
+    "global_wr_pre": 0.5,
+    "conf_gate": 0.72
+  },
+  "caps": {
+    "max_trades_per_day": 8,
+    "max_trades_per_symbol_per_day": 3
+  },
+  "signals": [],
+  "gated_out_after_caps": [],
+  "skipped": [
+    {
+      "symbol": "1HZ75V",
+      "reason": "no_setup (bias=up mom3=0.00 mom5=0.09 rsi=68.3 chop=57.7)"
+    },
+    {
+      "symbol": "DSI20",
+      "reason": "no_setup (bias=flat mom3=0.01 mom5=-0.00 rsi=35.5 chop=42.9)"
+    },
+    {
+      "symbol": "R_25",
+      "reason": "no_setup (bias=down mom3=0.00 mom5=-0.09 rsi=38.5 chop=43.4)"
+    },
+    {
+      "symbol": "R_10",
+      "reason": "conf_below_min (0.689 < 0.72) kind=mean_reversion_fade"
+    },
+    {
+      "symbol": "1HZ50V",
+      "reason": "no_setup (bias=up mom3=0.01 mom5=-0.02 rsi=66.1 chop=47.6)"
+    },
+    {
+      "symbol": "DSI30",
+      "reason": "no_setup (bias=down mom3=0.00 mom5=-0.01 rsi=36.3 chop=43.5)"
+    },
+    {
+      "symbol": "R_75",
+      "reason": "conf_below_min (0.474 < 0.72) kind=regime_trend"
+    },
+    {
+      "symbol": "1HZ25V",
+      "reason": "no_setup (bias=flat mom3=-0.03 mom5=-0.13 rsi=45.7 chop=51.6)"
+    },
+    {
+      "symbol": "1HZ15V",
+      "reason": "conf_below_min (0.655 < 0.72) kind=mean_reversion_fade"
+    },
+    {
+      "symbol": "1HZ90V",
+      "reason": "no_setup (bias=down mom3=-0.28 mom5=-0.16 rsi=27.7 chop=48.3)"
+    },
+    {
+      "symbol": "JD10",
+      "reason": "no_setup (bias=flat mom3=-0.00 mom5=-0.01 rsi=66.2 chop=43.8)"
+    },
+    {
+      "symbol": "1HZ10V",
+      "reason": "no_setup (bias=flat mom3=0.02 mom5=0.03 rsi=54.3 chop=55.0)"
+    },
+    {
+      "symbol": "frxXPDUSD",
+      "reason": "conf_below_min (0.567 < 0.72) kind=liq_sweep"
+    },
+    {
+      "symbol": "BOOM300N",
+      "reason": "conf_below_min (0.701 < 0.72) kind=mean_reversion_fade"
+    },
+    {
+      "symbol": "frxXPTUSD",
+      "reason": "no_setup (bias=flat mom3=0.00 mom5=-0.02 rsi=70.1 chop=51.1)"
+    },
+    {
+      "symbol": "CRASH900",
+      "reason": "mr_rr_below_1.2 (1.16)"
+    },
+    {
+      "symbol": "DSI10",
+      "reason": "no_setup (bias=up mom3=-0.01 mom5=-0.01 rsi=41.5 chop=44.6)"
+    },
+    {
+      "symbol": "stpRNG",
+      "reason": "no_setup (bias=flat mom3=-0.01 mom5=-0.01 rsi=24.1 chop=44.7)"
+    },
+    {
+      "symbol": "BOOM500",
+      "reason": "no_setup (bias=up mom3=-0.03 mom5=-0.06 rsi=27.6 chop=14.6)"
+    }
+  ],
+  "counts": {
+    "candidates_before_caps": 0,
+    "final_signals": 0,
+    "skipped": 19
+  }
+}

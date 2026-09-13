@@ -1,0 +1,21 @@
+name: Broker Reconciliation
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run reconcile API
+        env:
+          BOT_URL: ${{ secrets.BOT_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          URL="${BOT_URL:-https://forex-trading-bot-lilac.vercel.app}"
+          echo "POST $URL/api/reconcile"
+          curl -sS -X POST "$URL/api/reconcile" \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            -H "x-worker-id: gh-reconcile" \
+            --max-time 90 | tee /tmp/reconcile.json
+          python3 -c "import json;d=json.load(open('/tmp/reconcile.json'));print('ok',d.get('ok'),'health',d.get('health'));assert d.get('ok') is True"

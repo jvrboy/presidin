@@ -1,0 +1,122 @@
+{
+  "updated_at": "2026-08-30T11:50:27Z",
+  "cumulative_stats": {
+    "total_signals": 17,
+    "closed": 17,
+    "tp": 9,
+    "sl": 8,
+    "horizon": 0,
+    "win_rate": 52.94,
+    "total_pnl_pct": 0.0863
+  },
+  "by_kind": {
+    "mean_reversion_fade": {
+      "n": 6,
+      "tp": 2,
+      "wr": 33.3
+    },
+    "full_confluence": {
+      "n": 2,
+      "tp": 2,
+      "wr": 100.0
+    },
+    "full_confluence_v6": {
+      "n": 9,
+      "tp": 5,
+      "wr": 55.6
+    }
+  },
+  "by_symbol": {
+    "JD10": {
+      "n": 2,
+      "tp": 1,
+      "wr": 50.0,
+      "pnl": 0.0115
+    },
+    "DSI20": {
+      "n": 2,
+      "tp": 1,
+      "wr": 50.0,
+      "pnl": 0.0144
+    },
+    "R_10": {
+      "n": 2,
+      "tp": 2,
+      "wr": 100.0,
+      "pnl": 0.0497
+    },
+    "CRASH900": {
+      "n": 2,
+      "tp": 0,
+      "wr": 0.0,
+      "pnl": -0.0426
+    },
+    "R_75": {
+      "n": 3,
+      "tp": 1,
+      "wr": 33.3,
+      "pnl": -0.0508
+    },
+    "1HZ10V": {
+      "n": 1,
+      "tp": 1,
+      "wr": 100.0,
+      "pnl": 0.0383
+    },
+    "DSI30": {
+      "n": 1,
+      "tp": 0,
+      "wr": 0.0,
+      "pnl": -0.0144
+    },
+    "1HZ25V": {
+      "n": 1,
+      "tp": 1,
+      "wr": 100.0,
+      "pnl": 0.0563
+    },
+    "1HZ15V": {
+      "n": 1,
+      "tp": 1,
+      "wr": 100.0,
+      "pnl": 0.0563
+    },
+    "stpRNG": {
+      "n": 1,
+      "tp": 1,
+      "wr": 100.0,
+      "pnl": 0.0186
+    },
+    "BOOM300N": {
+      "n": 1,
+      "tp": 0,
+      "wr": 0.0,
+      "pnl": -0.051
+    }
+  },
+  "kind_edges": {
+    "mean_reversion_fade": -0.16666666666666669,
+    "full_confluence": 0.5,
+    "full_confluence_v6": 0.05555555555555558
+  },
+  "symbol_edges": {
+    "JD10": 0.0,
+    "DSI20": 0.0,
+    "R_10": 0.5,
+    "CRASH900": -0.5,
+    "R_75": -0.16666666666666669
+  },
+  "engine_history": {
+    "v3_mr_fade": "2/6 wins (33%) \u2014 retired",
+    "v5_full_confluence": "2/2 wins (100%) \u2014 n too small",
+    "v6_full_confluence": "5/6 wins (83.3%, +0.341% PnL) \u2014 relaxed band OK when other layers strong",
+    "v7_full_confluence": "0/3 wins (0%, -0.194% PnL) \u2014 relaxed band trapped tape-reversal setups; all took 2-6 bars, not bar-1",
+    "v8_full_confluence": "STRICT score + agent>=4 + strat>=20 + net>=5 + HTF filter + SL x1.20"
+  },
+  "recommendations_for_next_run": [
+    "v7 loss shows that during tape reversals, weakest-confluence signals hit SL disproportionately",
+    "HTF momentum filter (mom3+mom5+last3_up) should prevent counter-trend fades in v8",
+    "Cumulative full_confluence family is 7/11 (63.6%) \u2014 still edge-positive but noisier than v5+v6 alone",
+    "Consider adding realized-vol regime detector: skip all signals when atr_pct > 90th pct"
+  ]
+}

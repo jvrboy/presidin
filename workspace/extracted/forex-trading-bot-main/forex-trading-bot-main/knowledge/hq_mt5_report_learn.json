@@ -1,0 +1,115 @@
+{
+  "version": "2026-08-29-mt5-report-learn",
+  "updated_at": "2026-08-29T18:50:42.637529+00:00",
+  "mt5_account_demo": "40917328",
+  "mt5_access_note": "No direct MT5 Manager/API login available in this environment. Analysis from user-provided MT5 HTML/PDF report only. Full deal-by-deal history requires MT5 terminal export (Statement CSV) or login+password+server.",
+  "report_summary": {
+    "trades": 148,
+    "wr": 27.7,
+    "net": 10.42,
+    "pf": 1.08,
+    "max_consec_losses": 60,
+    "short_pct": 71.62,
+    "long_wr_approx": 42.9,
+    "short_wr_approx": 21.7
+  },
+  "critical_findings": [
+    "Win rate 27.7% is far below breakeven for typical RR \u2014 only works if avg win >> avg loss",
+    "Max consecutive losses = 60 \u2014 catastrophic streak risk; system must have hard daily/streak stops",
+    "71.6% short trades but short WR only ~21.7% vs long WR ~42.9% \u2014 short bias is destructive",
+    "Almost half of volume on EURUSD (73 trades) with near-flat netto (+0.05) \u2014 overtrading FX with no edge",
+    "Best PF symbols cluster on Boom/Crash/DSI/XAU/BTC \u2014 aligns with our HQ focus instruments",
+    "100% manual \u2014 no robot discipline; emotional streak continuation likely drove the 60-loss run",
+    "Profit factor 1.08 is barely positive; one bad cluster wipes the year",
+    "Recovery factor 0.17 is very weak \u2014 slow recovery from DD"
+  ],
+  "training_implications": [
+    "BAN pure short-bias without HTF confirmation \u2014 shorts underperformed badly",
+    "Prefer instruments with positive netto in report: Vol10, Vol75, DSI10, and our ready list DSI20/30, R_25, 1HZ*",
+    "Enforce max consecutive losses gate (e.g. pause after 3\u20134 losses)",
+    "Reduce FX EURUSD-style overtrading; focus synthetic + metal where PF was higher",
+    "Require R:R >= 2 and WR path-aware >= 55% before any micro live",
+    "Average hold ~7h suggests swing not scalping \u2014 match our 1H/4H bias + 5m sniper design"
+  ],
+  "gates": {
+    "from_today_signal_losses": {
+      "min_mom3_pct_buy": 0.12,
+      "min_mom3_pct_sell": -0.12,
+      "prefer_rsi_buy_max": 45,
+      "prefer_rsi_sell_min": 55,
+      "fast_sl_cooldown_bars": 12,
+      "require_brief_pullback": true
+    },
+    "from_mt5_report_40917328": {
+      "max_consecutive_losses_before_pause": 3,
+      "max_trades_per_day": 8,
+      "max_trades_per_symbol_per_day": 3,
+      "prefer_long_when_htf_up": true,
+      "short_requires_htf_down_and_extension": true,
+      "ban_fx_overtrade": true,
+      "prefer_symbols": [
+        "R_25",
+        "R_10",
+        "R_75",
+        "1HZ15V",
+        "1HZ25V",
+        "1HZ50V",
+        "1HZ75V",
+        "1HZ90V",
+        "DSI20",
+        "DSI30",
+        "BOOM500",
+        "BOOM1000",
+        "CRASH500",
+        "CRASH1000",
+        "XAUUSD"
+      ],
+      "deprioritize_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "AUDUSD"
+      ],
+      "min_path_aware_oos_wr": 0.58,
+      "min_rr": 2.0,
+      "daily_loss_cap_pct": 1.0
+    }
+  },
+  "new_strategies": [
+    {
+      "id": "htf_pullback_long_only",
+      "name": "HTF Trend Pullback Long",
+      "rules": "1H/4H/8H BUY bias; enter only on 5m/15m pullback (RSI<=45 or dip into EMA); SL 1.2 ATR; TP 2.4 ATR; no short leg",
+      "why": "MT5 long WR ~43% vs short ~22%; report shorts destroyed expectancy"
+    },
+    {
+      "id": "extended_short_only",
+      "name": "HTF Down + Extension Short",
+      "rules": "HTF SELL + 5m RSI>=60 + mom3<=-0.12%; pullback rally into resistance; max 1 short per symbol per session",
+      "why": "Allow shorts only when extended \u2014 not default short bias like the 71% short account"
+    },
+    {
+      "id": "streak_circuit_breaker",
+      "name": "3-Loss Pause",
+      "rules": "After 3 consecutive losses on any symbol or account: pause all new entries 4 hours; after 5: pause until next UTC day",
+      "why": "Account had max 60 consecutive losses \u2014 must never allow that again"
+    },
+    {
+      "id": "symbol_focus_dsi_vol",
+      "name": "DSI + Vol Priority",
+      "rules": "Only signal on elite ready list + Boom/Crash when validated; skip EURUSD unless OOS WR>=60% on our stack",
+      "why": "Report PF clustered on Vol/DSI/Boom/XAU not FX spam"
+    }
+  ],
+  "elite_still": [
+    "1HZ75V",
+    "DSI20",
+    "R_25",
+    "R_10",
+    "1HZ50V",
+    "DSI30",
+    "R_75",
+    "1HZ25V",
+    "1HZ15V",
+    "1HZ90V"
+  ]
+}

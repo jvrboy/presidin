@@ -1,0 +1,7 @@
+{
+  "name": "@forex-bot/deriv-client",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/client.ts",
+  "types": "src/client.ts"
+}

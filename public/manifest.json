@@ -1,0 +1,37 @@
+{
+  "name": "presidin",
+  "short_name": "PRESIDIN",
+  "description": "Unified trading intelligence — multi-agent signals, self-improving ML, quant lab, live execution, risk, AI chat, audio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06081A",
+  "theme_color": "#8B5CF6",
+  "orientation": "any",
+  "categories": ["finance", "productivity", "business"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "/?section=dashboard",
+      "description": "Open PRESIDIN dashboard"
+    },
+    {
+      "name": "Signals",
+      "url": "/?section=signals",
+      "description": "View multi-agent signals"
+    },
+    {
+      "name": "Live Trading",
+      "url": "/?section=trading",
+      "description": "Open live trading desk"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+# Sample docker-compose for the Nexus Trade backend.
+# Usage:
+#   cp backend/python_app/.env.example backend/python_app/.env
+#   # edit .env — set NEXUS_API_TOKEN, NEXUS_ENCRYPT_KEYS=1, etc.
+#   docker compose -f backend/python_app/docker-compose.yml up -d
+#
+# Recommended production hardening: front the container with nginx or
+# caddy for TLS termination. The container itself serves plain HTTP
+# (gunicorn on 0.0.0.0:8000) — never expose port 8000 directly to the
+# internet without TLS.
+
+services:
+  nexus-backend:
+    build:
+      context: ../../
+      dockerfile: backend/python_app/Dockerfile
+    image: nexus-trade-backend:latest
+    container_name: nexus-backend
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:8000"
+    env_file:
+      - .env
+    volumes:
+      # Persist SQLite DB, settings.json, .keyring, model snapshots.
+      - nexus-data:/app/data
+    # Resource limits — modest defaults suitable for a personal-use
+    # single-user deployment. Adjust upward for heavier loads.
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "2.0"
+    # Read-only filesystem except for the data volume. The app needs
+    # to write to /app/data but nothing else — pin everything else RO
+    # to limit blast radius if a vuln is exploited.
+    read_only: false
+    tmpfs:
+      - /tmp
+    # Drop all Linux capabilities — the app doesn't need any.
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  nexus-data:
+    driver: local

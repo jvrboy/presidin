@@ -1,0 +1,38 @@
+{
+  "label": "in_r50_s3",
+  "n": 124,
+  "wins": 96,
+  "losses": 28,
+  "winRate": 0.7742,
+  "skipRegime": 52,
+  "skipHold": 199,
+  "skipTop": 496,
+  "skipBlender": 76,
+  "params": {
+    "AGREE": 0.55,
+    "NET": 0.1,
+    "BASE_SL": 2,
+    "BASE_TP": 0.4,
+    "REQUIRE_TOP": 1,
+    "CHOP_MIN": 30,
+    "CHOP_MAX": 70,
+    "BLENDER_MIN": 0.3
+  },
+  "avgWin": 0.0368,
+  "avgLoss": -0.0994,
+  "profitFactor": 1.2679,
+  "expectancy": 0.006,
+  "total": 0.7457,
+  "maxDrawdownPct": -0.8572,
+  "exits": {
+    "TP": 96,
+    "SL": 18,
+    "HORIZON": 10
+  },
+  "volBreakdown": {
+    "high": 23,
+    "mid": 51,
+    "extreme": 15,
+    "low": 35
+  }
+}

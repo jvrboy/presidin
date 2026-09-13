@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexus Trade — Agentic Terminal</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1220'/%3E%3Ctext x='16' y='23' font-family='Arial,sans-serif' font-size='19' font-weight='700' text-anchor='middle' fill='%2338bdf8'%3EN%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <!-- ======= HEADER ======= -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">N</div>
+        <div class="brand-text">
+          <span class="brand-name">NEXUS TRADE</span>
+          <span class="brand-sub">Agentic Terminal</span>
+        </div>
+      </div>
+      <div class="status-cluster">
+        <span id="mt5-status" class="pill offline"><i class="dot"></i>MT5 Offline</span>
+        <span id="bot-status" class="pill offline"><i class="dot"></i>STOPPED</span>
+        <span id="ai-status" class="pill ghost"><i class="dot"></i>AI: 0 keys</span>
+      </div>
+      <nav class="tabs">
+        <button class="tab active" data-tab="dashboard">DASHBOARD</button>
+        <button class="tab" data-tab="signals">SIGNALS</button>
+        <button class="tab" data-tab="agents">AGENTS</button>
+        <button class="tab" data-tab="analytics">ANALYTICS</button>
+        <button class="tab" data-tab="settings">SETTINGS</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ======= DASHBOARD ======= -->
+      <section id="tab-dashboard" class="panel tab-panel active">
+        <!-- Ticker tape -->
+        <div class="tape-wrap"><div id="ticker-tape" class="tape"></div></div>
+
+        <!-- Controls -->
+        <div class="controls-bar">
+          <button class="btn btn-primary" onclick="botAction('start')">▶ Start</button>
+          <button class="btn" onclick="botAction('pause')">⏸ Pause</button>
+          <button class="btn" onclick="botAction('resume')">⏵ Resume</button>
+          <button class="btn btn-danger" onclick="botAction('stop')">■ Stop</button>
+          <button class="btn" onclick="rescan()">↻ Rescan</button>
+          <button class="btn btn-kill" onclick="killSwitch()">⚠ KILL — Close All</button>
+        </div>
+
+        <!-- Metric cards -->
+        <div class="metrics-grid">
+          <div class="metric-card"><div class="mc-label">Balance</div><div id="bal" class="mc-value">—</div><div class="mc-sub" id="bal-cur">USD</div></div>
+          <div class="metric-card"><div class="mc-label">Equity</div><div id="eq" class="mc-value">—</div><div class="mc-sub" id="eq-chg"></div></div>
+          <div class="metric-card"><div class="mc-label">Open P&L</div><div id="pnl" class="mc-value">—</div><div class="mc-sub" id="pnl-pct"></div></div>
+          <div class="metric-card"><div class="mc-label">Free Margin</div><div id="free-margin" class="mc-value">—</div><div class="mc-sub" id="margin-lvl"></div></div>
+          <div class="metric-card"><div class="mc-label">Win Rate</div><div id="winrate" class="mc-value">—</div><div class="mc-sub" id="trades-n"></div></div>
+          <div class="metric-card"><div class="mc-label">Expectancy</div><div id="expectancy" class="mc-value">—</div><div class="mc-sub">ATR / trade</div></div>
+        </div>
+
+        <!-- Chart + positions -->
+        <div class="dash-grid">
+          <div class="card chart-card">
+            <div class="card-title"><span>Equity Curve</span><span class="chip" id="eq-points">0 pts</span></div>
+            <div class="chart-wrap"><canvas id="equity-chart"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>Open Positions</span><span class="chip" id="pos-count">0</span></div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Symbol</th><th>Side</th><th>Vol</th><th>Open</th><th>Current</th><th>SL</th><th>TP</th><th>P&L</th><th></th></tr></thead>
+                <tbody id="positions-body"><tr><td colspan="9" class="empty">No open positions</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Activity Log</span><span class="chip" id="log-count"></span></div>
+          <div id="logs" class="logs"></div>
+        </div>
+      </section>
+
+      <!-- ======= SIGNALS ======= -->
+      <section id="tab-signals" class="panel tab-panel">
+        <div class="filter-bar">
+          <div class="filters" id="asset-filters">
+            <button class="filter active" data-f="all">All</button>
+            <button class="filter" data-f="forex">Forex</button>
+            <button class="filter" data-f="crypto">Crypto</button>
+            <button class="filter" data-f="metals">Metals</button>
+            <button class="filter" data-f="indices">Indices</button>
+          </div>
+          <span class="chip" id="signal-count">0 signals</span>
+        </div>
+        <div id="signals-grid" class="signals-grid"></div>
+      </section>
+
+      <!-- ======= AGENTS ======= -->
+      <section id="tab-agents" class="panel tab-panel">
+        <div class="agents-toolbar">
+          <select id="agent-symbol" class="input select"></select>
+          <button class="btn" onclick="loadAgentDecision()">⚡ Run Agent Analysis</button>
+          <span class="chip" id="agent-verdict"></span>
+        </div>
+        <div id="agent-cards" class="agent-grid"></div>
+        <div class="card">
+          <div class="card-title"><span>Decision Reasoning</span></div>
+          <div id="agent-reasoning" class="reasoning"></div>
+        </div>
+      </section>
+
+      <!-- ======= ANALYTICS ======= -->
+      <section id="tab-analytics" class="panel tab-panel">
+        <div class="analytics-grid">
+          <div class="card">
+            <div class="card-title"><span>Correlation Matrix</span></div>
+            <div id="corr-matrix" class="corr-wrap"></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>RL & PPO Status</span></div>
+            <div id="rl-status" class="kv"></div>
+            <div class="btn-row">
+              <button class="btn btn-sm" onclick="rlTrain()">Train Tabular</button>
+              <button class="btn btn-sm" onclick="loadRL()">Refresh</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>Execution Quality</span></div>
+            <div id="exec-audit" class="kv"></div>
+            <div class="btn-row"><button class="btn btn-sm" onclick="loadExec()">Refresh</button></div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span>Smart Money Context</span></div>
+            <div id="smc-context" class="kv"></div>
+            <div class="btn-row"><button class="btn btn-sm" onclick="loadSMC()">Analyze</button></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======= SETTINGS ======= -->
+      <section id="tab-settings" class="panel tab-panel">
+        <div class="settings-grid">
+          <!-- Connection -->
+          <div class="card">
+            <div class="card-title"><span>Connection</span></div>
+            <p class="hint">1. Download the EA → 2. Copy it into MT5's <b>MQL5/Experts</b> folder → 3. Compile in MetaEditor → 4. Attach to any chart with the host/port below.</p>
+            <div class="btn-row" style="margin-top:0;margin-bottom:12px">
+              <a class="btn btn-sm btn-primary" href="/api/download/ea" download>⬇ Download NexusBridge.mq5 (EA)</a>
+            </div>
+            <label class="fld"><span>MT5 Host</span><input id="set-mt5-host" class="input" value="127.0.0.1"></label>
+            <label class="fld"><span>MT5 Port</span><input id="set-mt5-port" class="input" type="number" value="5555"></label>
+            <label class="fld check"><input type="checkbox" id="set-enable-mt5"> <span>Enable MT5 Bridge</span></label>
+            <label class="fld check"><input type="checkbox" id="set-agentic"> <span>Agentic Mode (multi-agent)</span></label>
+            <label class="fld check"><input type="checkbox" id="set-auto-trade"> <span>Auto-Trade</span></label>
+            <label class="fld check danger"><input type="checkbox" id="set-live"> <span>⚠ Allow LIVE Trading</span></label>
+          </div>
+
+          <!-- Risk -->
+          <div class="card">
+            <div class="card-title"><span>Risk Management</span></div>
+            <label class="fld"><span>Risk Mode</span>
+              <select id="set-risk-mode" class="input select">
+                <option value="conservative">Conservative</option>
+                <option value="balanced">Balanced</option>
+                <option value="aggressive">Aggressive</option>
+              </select></label>
+            <label class="fld"><span>Risk / Trade %</span><input id="set-risk-pct" class="input" type="number" step="0.1" value="2.0"></label>
+            <label class="fld"><span>Max Daily Loss %</span><input id="set-daily-loss" class="input" type="number" step="1" value="25"></label>
+            <label class="fld"><span>Max Open Trades</span><input id="set-max-trades" class="input" type="number" value="1"></label>
+            <label class="fld"><span>Default Lot</span><input id="set-lot" class="input" type="number" step="0.01" value="0.01"></label>
+            <label class="fld"><span>Min Confidence</span><input id="set-min-conf" class="input" type="number" step="0.01" value="0.62"></label>
+            <label class="fld check"><input type="checkbox" id="set-micro"> <span>Micro-Account Mode</span></label>
+          </div>
+
+          <!-- Strategy -->
+          <div class="card">
+            <div class="card-title"><span>Strategy & Filters</span></div>
+            <label class="fld"><span>Primary Timeframe</span>
+              <select id="set-tf" class="input select">
+                <option>M15</option><option selected>H1</option><option>H4</option><option>D1</option>
+              </select></label>
+            <label class="fld"><span>Symbols (comma-sep)</span><input id="set-symbols" class="input" value="EURUSD,GBPUSD,USDJPY"></label>
+            <label class="fld check"><input type="checkbox" id="set-smc" checked> <span>Smart Money Concepts</span></label>
+            <label class="fld check"><input type="checkbox" id="set-mtf" checked> <span>Multi-Timeframe</span></label>
+            <label class="fld check"><input type="checkbox" id="set-ensemble" checked> <span>Model Ensemble</span></label>
+            <label class="fld check"><input type="checkbox" id="set-rl" checked> <span>Reinforcement Learning</span></label>
+            <label class="fld check"><input type="checkbox" id="set-ppo" checked> <span>PPO Deep-RL Voter</span></label>
+            <label class="fld check"><input type="checkbox" id="set-corr-block" checked> <span>Correlation Block</span></label>
+          </div>
+
+          <!-- Trade management -->
+          <div class="card">
+            <div class="card-title"><span>Trade Management</span></div>
+            <label class="fld check"><input type="checkbox" id="set-breakeven" checked> <span>Break-Even at +1R</span></label>
+            <label class="fld check"><input type="checkbox" id="set-partial"> <span>Partial Close at TP1</span></label>
+            <label class="fld"><span>Partial %</span><input id="set-partial-pct" class="input" type="number" value="50"></label>
+            <label class="fld"><span>Max Spread (pts)</span><input id="set-max-spread" class="input" type="number" value="30"></label>
+            <label class="fld"><span>Magic Number</span><input id="set-magic" class="input" type="number" value="20250910"></label>
+            <label class="fld check"><input type="checkbox" id="set-dynamic-risk" checked> <span>Dynamic Volatility Risk</span></label>
+          </div>
+
+          <!-- AI KEYS -->
+          <div class="card ai-card">
+            <div class="card-title"><span>🤖 Gemini AI Keys — Unlimited Pool</span></div>
+            <p class="hint">Add as many keys as you want. When one hits its rate limit or quota, the bot automatically switches to the next healthy key. No limit.</p>
+            <div class="ai-add-row">
+              <input id="ai-new-key" class="input" placeholder="Paste a Gemini API key…" autocomplete="off">
+              <button class="btn btn-sm btn-primary" onclick="addAiKey()">+ Add Key</button>
+            </div>
+            <label class="fld"><span>Model</span><input id="ai-model" class="input" value="gemini-2.0-flash"></label>
+            <label class="fld check"><input type="checkbox" id="ai-enabled"> <span>Enable AI Advisory</span></label>
+            <div id="ai-key-list" class="key-list"></div>
+            <div class="btn-row">
+              <button class="btn btn-sm" onclick="testAi()">⚡ Test Pool</button>
+              <span id="ai-pool-status" class="chip"></span>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="card">
+            <div class="card-title"><span>Notifications</span></div>
+            <label class="fld check"><input type="checkbox" id="set-desktop" checked> <span>Desktop Notifications</span></label>
+            <label class="fld check"><input type="checkbox" id="set-sound" checked> <span>Sound Alerts</span></label>
+            <label class="fld"><span>Webhook URL</span><input id="set-webhook" class="input" placeholder="https://…"></label>
+          </div>
+        </div>
+
+        <div class="save-bar">
+          <button class="btn btn-primary btn-lg" onclick="saveSettings()">💾 Save All Settings</button>
+          <span id="save-msg" class="save-msg"></span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

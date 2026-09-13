@@ -1,0 +1,262 @@
+{
+  "generated_at": "2026-08-29T19:51:10Z",
+  "generated_epoch": 1788033070,
+  "knowledge_version": "2026-08-29-dsi-vol-v2-final",
+  "universe_size": 19,
+  "data_bars_per_symbol": 1200,
+  "granularity_sec": 60,
+  "gates_applied": {
+    "from_today_signal_losses": {
+      "min_mom3_pct_buy": 0.12,
+      "min_mom3_pct_sell": -0.12,
+      "prefer_rsi_buy_max": 45,
+      "prefer_rsi_sell_min": 55,
+      "fast_sl_cooldown_bars": 12,
+      "require_brief_pullback": true
+    },
+    "from_mt5_report_40917328": {
+      "max_consecutive_losses_before_pause": 3,
+      "max_trades_per_day": 8,
+      "max_trades_per_symbol_per_day": 3,
+      "prefer_long_when_htf_up": true,
+      "short_requires_htf_down_and_extension": true,
+      "ban_fx_overtrade": true,
+      "prefer_symbols": [
+        "R_25",
+        "R_10",
+        "R_75",
+        "1HZ15V",
+        "1HZ25V",
+        "1HZ50V",
+        "1HZ75V",
+        "1HZ90V",
+        "DSI20",
+        "DSI30",
+        "BOOM500",
+        "BOOM1000",
+        "CRASH500",
+        "CRASH1000",
+        "XAUUSD"
+      ],
+      "deprioritize_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "AUDUSD"
+      ],
+      "min_path_aware_oos_wr": 0.58,
+      "min_rr": 2.0,
+      "daily_loss_cap_pct": 1.0
+    }
+  },
+  "engine": "v2_trend_and_mr_fade",
+  "caps": {
+    "max_trades_per_day": 8,
+    "max_trades_per_symbol_per_day": 3
+  },
+  "signals": [
+    {
+      "signal_id": "JD10-1788033070",
+      "symbol": "JD10",
+      "tier": "robust",
+      "direction": "SELL",
+      "kind": "mean_reversion_fade",
+      "generated_at": "2026-08-29T19:51:10Z",
+      "generated_epoch": 1788033070,
+      "entry_price": 89752.75,
+      "sl": 89770.259886,
+      "tp": 89729.403486,
+      "sl_atr_mult": 1.08,
+      "tp_atr_mult": 1.44,
+      "rr": 1.333,
+      "atr_abs": 16.212857,
+      "atr_pct": 0.0181,
+      "horizon_bars": 12,
+      "cooldown_bars": 18,
+      "confidence": 0.8714,
+      "oos_wr": 0.8182,
+      "oos_n": 11,
+      "features": {
+        "rsi14": 86.9,
+        "mom3_pct": 0.0225,
+        "mom5_pct": 0.068,
+        "ema20": 89698.5741,
+        "ema50": 89667.6903,
+        "ema_sep_pct": 0.0344,
+        "htf_bias": "up"
+      },
+      "gate_checks": {
+        "conf_ge_0.70": true,
+        "rr_ok": true,
+        "rsi_in_band_or_extreme": true
+      },
+      "reasons": [
+        "RSI exhaustion 86.9, expect mean reversion"
+      ],
+      "status": "OPEN",
+      "outcome": null,
+      "closed_at": null,
+      "close_price": null,
+      "pnl_pct": null
+    },
+    {
+      "signal_id": "DSI20-1788033070",
+      "symbol": "DSI20",
+      "tier": "elite",
+      "direction": "SELL",
+      "kind": "mean_reversion_fade",
+      "generated_at": "2026-08-29T19:51:10Z",
+      "generated_epoch": 1788033070,
+      "entry_price": 3046.65,
+      "sl": 3047.413714,
+      "tp": 3045.631714,
+      "sl_atr_mult": 1.35,
+      "tp_atr_mult": 1.8,
+      "rr": 1.333,
+      "atr_abs": 0.565714,
+      "atr_pct": 0.0186,
+      "horizon_bars": 16,
+      "cooldown_bars": 3,
+      "confidence": 0.7711,
+      "oos_wr": 0.7273,
+      "oos_n": 22,
+      "features": {
+        "rsi14": 80.66,
+        "mom3_pct": 0.0696,
+        "mom5_pct": 0.0719,
+        "ema20": 3044.5512,
+        "ema50": 3042.9289,
+        "ema_sep_pct": 0.0533,
+        "htf_bias": "up"
+      },
+      "gate_checks": {
+        "conf_ge_0.70": true,
+        "rr_ok": true,
+        "rsi_in_band_or_extreme": true
+      },
+      "reasons": [
+        "RSI exhaustion 80.7, expect mean reversion"
+      ],
+      "status": "OPEN",
+      "outcome": null,
+      "closed_at": null,
+      "close_price": null,
+      "pnl_pct": null
+    },
+    {
+      "signal_id": "R_10-1788033070",
+      "symbol": "R_10",
+      "tier": "elite",
+      "direction": "SELL",
+      "kind": "mean_reversion_fade",
+      "generated_at": "2026-08-29T19:51:10Z",
+      "generated_epoch": 1788033070,
+      "entry_price": 4783.256,
+      "sl": 4784.020936,
+      "tp": 4782.236086,
+      "sl_atr_mult": 0.9,
+      "tp_atr_mult": 1.2,
+      "rr": 1.333,
+      "atr_abs": 0.849929,
+      "atr_pct": 0.0178,
+      "horizon_bars": 5,
+      "cooldown_bars": 6,
+      "confidence": 0.7621,
+      "oos_wr": 0.6667,
+      "oos_n": 9,
+      "features": {
+        "rsi14": 82.99,
+        "mom3_pct": 0.0258,
+        "mom5_pct": 0.0304,
+        "ema20": 4780.139,
+        "ema50": 4777.026,
+        "ema_sep_pct": 0.0651,
+        "htf_bias": "up"
+      },
+      "gate_checks": {
+        "conf_ge_0.70": true,
+        "rr_ok": true,
+        "rsi_in_band_or_extreme": true
+      },
+      "reasons": [
+        "RSI exhaustion 83.0, expect mean reversion"
+      ],
+      "status": "OPEN",
+      "outcome": null,
+      "closed_at": null,
+      "close_price": null,
+      "pnl_pct": null
+    }
+  ],
+  "gated_out_after_caps": [],
+  "skipped": [
+    {
+      "symbol": "1HZ75V",
+      "reason": "no_setup (bias=up mom3=-0.238 mom5=-0.342 rsi=26.1)"
+    },
+    {
+      "symbol": "R_25",
+      "reason": "no_setup (bias=flat mom3=-0.040 mom5=-0.071 rsi=48.1)"
+    },
+    {
+      "symbol": "1HZ50V",
+      "reason": "no_setup (bias=flat mom3=-0.182 mom5=-0.153 rsi=44.0)"
+    },
+    {
+      "symbol": "DSI30",
+      "reason": "no_setup (bias=down mom3=0.006 mom5=0.011 rsi=36.6)"
+    },
+    {
+      "symbol": "R_75",
+      "reason": "no_setup (bias=up mom3=-0.026 mom5=0.152 rsi=59.4)"
+    },
+    {
+      "symbol": "1HZ25V",
+      "reason": "no_setup (bias=flat mom3=0.018 mom5=0.053 rsi=49.8)"
+    },
+    {
+      "symbol": "1HZ15V",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "1HZ90V",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "1HZ10V",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "frxXPDUSD",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "BOOM300N",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "frxXPTUSD",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "CRASH900",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "DSI10",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "stpRNG",
+      "reason": "no_data"
+    },
+    {
+      "symbol": "BOOM500",
+      "reason": "no_setup (bias=up mom3=-0.033 mom5=-0.058 rsi=69.8)"
+    }
+  ],
+  "counts": {
+    "candidates_before_caps": 3,
+    "final_signals": 3,
+    "skipped": 16
+  }
+}

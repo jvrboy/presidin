@@ -1,0 +1,12 @@
+{
+  "name": "rsi-liquidity-divergence",
+  "version": "2026-08-27",
+  "timeframes": ["5m", "15m"],
+  "entry": {
+    "bullish": ["price makes lower low", "RSI or pressureScore makes higher low", "liquiditySweepScore = 1"],
+    "bearish": ["price makes higher high", "RSI or pressureScore makes lower high", "liquiditySweepScore = -1"]
+  },
+  "filters": ["marketQualityTool not vetoing", "alpha_regime is HOLD or agrees", "risk_veto is HOLD"],
+  "risk": { "maxStakePct": 0.35, "stopAtr": 1.0, "takeProfitAtr": 1.5, "cooldownBars": 8 },
+  "notes": "Divergence mean-reversion template focused on stop-run reclaim/rejection behavior."
+}

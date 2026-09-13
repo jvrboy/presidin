@@ -1,0 +1,138 @@
+// PRESIDIN — Prisma schema
+// SQLite default; can be swapped to Supabase Postgres by changing the datasource.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String?
+  role         String   @default("user") // user | admin
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  sessions     Session[]
+  settings     UserSetting[]
+  trades       Trade[]
+  signals      SignalRecord[]
+  chatThreads  ChatThread[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  ip        String?
+  userAgent String?
+}
+
+model UserSetting {
+  id      String @id @default(cuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  key     String
+  value   String
+  @@unique([userId, key])
+}
+
+model SignalRecord {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  symbol      String
+  timeframe   String
+  direction   String   // BUY | SELL | NEUTRAL
+  confidence  Float
+  consensus   Float
+  votesJson   String   // JSON-stringified votes array
+  entryPrice  Float
+  stopLoss    Float
+  takeProfit  Float
+  rrRatio     Float
+  positionSize Float
+  status      String   @default("active") // active | expired | executed | invalidated
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([symbol, timeframe])
+  @@index([createdAt])
+}
+
+model Trade {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  symbol      String
+  broker      String   // deriv | mt5 | paper
+  direction   String   // BUY | SELL
+  quantity    Float
+  entryPrice  Float
+  exitPrice   Float?
+  entryTime   DateTime @default(now())
+  exitTime    DateTime?
+  stopLoss    Float?
+  takeProfit  Float?
+  pnl         Float?
+  pnlPct      Float?
+  status      String   @default("open") // open | closed | cancelled
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([symbol])
+  @@index([status])
+}
+
+model ChatThread {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  title     String
+  provider  String   // zai | openai | anthropic | gemini | groq
+  model     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  messages  ChatMessage[]
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  threadId  String
+  thread    ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  role      String   // user | assistant | system
+  content   String
+  tokensIn  Int      @default(0)
+  tokensOut Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model BotLog {
+  id        String   @id @default(cuid())
+  level     String   // info | warn | error | debug
+  source    String   // signal | trade | ml | anomaly | system
+  message   String
+  data      String?
+  createdAt DateTime @default(now())
+  @@index([createdAt])
+  @@index([level])
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  channel   String   // telegram | discord | local | push
+  level     String
+  title     String
+  body      String
+  source    String
+  sentAt    DateTime @default(now())
+  success   Boolean  @default(true)
+  @@index([sentAt])
+}

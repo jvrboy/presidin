@@ -1,0 +1,30 @@
+{
+  "label": "wf_JD25_v7",
+  "n": 207,
+  "wins": 142,
+  "losses": 65,
+  "winRate": 0.686,
+  "skippedHold": 155,
+  "skippedRegime": 168,
+  "skippedTop": 417,
+  "thresholds": {
+    "AGREE": 0.55,
+    "NET": 0.1,
+    "SL_M": 1.6,
+    "TP_M": 0.55,
+    "REQUIRE_TOP": 1,
+    "CHOP_MIN": 35,
+    "CHOP_MAX": 65
+  },
+  "avgWin": 0.029,
+  "avgLoss": -0.071,
+  "profitFactor": 0.8912,
+  "expectancy": -0.0024,
+  "total": -0.5022,
+  "maxDrawdownPct": -1.7674,
+  "exits": {
+    "TP": 142,
+    "SL": 54,
+    "HORIZON": 11
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "presidin-ml-service",
+  "version": "1.0.0",
+  "description": "PRESIDIN FastAPI Python mini-service for ML/Quant/agents (hybrid backend)",
+  "scripts": {
+    "dev": "python -m uvicorn main:app --host 0.0.0.0 --port 8100 --reload",
+    "start": "python -m uvicorn main:app --host 0.0.0.0 --port 8100"
+  },
+  "dependencies": []
+}

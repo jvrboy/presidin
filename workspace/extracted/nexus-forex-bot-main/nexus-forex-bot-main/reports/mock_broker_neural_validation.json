@@ -1,0 +1,2629 @@
+{
+  "source": "deterministic_demo_mock_feed",
+  "pair": "EURUSD",
+  "bars": 5000,
+  "training_metrics": {
+    "accuracy": 0.821285140562249,
+    "train_rows": 3984,
+    "test_rows": 996,
+    "positive_rate": 0.48132530120481926
+  },
+  "feature_importance": {
+    "return_1": 0.017269076305220878,
+    "return_5": 0.242570281124498,
+    "return_20": 0.07570281124497993,
+    "volatility_20": 0.00381526104417671,
+    "trend_20": 0.019678714859437774,
+    "range_pct": 0.010843373493975905,
+    "volume_ratio": -0.0022088353413654447
+  },
+  "validation": {
+    "pair": "EURUSD",
+    "ticks": 250,
+    "start_index": 120,
+    "spread_pips": 1.0,
+    "minimum_probability": 0.55,
+    "buy_signals": 106,
+    "sell_signals": 122,
+    "holds": 22,
+    "events": [
+      {
+        "timestamp": "2024-01-06T00:00:00+00:00",
+        "bar_index": 120,
+        "bid": 0.9923290117025629,
+        "ask": 0.9924290117025629,
+        "probability_up": 0.01450208460271523,
+        "probability_down": 0.9854979153972848,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T01:00:00+00:00",
+        "bar_index": 121,
+        "bid": 0.9923970511552427,
+        "ask": 0.9924970511552427,
+        "probability_up": 0.08294223776189927,
+        "probability_down": 0.9170577622381008,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T02:00:00+00:00",
+        "bar_index": 122,
+        "bid": 0.9924809143165536,
+        "ask": 0.9925809143165536,
+        "probability_up": 0.09537222314146872,
+        "probability_down": 0.9046277768585312,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T03:00:00+00:00",
+        "bar_index": 123,
+        "bid": 0.9907651609309137,
+        "ask": 0.9908651609309137,
+        "probability_up": 0.02395698917309904,
+        "probability_down": 0.9760430108269009,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T04:00:00+00:00",
+        "bar_index": 124,
+        "bid": 0.9894436542192646,
+        "ask": 0.9895436542192646,
+        "probability_up": 0.02900883163226243,
+        "probability_down": 0.9709911683677376,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T05:00:00+00:00",
+        "bar_index": 125,
+        "bid": 0.989795932563689,
+        "ask": 0.989895932563689,
+        "probability_up": 0.45563923660002426,
+        "probability_down": 0.5443607633999757,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T06:00:00+00:00",
+        "bar_index": 126,
+        "bid": 0.988483741982508,
+        "ask": 0.988583741982508,
+        "probability_up": 0.05889581935390936,
+        "probability_down": 0.9411041806460907,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T07:00:00+00:00",
+        "bar_index": 127,
+        "bid": 0.9886088640902748,
+        "ask": 0.9887088640902748,
+        "probability_up": 0.18299757886577472,
+        "probability_down": 0.8170024211342253,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T08:00:00+00:00",
+        "bar_index": 128,
+        "bid": 0.9869854637096215,
+        "ask": 0.9870854637096215,
+        "probability_up": 0.3506279948075445,
+        "probability_down": 0.6493720051924555,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T09:00:00+00:00",
+        "bar_index": 129,
+        "bid": 0.9870929055011862,
+        "ask": 0.9871929055011862,
+        "probability_up": 0.6340560084013243,
+        "probability_down": 0.36594399159867574,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T10:00:00+00:00",
+        "bar_index": 130,
+        "bid": 0.9870892069066662,
+        "ask": 0.9871892069066662,
+        "probability_up": 0.4598254815555884,
+        "probability_down": 0.5401745184444116,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T11:00:00+00:00",
+        "bar_index": 131,
+        "bid": 0.9867184539644447,
+        "ask": 0.9868184539644447,
+        "probability_up": 0.4899147331455169,
+        "probability_down": 0.5100852668544831,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-06T12:00:00+00:00",
+        "bar_index": 132,
+        "bid": 0.9869360898303764,
+        "ask": 0.9870360898303764,
+        "probability_up": 0.6417971605730969,
+        "probability_down": 0.3582028394269031,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T13:00:00+00:00",
+        "bar_index": 133,
+        "bid": 0.9860403616127249,
+        "ask": 0.9861403616127249,
+        "probability_up": 0.6961373354167005,
+        "probability_down": 0.30386266458329947,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T14:00:00+00:00",
+        "bar_index": 134,
+        "bid": 0.9854875994232629,
+        "ask": 0.9855875994232629,
+        "probability_up": 0.570496986641684,
+        "probability_down": 0.429503013358316,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T15:00:00+00:00",
+        "bar_index": 135,
+        "bid": 0.9860491242261681,
+        "ask": 0.9861491242261681,
+        "probability_up": 0.6994750474729553,
+        "probability_down": 0.3005249525270447,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T16:00:00+00:00",
+        "bar_index": 136,
+        "bid": 0.9869774367660141,
+        "ask": 0.9870774367660141,
+        "probability_up": 0.8953028280520103,
+        "probability_down": 0.10469717194798966,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T17:00:00+00:00",
+        "bar_index": 137,
+        "bid": 0.9865522589045604,
+        "ask": 0.9866522589045604,
+        "probability_up": 0.7363810423079176,
+        "probability_down": 0.26361895769208243,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T18:00:00+00:00",
+        "bar_index": 138,
+        "bid": 0.9869728120405586,
+        "ask": 0.9870728120405586,
+        "probability_up": 0.9202380926954858,
+        "probability_down": 0.07976190730451416,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T19:00:00+00:00",
+        "bar_index": 139,
+        "bid": 0.9884754266912416,
+        "ask": 0.9885754266912415,
+        "probability_up": 0.9847101083311255,
+        "probability_down": 0.015289891668874511,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T20:00:00+00:00",
+        "bar_index": 140,
+        "bid": 0.988784388238262,
+        "ask": 0.988884388238262,
+        "probability_up": 0.969613371092982,
+        "probability_down": 0.030386628907018043,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T21:00:00+00:00",
+        "bar_index": 141,
+        "bid": 0.9899411543369597,
+        "ask": 0.9900411543369597,
+        "probability_up": 0.9779687201687228,
+        "probability_down": 0.022031279831277173,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T22:00:00+00:00",
+        "bar_index": 142,
+        "bid": 0.9912986249486588,
+        "ask": 0.9913986249486588,
+        "probability_up": 0.9924852950765556,
+        "probability_down": 0.007514704923444415,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-06T23:00:00+00:00",
+        "bar_index": 143,
+        "bid": 0.9919640246648617,
+        "ask": 0.9920640246648617,
+        "probability_up": 0.9913842938647791,
+        "probability_down": 0.00861570613522089,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T00:00:00+00:00",
+        "bar_index": 144,
+        "bid": 0.9935043093717807,
+        "ask": 0.9936043093717807,
+        "probability_up": 0.9767896754247779,
+        "probability_down": 0.023210324575222097,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T01:00:00+00:00",
+        "bar_index": 145,
+        "bid": 0.994616971565902,
+        "ask": 0.994716971565902,
+        "probability_up": 0.9907214921945232,
+        "probability_down": 0.009278507805476788,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T02:00:00+00:00",
+        "bar_index": 146,
+        "bid": 0.9959198075463258,
+        "ask": 0.9960198075463258,
+        "probability_up": 0.9784248907838886,
+        "probability_down": 0.021575109216111388,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T03:00:00+00:00",
+        "bar_index": 147,
+        "bid": 0.9963046258862494,
+        "ask": 0.9964046258862493,
+        "probability_up": 0.9651133813700035,
+        "probability_down": 0.034886618629996535,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T04:00:00+00:00",
+        "bar_index": 148,
+        "bid": 0.9969229659946874,
+        "ask": 0.9970229659946874,
+        "probability_up": 0.9209858598796138,
+        "probability_down": 0.07901414012038621,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T05:00:00+00:00",
+        "bar_index": 149,
+        "bid": 0.9966365436030394,
+        "ask": 0.9967365436030394,
+        "probability_up": 0.6684115904620999,
+        "probability_down": 0.33158840953790014,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T06:00:00+00:00",
+        "bar_index": 150,
+        "bid": 0.997624957165306,
+        "ask": 0.997724957165306,
+        "probability_up": 0.7353076593110519,
+        "probability_down": 0.2646923406889481,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T07:00:00+00:00",
+        "bar_index": 151,
+        "bid": 0.9979164077557817,
+        "ask": 0.9980164077557817,
+        "probability_up": 0.5013264435367143,
+        "probability_down": 0.4986735564632857,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T08:00:00+00:00",
+        "bar_index": 152,
+        "bid": 0.9988903417473316,
+        "ask": 0.9989903417473316,
+        "probability_up": 0.552985836512625,
+        "probability_down": 0.447014163487375,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-07T09:00:00+00:00",
+        "bar_index": 153,
+        "bid": 0.9995932055325444,
+        "ask": 0.9996932055325444,
+        "probability_up": 0.39298831323661454,
+        "probability_down": 0.6070116867633855,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T10:00:00+00:00",
+        "bar_index": 154,
+        "bid": 0.9993879477601332,
+        "ask": 0.9994879477601332,
+        "probability_up": 0.38311383210114425,
+        "probability_down": 0.6168861678988558,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T11:00:00+00:00",
+        "bar_index": 155,
+        "bid": 0.9992628022648066,
+        "ask": 0.9993628022648066,
+        "probability_up": 0.20776236668244263,
+        "probability_down": 0.7922376333175574,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T12:00:00+00:00",
+        "bar_index": 156,
+        "bid": 1.0005248830514595,
+        "ask": 1.0006248830514597,
+        "probability_up": 0.4410689307672794,
+        "probability_down": 0.5589310692327206,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T13:00:00+00:00",
+        "bar_index": 157,
+        "bid": 1.001755014115044,
+        "ask": 1.0018550141150442,
+        "probability_up": 0.49140662283908915,
+        "probability_down": 0.5085933771609108,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T14:00:00+00:00",
+        "bar_index": 158,
+        "bid": 1.0020264543934396,
+        "ask": 1.0021264543934398,
+        "probability_up": 0.23277935850476444,
+        "probability_down": 0.7672206414952356,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T15:00:00+00:00",
+        "bar_index": 159,
+        "bid": 1.0010359111430325,
+        "ask": 1.0011359111430327,
+        "probability_up": 0.11601984563665389,
+        "probability_down": 0.8839801543633461,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T16:00:00+00:00",
+        "bar_index": 160,
+        "bid": 1.0003366694214564,
+        "ask": 1.0004366694214566,
+        "probability_up": 0.17367326592092755,
+        "probability_down": 0.8263267340790724,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T17:00:00+00:00",
+        "bar_index": 161,
+        "bid": 1.0006138194723642,
+        "ask": 1.0007138194723644,
+        "probability_up": 0.26843642683664104,
+        "probability_down": 0.731563573163359,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T18:00:00+00:00",
+        "bar_index": 162,
+        "bid": 1.0002908377249735,
+        "ask": 1.0003908377249737,
+        "probability_up": 0.14954610029572613,
+        "probability_down": 0.8504538997042739,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T19:00:00+00:00",
+        "bar_index": 163,
+        "bid": 0.9995669335819852,
+        "ask": 0.9996669335819852,
+        "probability_up": 0.056051817767922764,
+        "probability_down": 0.9439481822320772,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T20:00:00+00:00",
+        "bar_index": 164,
+        "bid": 0.9998882598377847,
+        "ask": 0.9999882598377847,
+        "probability_up": 0.22696696980097542,
+        "probability_down": 0.7730330301990246,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T21:00:00+00:00",
+        "bar_index": 165,
+        "bid": 0.9998417414043054,
+        "ask": 0.9999417414043054,
+        "probability_up": 0.28009980011710617,
+        "probability_down": 0.7199001998828938,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T22:00:00+00:00",
+        "bar_index": 166,
+        "bid": 0.9994309914228341,
+        "ask": 0.9995309914228341,
+        "probability_up": 0.17183969666584414,
+        "probability_down": 0.8281603033341558,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-07T23:00:00+00:00",
+        "bar_index": 167,
+        "bid": 0.9986436684144469,
+        "ask": 0.9987436684144468,
+        "probability_up": 0.17173320619980048,
+        "probability_down": 0.8282667938001995,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T00:00:00+00:00",
+        "bar_index": 168,
+        "bid": 0.99844257775789,
+        "ask": 0.99854257775789,
+        "probability_up": 0.2538296570837634,
+        "probability_down": 0.7461703429162365,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T01:00:00+00:00",
+        "bar_index": 169,
+        "bid": 0.9966408435295616,
+        "ask": 0.9967408435295616,
+        "probability_up": 0.023428589765124616,
+        "probability_down": 0.9765714102348754,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T02:00:00+00:00",
+        "bar_index": 170,
+        "bid": 0.9956909621042584,
+        "ask": 0.9957909621042584,
+        "probability_up": 0.0447798682404183,
+        "probability_down": 0.9552201317595816,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T03:00:00+00:00",
+        "bar_index": 171,
+        "bid": 0.9937358623470597,
+        "ask": 0.9938358623470597,
+        "probability_up": 0.006059623363062943,
+        "probability_down": 0.993940376636937,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T04:00:00+00:00",
+        "bar_index": 172,
+        "bid": 0.9919763373677248,
+        "ask": 0.9920763373677248,
+        "probability_up": 0.00764635773166903,
+        "probability_down": 0.992353642268331,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T05:00:00+00:00",
+        "bar_index": 173,
+        "bid": 0.9901648642413232,
+        "ask": 0.9902648642413232,
+        "probability_up": 0.004838433780376046,
+        "probability_down": 0.9951615662196239,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T06:00:00+00:00",
+        "bar_index": 174,
+        "bid": 0.9883673670919736,
+        "ask": 0.9884673670919736,
+        "probability_up": 0.004371652877455504,
+        "probability_down": 0.9956283471225444,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T07:00:00+00:00",
+        "bar_index": 175,
+        "bid": 0.9882258852234167,
+        "ask": 0.9883258852234167,
+        "probability_up": 0.016434468884764065,
+        "probability_down": 0.9835655311152359,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T08:00:00+00:00",
+        "bar_index": 176,
+        "bid": 0.9877307842607262,
+        "ask": 0.9878307842607262,
+        "probability_up": 0.04351955114539366,
+        "probability_down": 0.9564804488546064,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T09:00:00+00:00",
+        "bar_index": 177,
+        "bid": 0.9864888875713652,
+        "ask": 0.9865888875713652,
+        "probability_up": 0.14842839182987172,
+        "probability_down": 0.8515716081701283,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T10:00:00+00:00",
+        "bar_index": 178,
+        "bid": 0.9869591412076817,
+        "ask": 0.9870591412076817,
+        "probability_up": 0.47524629441048033,
+        "probability_down": 0.5247537055895197,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T11:00:00+00:00",
+        "bar_index": 179,
+        "bid": 0.9858190678249519,
+        "ask": 0.9859190678249519,
+        "probability_up": 0.4760719604683736,
+        "probability_down": 0.5239280395316264,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T12:00:00+00:00",
+        "bar_index": 180,
+        "bid": 0.9846500758262876,
+        "ask": 0.9847500758262876,
+        "probability_up": 0.27551608546510686,
+        "probability_down": 0.7244839145348931,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-08T13:00:00+00:00",
+        "bar_index": 181,
+        "bid": 0.9852499414035487,
+        "ask": 0.9853499414035487,
+        "probability_up": 0.681216525658234,
+        "probability_down": 0.318783474341766,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T14:00:00+00:00",
+        "bar_index": 182,
+        "bid": 0.9846827958068874,
+        "ask": 0.9847827958068874,
+        "probability_up": 0.7192848402878547,
+        "probability_down": 0.28071515971214533,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T15:00:00+00:00",
+        "bar_index": 183,
+        "bid": 0.98481444248815,
+        "ask": 0.98491444248815,
+        "probability_up": 0.6725414510548239,
+        "probability_down": 0.3274585489451761,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T16:00:00+00:00",
+        "bar_index": 184,
+        "bid": 0.9857152195336378,
+        "ask": 0.9858152195336378,
+        "probability_up": 0.9519599071082819,
+        "probability_down": 0.04804009289171807,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T17:00:00+00:00",
+        "bar_index": 185,
+        "bid": 0.9855823854716336,
+        "ask": 0.9856823854716336,
+        "probability_up": 0.9681564860620646,
+        "probability_down": 0.031843513937935386,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T18:00:00+00:00",
+        "bar_index": 186,
+        "bid": 0.9866046611156087,
+        "ask": 0.9867046611156087,
+        "probability_up": 0.9893949613288979,
+        "probability_down": 0.010605038671102074,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T19:00:00+00:00",
+        "bar_index": 187,
+        "bid": 0.9871121399434072,
+        "ask": 0.9872121399434072,
+        "probability_up": 0.9925779445305275,
+        "probability_down": 0.007422055469472499,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T20:00:00+00:00",
+        "bar_index": 188,
+        "bid": 0.9879271075706777,
+        "ask": 0.9880271075706777,
+        "probability_up": 0.9963838210368298,
+        "probability_down": 0.0036161789631702357,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T21:00:00+00:00",
+        "bar_index": 189,
+        "bid": 0.9891063419536033,
+        "ask": 0.9892063419536032,
+        "probability_up": 0.9957514896328739,
+        "probability_down": 0.004248510367126146,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T22:00:00+00:00",
+        "bar_index": 190,
+        "bid": 0.9889337140928186,
+        "ask": 0.9890337140928186,
+        "probability_up": 0.9936285427148679,
+        "probability_down": 0.006371457285132109,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-08T23:00:00+00:00",
+        "bar_index": 191,
+        "bid": 0.9895913668541623,
+        "ask": 0.9896913668541623,
+        "probability_up": 0.9849930188269431,
+        "probability_down": 0.015006981173056877,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T00:00:00+00:00",
+        "bar_index": 192,
+        "bid": 0.9909971082761438,
+        "ask": 0.9910971082761438,
+        "probability_up": 0.9895230819760813,
+        "probability_down": 0.010476918023918702,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T01:00:00+00:00",
+        "bar_index": 193,
+        "bid": 0.9907544532726296,
+        "ask": 0.9908544532726296,
+        "probability_up": 0.9324179965695777,
+        "probability_down": 0.06758200343042231,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T02:00:00+00:00",
+        "bar_index": 194,
+        "bid": 0.991301999870998,
+        "ask": 0.991401999870998,
+        "probability_up": 0.87173636346631,
+        "probability_down": 0.12826363653369,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T03:00:00+00:00",
+        "bar_index": 195,
+        "bid": 0.9921752777969057,
+        "ask": 0.9922752777969057,
+        "probability_up": 0.9240726038569311,
+        "probability_down": 0.07592739614306887,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T04:00:00+00:00",
+        "bar_index": 196,
+        "bid": 0.9934521708388224,
+        "ask": 0.9935521708388224,
+        "probability_up": 0.9332282681557025,
+        "probability_down": 0.06677173184429752,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T05:00:00+00:00",
+        "bar_index": 197,
+        "bid": 0.993560872135177,
+        "ask": 0.993660872135177,
+        "probability_up": 0.7785842392496807,
+        "probability_down": 0.22141576075031932,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T06:00:00+00:00",
+        "bar_index": 198,
+        "bid": 0.9951088898580269,
+        "ask": 0.9952088898580269,
+        "probability_up": 0.9236500180455482,
+        "probability_down": 0.07634998195445175,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T07:00:00+00:00",
+        "bar_index": 199,
+        "bid": 0.9953823966408347,
+        "ask": 0.9954823966408347,
+        "probability_up": 0.7986727893476137,
+        "probability_down": 0.20132721065238635,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T08:00:00+00:00",
+        "bar_index": 200,
+        "bid": 0.9971796132547046,
+        "ask": 0.9972796132547046,
+        "probability_up": 0.9007028935922131,
+        "probability_down": 0.09929710640778688,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T09:00:00+00:00",
+        "bar_index": 201,
+        "bid": 0.9973169436128031,
+        "ask": 0.9974169436128031,
+        "probability_up": 0.7388941047347041,
+        "probability_down": 0.26110589526529593,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-09T10:00:00+00:00",
+        "bar_index": 202,
+        "bid": 0.9969845926137543,
+        "ask": 0.9970845926137543,
+        "probability_up": 0.5244389461228237,
+        "probability_down": 0.4755610538771763,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T11:00:00+00:00",
+        "bar_index": 203,
+        "bid": 0.997737713989054,
+        "ask": 0.997837713989054,
+        "probability_up": 0.4595318232574424,
+        "probability_down": 0.5404681767425576,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T12:00:00+00:00",
+        "bar_index": 204,
+        "bid": 0.9973002662730788,
+        "ask": 0.9974002662730788,
+        "probability_up": 0.2716227294375589,
+        "probability_down": 0.7283772705624412,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T13:00:00+00:00",
+        "bar_index": 205,
+        "bid": 0.9967683041485581,
+        "ask": 0.9968683041485581,
+        "probability_up": 0.10448627572041022,
+        "probability_down": 0.8955137242795898,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T14:00:00+00:00",
+        "bar_index": 206,
+        "bid": 0.9969091256143957,
+        "ask": 0.9970091256143957,
+        "probability_up": 0.232994873905624,
+        "probability_down": 0.767005126094376,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T15:00:00+00:00",
+        "bar_index": 207,
+        "bid": 0.9972437802218885,
+        "ask": 0.9973437802218885,
+        "probability_up": 0.28688835329884366,
+        "probability_down": 0.7131116467011563,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T16:00:00+00:00",
+        "bar_index": 208,
+        "bid": 0.9973842678084123,
+        "ask": 0.9974842678084123,
+        "probability_up": 0.24197775556526976,
+        "probability_down": 0.7580222444347302,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T17:00:00+00:00",
+        "bar_index": 209,
+        "bid": 0.9972447549144462,
+        "ask": 0.9973447549144462,
+        "probability_up": 0.23598841324641082,
+        "probability_down": 0.7640115867535892,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T18:00:00+00:00",
+        "bar_index": 210,
+        "bid": 0.9981392432779241,
+        "ask": 0.9982392432779241,
+        "probability_up": 0.43021100613650065,
+        "probability_down": 0.5697889938634993,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T19:00:00+00:00",
+        "bar_index": 211,
+        "bid": 0.9986369069702656,
+        "ask": 0.9987369069702656,
+        "probability_up": 0.5101589359283744,
+        "probability_down": 0.48984106407162564,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T20:00:00+00:00",
+        "bar_index": 212,
+        "bid": 0.9976381172196815,
+        "ask": 0.9977381172196815,
+        "probability_up": 0.14903666808210003,
+        "probability_down": 0.8509633319179,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T21:00:00+00:00",
+        "bar_index": 213,
+        "bid": 0.9982364706072215,
+        "ask": 0.9983364706072215,
+        "probability_up": 0.46003484170665326,
+        "probability_down": 0.5399651582933467,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T22:00:00+00:00",
+        "bar_index": 214,
+        "bid": 0.9986020382138706,
+        "ask": 0.9987020382138706,
+        "probability_up": 0.5127709108573563,
+        "probability_down": 0.48722908914264373,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-09T23:00:00+00:00",
+        "bar_index": 215,
+        "bid": 0.9985102258156027,
+        "ask": 0.9986102258156027,
+        "probability_up": 0.32168977509480545,
+        "probability_down": 0.6783102249051945,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T00:00:00+00:00",
+        "bar_index": 216,
+        "bid": 0.9969243020156112,
+        "ask": 0.9970243020156112,
+        "probability_up": 0.03504583827026505,
+        "probability_down": 0.9649541617297349,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T01:00:00+00:00",
+        "bar_index": 217,
+        "bid": 0.9968854629627139,
+        "ask": 0.9969854629627138,
+        "probability_up": 0.3071678477736029,
+        "probability_down": 0.6928321522263972,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T02:00:00+00:00",
+        "bar_index": 218,
+        "bid": 0.9952361788917733,
+        "ask": 0.9953361788917733,
+        "probability_up": 0.027037362056881443,
+        "probability_down": 0.9729626379431185,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T03:00:00+00:00",
+        "bar_index": 219,
+        "bid": 0.9938314889078058,
+        "ask": 0.9939314889078058,
+        "probability_up": 0.015518685561851108,
+        "probability_down": 0.9844813144381489,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T04:00:00+00:00",
+        "bar_index": 220,
+        "bid": 0.9933932102683528,
+        "ask": 0.9934932102683528,
+        "probability_up": 0.08354335166890775,
+        "probability_down": 0.9164566483310923,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T05:00:00+00:00",
+        "bar_index": 221,
+        "bid": 0.9925468519179099,
+        "ask": 0.9926468519179099,
+        "probability_up": 0.07257477618119125,
+        "probability_down": 0.9274252238188088,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T06:00:00+00:00",
+        "bar_index": 222,
+        "bid": 0.9918406493300075,
+        "ask": 0.9919406493300075,
+        "probability_up": 0.06922376636521882,
+        "probability_down": 0.9307762336347811,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T07:00:00+00:00",
+        "bar_index": 223,
+        "bid": 0.9916673629661971,
+        "ask": 0.991767362966197,
+        "probability_up": 0.19450038611788012,
+        "probability_down": 0.8054996138821199,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T08:00:00+00:00",
+        "bar_index": 224,
+        "bid": 0.9906441532132753,
+        "ask": 0.9907441532132752,
+        "probability_up": 0.16774988303833444,
+        "probability_down": 0.8322501169616656,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T09:00:00+00:00",
+        "bar_index": 225,
+        "bid": 0.9900157042696482,
+        "ask": 0.9901157042696482,
+        "probability_up": 0.16279628996519746,
+        "probability_down": 0.8372037100348025,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T10:00:00+00:00",
+        "bar_index": 226,
+        "bid": 0.990338584669783,
+        "ask": 0.990438584669783,
+        "probability_up": 0.3091931591955784,
+        "probability_down": 0.6908068408044217,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T11:00:00+00:00",
+        "bar_index": 227,
+        "bid": 0.9902335236194316,
+        "ask": 0.9903335236194316,
+        "probability_up": 0.3714997384220825,
+        "probability_down": 0.6285002615779175,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T12:00:00+00:00",
+        "bar_index": 228,
+        "bid": 0.9905351923608071,
+        "ask": 0.9906351923608071,
+        "probability_up": 0.4985489905520307,
+        "probability_down": 0.5014510094479693,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T13:00:00+00:00",
+        "bar_index": 229,
+        "bid": 0.9902557367387067,
+        "ask": 0.9903557367387067,
+        "probability_up": 0.6105913810891492,
+        "probability_down": 0.38940861891085077,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-10T14:00:00+00:00",
+        "bar_index": 230,
+        "bid": 0.9890430236388942,
+        "ask": 0.9891430236388942,
+        "probability_up": 0.6168258028336674,
+        "probability_down": 0.3831741971663326,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-10T15:00:00+00:00",
+        "bar_index": 231,
+        "bid": 0.988288027352532,
+        "ask": 0.988388027352532,
+        "probability_up": 0.5591701063321317,
+        "probability_down": 0.4408298936678683,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-10T16:00:00+00:00",
+        "bar_index": 232,
+        "bid": 0.9871172925786879,
+        "ask": 0.9872172925786878,
+        "probability_up": 0.3062706329402133,
+        "probability_down": 0.6937293670597867,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T17:00:00+00:00",
+        "bar_index": 233,
+        "bid": 0.9876363718968012,
+        "ask": 0.9877363718968012,
+        "probability_up": 0.5311332677714509,
+        "probability_down": 0.46886673222854913,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T18:00:00+00:00",
+        "bar_index": 234,
+        "bid": 0.9871066217443268,
+        "ask": 0.9872066217443268,
+        "probability_up": 0.40056598341023675,
+        "probability_down": 0.5994340165897633,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T19:00:00+00:00",
+        "bar_index": 235,
+        "bid": 0.9862942746283346,
+        "ask": 0.9863942746283346,
+        "probability_up": 0.3649375500898511,
+        "probability_down": 0.6350624499101489,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-10T20:00:00+00:00",
+        "bar_index": 236,
+        "bid": 0.9874169862705727,
+        "ask": 0.9875169862705727,
+        "probability_up": 0.8022960500430526,
+        "probability_down": 0.1977039499569474,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-10T21:00:00+00:00",
+        "bar_index": 237,
+        "bid": 0.9875813356830107,
+        "ask": 0.9876813356830106,
+        "probability_up": 0.8350727527804357,
+        "probability_down": 0.1649272472195643,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-10T22:00:00+00:00",
+        "bar_index": 238,
+        "bid": 0.9886298806163129,
+        "ask": 0.9887298806163128,
+        "probability_up": 0.9038817649193592,
+        "probability_down": 0.09611823508064077,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-10T23:00:00+00:00",
+        "bar_index": 239,
+        "bid": 0.9884531589521566,
+        "ask": 0.9885531589521566,
+        "probability_up": 0.8160461535890775,
+        "probability_down": 0.1839538464109225,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T00:00:00+00:00",
+        "bar_index": 240,
+        "bid": 0.9892993403995606,
+        "ask": 0.9893993403995606,
+        "probability_up": 0.9406525430491417,
+        "probability_down": 0.0593474569508583,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T01:00:00+00:00",
+        "bar_index": 241,
+        "bid": 0.9894023272304089,
+        "ask": 0.9895023272304089,
+        "probability_up": 0.8652884773881399,
+        "probability_down": 0.13471152261186015,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T02:00:00+00:00",
+        "bar_index": 242,
+        "bid": 0.9894886414233847,
+        "ask": 0.9895886414233847,
+        "probability_up": 0.8445133667771967,
+        "probability_down": 0.15548663322280332,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T03:00:00+00:00",
+        "bar_index": 243,
+        "bid": 0.9897976580208031,
+        "ask": 0.9898976580208031,
+        "probability_up": 0.7795952660056884,
+        "probability_down": 0.2204047339943116,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T04:00:00+00:00",
+        "bar_index": 244,
+        "bid": 0.9914083311569581,
+        "ask": 0.9915083311569581,
+        "probability_up": 0.9461419007223121,
+        "probability_down": 0.05385809927768792,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T05:00:00+00:00",
+        "bar_index": 245,
+        "bid": 0.9931700596022772,
+        "ask": 0.9932700596022772,
+        "probability_up": 0.9630891351945626,
+        "probability_down": 0.03691086480543737,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T06:00:00+00:00",
+        "bar_index": 246,
+        "bid": 0.9946755114355114,
+        "ask": 0.9947755114355114,
+        "probability_up": 0.9836501666719016,
+        "probability_down": 0.016349833328098362,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T07:00:00+00:00",
+        "bar_index": 247,
+        "bid": 0.9950222656022283,
+        "ask": 0.9951222656022283,
+        "probability_up": 0.9901207568609979,
+        "probability_down": 0.009879243139002125,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T08:00:00+00:00",
+        "bar_index": 248,
+        "bid": 0.9954780358739669,
+        "ask": 0.9955780358739669,
+        "probability_up": 0.9895273737733183,
+        "probability_down": 0.010472626226681658,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T09:00:00+00:00",
+        "bar_index": 249,
+        "bid": 0.99614915257834,
+        "ask": 0.99624915257834,
+        "probability_up": 0.976480242285852,
+        "probability_down": 0.02351975771414805,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T10:00:00+00:00",
+        "bar_index": 250,
+        "bid": 0.996679653648558,
+        "ask": 0.996779653648558,
+        "probability_up": 0.8907086378751686,
+        "probability_down": 0.10929136212483137,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T11:00:00+00:00",
+        "bar_index": 251,
+        "bid": 0.9968359438671307,
+        "ask": 0.9969359438671307,
+        "probability_up": 0.6673481601659148,
+        "probability_down": 0.3326518398340852,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T12:00:00+00:00",
+        "bar_index": 252,
+        "bid": 0.9977332984004132,
+        "ask": 0.9978332984004132,
+        "probability_up": 0.5328895690817831,
+        "probability_down": 0.4671104309182169,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T13:00:00+00:00",
+        "bar_index": 253,
+        "bid": 0.9978589240763353,
+        "ask": 0.9979589240763352,
+        "probability_up": 0.6009187333281216,
+        "probability_down": 0.3990812666718784,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-11T14:00:00+00:00",
+        "bar_index": 254,
+        "bid": 0.9972427176642034,
+        "ask": 0.9973427176642033,
+        "probability_up": 0.23918528872750772,
+        "probability_down": 0.7608147112724923,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T15:00:00+00:00",
+        "bar_index": 255,
+        "bid": 0.9987053365757714,
+        "ask": 0.9988053365757714,
+        "probability_up": 0.5461095608868919,
+        "probability_down": 0.4538904391131081,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T16:00:00+00:00",
+        "bar_index": 256,
+        "bid": 0.9988274721705019,
+        "ask": 0.9989274721705019,
+        "probability_up": 0.4009875848370517,
+        "probability_down": 0.5990124151629483,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T17:00:00+00:00",
+        "bar_index": 257,
+        "bid": 0.9980829682962572,
+        "ask": 0.9981829682962572,
+        "probability_up": 0.1351116161035399,
+        "probability_down": 0.8648883838964601,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T18:00:00+00:00",
+        "bar_index": 258,
+        "bid": 0.9977569860450175,
+        "ask": 0.9978569860450175,
+        "probability_up": 0.23667779320018062,
+        "probability_down": 0.7633222067998193,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T19:00:00+00:00",
+        "bar_index": 259,
+        "bid": 0.996977771630227,
+        "ask": 0.997077771630227,
+        "probability_up": 0.07952139124659538,
+        "probability_down": 0.9204786087534046,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T20:00:00+00:00",
+        "bar_index": 260,
+        "bid": 0.9961624594183799,
+        "ask": 0.9962624594183799,
+        "probability_up": 0.036781241583494134,
+        "probability_down": 0.9632187584165058,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T21:00:00+00:00",
+        "bar_index": 261,
+        "bid": 0.9963007808015582,
+        "ask": 0.9964007808015581,
+        "probability_up": 0.11105866099449692,
+        "probability_down": 0.8889413390055031,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T22:00:00+00:00",
+        "bar_index": 262,
+        "bid": 0.9955167887723474,
+        "ask": 0.9956167887723474,
+        "probability_up": 0.032007065535065736,
+        "probability_down": 0.9679929344649343,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-11T23:00:00+00:00",
+        "bar_index": 263,
+        "bid": 0.9942862499807286,
+        "ask": 0.9943862499807286,
+        "probability_up": 0.010001775829307542,
+        "probability_down": 0.9899982241706925,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T00:00:00+00:00",
+        "bar_index": 264,
+        "bid": 0.994788711213517,
+        "ask": 0.994888711213517,
+        "probability_up": 0.1359833376694749,
+        "probability_down": 0.8640166623305251,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T01:00:00+00:00",
+        "bar_index": 265,
+        "bid": 0.9950847733564729,
+        "ask": 0.9951847733564729,
+        "probability_up": 0.294049545364862,
+        "probability_down": 0.7059504546351381,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T02:00:00+00:00",
+        "bar_index": 266,
+        "bid": 0.9944825023525609,
+        "ask": 0.9945825023525608,
+        "probability_up": 0.23389435411010667,
+        "probability_down": 0.7661056458898934,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T03:00:00+00:00",
+        "bar_index": 267,
+        "bid": 0.992904921020515,
+        "ask": 0.993004921020515,
+        "probability_up": 0.05264741208905877,
+        "probability_down": 0.9473525879109412,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T04:00:00+00:00",
+        "bar_index": 268,
+        "bid": 0.9934093686702453,
+        "ask": 0.9935093686702453,
+        "probability_up": 0.4717656020989728,
+        "probability_down": 0.5282343979010272,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T05:00:00+00:00",
+        "bar_index": 269,
+        "bid": 0.9917173796989968,
+        "ask": 0.9918173796989967,
+        "probability_up": 0.03311040673181153,
+        "probability_down": 0.9668895932681885,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T06:00:00+00:00",
+        "bar_index": 270,
+        "bid": 0.9917574292418369,
+        "ask": 0.9918574292418368,
+        "probability_up": 0.1467742749789126,
+        "probability_down": 0.8532257250210874,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T07:00:00+00:00",
+        "bar_index": 271,
+        "bid": 0.9918983646140237,
+        "ask": 0.9919983646140237,
+        "probability_up": 0.1852408102130506,
+        "probability_down": 0.8147591897869494,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T08:00:00+00:00",
+        "bar_index": 272,
+        "bid": 0.9907620017496627,
+        "ask": 0.9908620017496627,
+        "probability_up": 0.21725867182240174,
+        "probability_down": 0.7827413281775982,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T09:00:00+00:00",
+        "bar_index": 273,
+        "bid": 0.9887984949631762,
+        "ask": 0.9888984949631762,
+        "probability_up": 0.028373584006735408,
+        "probability_down": 0.9716264159932646,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T10:00:00+00:00",
+        "bar_index": 274,
+        "bid": 0.9868336614934011,
+        "ask": 0.9869336614934011,
+        "probability_up": 0.015075813820160707,
+        "probability_down": 0.9849241861798393,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T11:00:00+00:00",
+        "bar_index": 275,
+        "bid": 0.9849168934834956,
+        "ask": 0.9850168934834956,
+        "probability_up": 0.016980355050811722,
+        "probability_down": 0.9830196449491883,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T12:00:00+00:00",
+        "bar_index": 276,
+        "bid": 0.9851201360940111,
+        "ask": 0.985220136094011,
+        "probability_up": 0.05530243227137029,
+        "probability_down": 0.9446975677286297,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T13:00:00+00:00",
+        "bar_index": 277,
+        "bid": 0.9835229083744453,
+        "ask": 0.9836229083744453,
+        "probability_up": 0.0177767136967759,
+        "probability_down": 0.9822232863032241,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T14:00:00+00:00",
+        "bar_index": 278,
+        "bid": 0.9825695945877032,
+        "ask": 0.9826695945877032,
+        "probability_up": 0.04242104420215358,
+        "probability_down": 0.9575789557978465,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T15:00:00+00:00",
+        "bar_index": 279,
+        "bid": 0.9817815873318156,
+        "ask": 0.9818815873318156,
+        "probability_up": 0.08447752574794576,
+        "probability_down": 0.9155224742520542,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T16:00:00+00:00",
+        "bar_index": 280,
+        "bid": 0.9823600570663931,
+        "ask": 0.982460057066393,
+        "probability_up": 0.6448112904769047,
+        "probability_down": 0.35518870952309534,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-12T17:00:00+00:00",
+        "bar_index": 281,
+        "bid": 0.9809073447949272,
+        "ask": 0.9810073447949272,
+        "probability_up": 0.09250955357637618,
+        "probability_down": 0.9074904464236239,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T18:00:00+00:00",
+        "bar_index": 282,
+        "bid": 0.9813391729646632,
+        "ask": 0.9814391729646632,
+        "probability_up": 0.7265781242580776,
+        "probability_down": 0.27342187574192245,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-12T19:00:00+00:00",
+        "bar_index": 283,
+        "bid": 0.9816131359172201,
+        "ask": 0.9817131359172201,
+        "probability_up": 0.8979602167967391,
+        "probability_down": 0.1020397832032609,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-12T20:00:00+00:00",
+        "bar_index": 284,
+        "bid": 0.9804168432977655,
+        "ask": 0.9805168432977655,
+        "probability_up": 0.5326054054040383,
+        "probability_down": 0.46739459459596167,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T21:00:00+00:00",
+        "bar_index": 285,
+        "bid": 0.9796089452645339,
+        "ask": 0.9797089452645339,
+        "probability_up": 0.3530759502608243,
+        "probability_down": 0.6469240497391757,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-12T22:00:00+00:00",
+        "bar_index": 286,
+        "bid": 0.9794078633544214,
+        "ask": 0.9795078633544214,
+        "probability_up": 0.8075708448426053,
+        "probability_down": 0.19242915515739467,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-12T23:00:00+00:00",
+        "bar_index": 287,
+        "bid": 0.9804450613270898,
+        "ask": 0.9805450613270897,
+        "probability_up": 0.9471386427797516,
+        "probability_down": 0.05286135722024843,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T00:00:00+00:00",
+        "bar_index": 288,
+        "bid": 0.981204047598829,
+        "ask": 0.9813040475988289,
+        "probability_up": 0.955703129054583,
+        "probability_down": 0.04429687094541701,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T01:00:00+00:00",
+        "bar_index": 289,
+        "bid": 0.9810960718430862,
+        "ask": 0.9811960718430862,
+        "probability_up": 0.9512568197227166,
+        "probability_down": 0.048743180277283416,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T02:00:00+00:00",
+        "bar_index": 290,
+        "bid": 0.9804794538473368,
+        "ask": 0.9805794538473368,
+        "probability_up": 0.9164872809345341,
+        "probability_down": 0.08351271906546587,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T03:00:00+00:00",
+        "bar_index": 291,
+        "bid": 0.9816485792077315,
+        "ask": 0.9817485792077315,
+        "probability_up": 0.9953113635384663,
+        "probability_down": 0.004688636461533724,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T04:00:00+00:00",
+        "bar_index": 292,
+        "bid": 0.9827175295019145,
+        "ask": 0.9828175295019145,
+        "probability_up": 0.9937417892142465,
+        "probability_down": 0.006258210785753504,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T05:00:00+00:00",
+        "bar_index": 293,
+        "bid": 0.9840713845076192,
+        "ask": 0.9841713845076192,
+        "probability_up": 0.9881088542621825,
+        "probability_down": 0.011891145737817466,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T06:00:00+00:00",
+        "bar_index": 294,
+        "bid": 0.9853622016787285,
+        "ask": 0.9854622016787284,
+        "probability_up": 0.9946482028220497,
+        "probability_down": 0.005351797177950313,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T07:00:00+00:00",
+        "bar_index": 295,
+        "bid": 0.9872503435593704,
+        "ask": 0.9873503435593703,
+        "probability_up": 0.997690696452941,
+        "probability_down": 0.0023093035470590495,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T08:00:00+00:00",
+        "bar_index": 296,
+        "bid": 0.987775643952063,
+        "ask": 0.987875643952063,
+        "probability_up": 0.9974827445264224,
+        "probability_down": 0.0025172554735776176,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T09:00:00+00:00",
+        "bar_index": 297,
+        "bid": 0.9881587416783755,
+        "ask": 0.9882587416783755,
+        "probability_up": 0.9922922632149567,
+        "probability_down": 0.007707736785043329,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T10:00:00+00:00",
+        "bar_index": 298,
+        "bid": 0.9895326058703938,
+        "ask": 0.9896326058703938,
+        "probability_up": 0.9848053817774699,
+        "probability_down": 0.015194618222530099,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T11:00:00+00:00",
+        "bar_index": 299,
+        "bid": 0.9903438876101857,
+        "ask": 0.9904438876101856,
+        "probability_up": 0.9649261640911907,
+        "probability_down": 0.0350738359088093,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T12:00:00+00:00",
+        "bar_index": 300,
+        "bid": 0.9901532817022398,
+        "ask": 0.9902532817022398,
+        "probability_up": 0.7331029794389488,
+        "probability_down": 0.26689702056105125,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T13:00:00+00:00",
+        "bar_index": 301,
+        "bid": 0.9918133833417001,
+        "ask": 0.9919133833417001,
+        "probability_up": 0.8704417629789506,
+        "probability_down": 0.1295582370210494,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T14:00:00+00:00",
+        "bar_index": 302,
+        "bid": 0.9935173885280791,
+        "ask": 0.9936173885280791,
+        "probability_up": 0.9138677080841258,
+        "probability_down": 0.08613229191587424,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T15:00:00+00:00",
+        "bar_index": 303,
+        "bid": 0.9931775255397404,
+        "ask": 0.9932775255397404,
+        "probability_up": 0.6254538780942577,
+        "probability_down": 0.3745461219057423,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T16:00:00+00:00",
+        "bar_index": 304,
+        "bid": 0.9947407169721764,
+        "ask": 0.9948407169721764,
+        "probability_up": 0.8227965575118803,
+        "probability_down": 0.1772034424881197,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T17:00:00+00:00",
+        "bar_index": 305,
+        "bid": 0.9964100041413954,
+        "ask": 0.9965100041413953,
+        "probability_up": 0.8192564608598961,
+        "probability_down": 0.18074353914010388,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T18:00:00+00:00",
+        "bar_index": 306,
+        "bid": 0.9967207533647496,
+        "ask": 0.9968207533647496,
+        "probability_up": 0.7147637830282669,
+        "probability_down": 0.28523621697173307,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-13T19:00:00+00:00",
+        "bar_index": 307,
+        "bid": 0.9965570881957123,
+        "ask": 0.9966570881957123,
+        "probability_up": 0.5002338457975761,
+        "probability_down": 0.4997661542024239,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-13T20:00:00+00:00",
+        "bar_index": 308,
+        "bid": 0.9959630346850815,
+        "ask": 0.9960630346850815,
+        "probability_up": 0.2131907027326511,
+        "probability_down": 0.7868092972673489,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-13T21:00:00+00:00",
+        "bar_index": 309,
+        "bid": 0.9958093778673455,
+        "ask": 0.9959093778673455,
+        "probability_up": 0.2658866197824544,
+        "probability_down": 0.7341133802175456,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-13T22:00:00+00:00",
+        "bar_index": 310,
+        "bid": 0.9962875490092142,
+        "ask": 0.9963875490092142,
+        "probability_up": 0.11892904162846726,
+        "probability_down": 0.8810709583715327,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-13T23:00:00+00:00",
+        "bar_index": 311,
+        "bid": 0.995910654676195,
+        "ask": 0.996010654676195,
+        "probability_up": 0.05955634625834772,
+        "probability_down": 0.9404436537416523,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T00:00:00+00:00",
+        "bar_index": 312,
+        "bid": 0.9954294318287875,
+        "ask": 0.9955294318287875,
+        "probability_up": 0.06603108925158646,
+        "probability_down": 0.9339689107484135,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T01:00:00+00:00",
+        "bar_index": 313,
+        "bid": 0.9944806775416006,
+        "ask": 0.9945806775416006,
+        "probability_up": 0.02481363347648565,
+        "probability_down": 0.9751863665235143,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T02:00:00+00:00",
+        "bar_index": 314,
+        "bid": 0.9951728294631641,
+        "ask": 0.9952728294631641,
+        "probability_up": 0.1320546692267936,
+        "probability_down": 0.8679453307732063,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T03:00:00+00:00",
+        "bar_index": 315,
+        "bid": 0.994452755670896,
+        "ask": 0.994552755670896,
+        "probability_up": 0.036313284332981616,
+        "probability_down": 0.9636867156670184,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T04:00:00+00:00",
+        "bar_index": 316,
+        "bid": 0.9929422600447527,
+        "ask": 0.9930422600447527,
+        "probability_up": 0.00924806383815473,
+        "probability_down": 0.9907519361618453,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T05:00:00+00:00",
+        "bar_index": 317,
+        "bid": 0.992973529579851,
+        "ask": 0.993073529579851,
+        "probability_up": 0.10573509590485175,
+        "probability_down": 0.8942649040951482,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T06:00:00+00:00",
+        "bar_index": 318,
+        "bid": 0.9932659870071491,
+        "ask": 0.9933659870071491,
+        "probability_up": 0.21851404303055114,
+        "probability_down": 0.7814859569694489,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T07:00:00+00:00",
+        "bar_index": 319,
+        "bid": 0.9914088835796594,
+        "ask": 0.9915088835796594,
+        "probability_up": 0.0026255365660229567,
+        "probability_down": 0.9973744634339771,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T08:00:00+00:00",
+        "bar_index": 320,
+        "bid": 0.9911089917278888,
+        "ask": 0.9912089917278888,
+        "probability_up": 0.03229895317769466,
+        "probability_down": 0.9677010468223053,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T09:00:00+00:00",
+        "bar_index": 321,
+        "bid": 0.9910590234919823,
+        "ask": 0.9911590234919823,
+        "probability_up": 0.19394608169922664,
+        "probability_down": 0.8060539183007733,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T10:00:00+00:00",
+        "bar_index": 322,
+        "bid": 0.9894379945553181,
+        "ask": 0.9895379945553181,
+        "probability_up": 0.015620459648073378,
+        "probability_down": 0.9843795403519267,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T11:00:00+00:00",
+        "bar_index": 323,
+        "bid": 0.9897746341063318,
+        "ask": 0.9898746341063318,
+        "probability_up": 0.08697506982280534,
+        "probability_down": 0.9130249301771947,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T12:00:00+00:00",
+        "bar_index": 324,
+        "bid": 0.989481925410472,
+        "ask": 0.989581925410472,
+        "probability_up": 0.27815947794325147,
+        "probability_down": 0.7218405220567485,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T13:00:00+00:00",
+        "bar_index": 325,
+        "bid": 0.9878511287814028,
+        "ask": 0.9879511287814028,
+        "probability_up": 0.10078337451125209,
+        "probability_down": 0.8992166254887479,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T14:00:00+00:00",
+        "bar_index": 326,
+        "bid": 0.9872250479493002,
+        "ask": 0.9873250479493002,
+        "probability_up": 0.1549969408421984,
+        "probability_down": 0.8450030591578016,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T15:00:00+00:00",
+        "bar_index": 327,
+        "bid": 0.9868643090598215,
+        "ask": 0.9869643090598215,
+        "probability_up": 0.2512028561594039,
+        "probability_down": 0.748797143840596,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T16:00:00+00:00",
+        "bar_index": 328,
+        "bid": 0.9864014446053413,
+        "ask": 0.9865014446053413,
+        "probability_up": 0.25510163338694936,
+        "probability_down": 0.7448983666130506,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T17:00:00+00:00",
+        "bar_index": 329,
+        "bid": 0.9855696553877319,
+        "ask": 0.9856696553877319,
+        "probability_up": 0.2036616573266946,
+        "probability_down": 0.7963383426733054,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T18:00:00+00:00",
+        "bar_index": 330,
+        "bid": 0.9849395057727509,
+        "ask": 0.9850395057727509,
+        "probability_up": 0.4167424400739554,
+        "probability_down": 0.5832575599260446,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T19:00:00+00:00",
+        "bar_index": 331,
+        "bid": 0.9844008748727251,
+        "ask": 0.9845008748727251,
+        "probability_up": 0.33075505363194446,
+        "probability_down": 0.6692449463680555,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T20:00:00+00:00",
+        "bar_index": 332,
+        "bid": 0.9832744550846849,
+        "ask": 0.9833744550846849,
+        "probability_up": 0.34089184733112227,
+        "probability_down": 0.6591081526688778,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T21:00:00+00:00",
+        "bar_index": 333,
+        "bid": 0.9827599736681797,
+        "ask": 0.9828599736681797,
+        "probability_up": 0.2759547661358543,
+        "probability_down": 0.7240452338641457,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T22:00:00+00:00",
+        "bar_index": 334,
+        "bid": 0.9829535971688704,
+        "ask": 0.9830535971688704,
+        "probability_up": 0.36606013776578883,
+        "probability_down": 0.6339398622342112,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-14T23:00:00+00:00",
+        "bar_index": 335,
+        "bid": 0.9824716025646504,
+        "ask": 0.9825716025646504,
+        "probability_up": 0.525148688909082,
+        "probability_down": 0.47485131109091805,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-15T00:00:00+00:00",
+        "bar_index": 336,
+        "bid": 0.9831381200540468,
+        "ask": 0.9832381200540468,
+        "probability_up": 0.6340050478334922,
+        "probability_down": 0.3659949521665078,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T01:00:00+00:00",
+        "bar_index": 337,
+        "bid": 0.9823875340307234,
+        "ask": 0.9824875340307234,
+        "probability_up": 0.6755636512040499,
+        "probability_down": 0.32443634879595007,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T02:00:00+00:00",
+        "bar_index": 338,
+        "bid": 0.9828537661549914,
+        "ask": 0.9829537661549914,
+        "probability_up": 0.8237080318421091,
+        "probability_down": 0.17629196815789094,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T03:00:00+00:00",
+        "bar_index": 339,
+        "bid": 0.9820851717691652,
+        "ask": 0.9821851717691652,
+        "probability_up": 0.6127546310532241,
+        "probability_down": 0.38724536894677586,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T04:00:00+00:00",
+        "bar_index": 340,
+        "bid": 0.9819255790205459,
+        "ask": 0.9820255790205459,
+        "probability_up": 0.6028726508896987,
+        "probability_down": 0.39712734911030134,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T05:00:00+00:00",
+        "bar_index": 341,
+        "bid": 0.9824376150750356,
+        "ask": 0.9825376150750356,
+        "probability_up": 0.6465136431457412,
+        "probability_down": 0.3534863568542588,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T06:00:00+00:00",
+        "bar_index": 342,
+        "bid": 0.9826548157953047,
+        "ask": 0.9827548157953047,
+        "probability_up": 0.6304319892226854,
+        "probability_down": 0.3695680107773146,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T07:00:00+00:00",
+        "bar_index": 343,
+        "bid": 0.9832940192254609,
+        "ask": 0.9833940192254609,
+        "probability_up": 0.7709298523676182,
+        "probability_down": 0.22907014763238176,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T08:00:00+00:00",
+        "bar_index": 344,
+        "bid": 0.9831045183556044,
+        "ask": 0.9832045183556044,
+        "probability_up": 0.7424174955845203,
+        "probability_down": 0.2575825044154797,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T09:00:00+00:00",
+        "bar_index": 345,
+        "bid": 0.9849621298680921,
+        "ask": 0.985062129868092,
+        "probability_up": 0.9635970845982096,
+        "probability_down": 0.036402915401790414,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T10:00:00+00:00",
+        "bar_index": 346,
+        "bid": 0.9865290644109518,
+        "ask": 0.9866290644109518,
+        "probability_up": 0.9776014387476184,
+        "probability_down": 0.0223985612523816,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T11:00:00+00:00",
+        "bar_index": 347,
+        "bid": 0.988290321749823,
+        "ask": 0.988390321749823,
+        "probability_up": 0.9911815928950739,
+        "probability_down": 0.008818407104926096,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T12:00:00+00:00",
+        "bar_index": 348,
+        "bid": 0.9890481596999605,
+        "ask": 0.9891481596999605,
+        "probability_up": 0.9940395265520338,
+        "probability_down": 0.005960473447966241,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T13:00:00+00:00",
+        "bar_index": 349,
+        "bid": 0.9906583192051387,
+        "ask": 0.9907583192051387,
+        "probability_up": 0.9955132364733672,
+        "probability_down": 0.004486763526632798,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T14:00:00+00:00",
+        "bar_index": 350,
+        "bid": 0.9925823552604047,
+        "ask": 0.9926823552604047,
+        "probability_up": 0.9957114966890782,
+        "probability_down": 0.004288503310921787,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T15:00:00+00:00",
+        "bar_index": 351,
+        "bid": 0.9942251322095997,
+        "ask": 0.9943251322095997,
+        "probability_up": 0.9921475230430723,
+        "probability_down": 0.007852476956927701,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T16:00:00+00:00",
+        "bar_index": 352,
+        "bid": 0.9957980080908464,
+        "ask": 0.9958980080908464,
+        "probability_up": 0.9735714216068313,
+        "probability_down": 0.0264285783931687,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T17:00:00+00:00",
+        "bar_index": 353,
+        "bid": 0.99575152950275,
+        "ask": 0.99585152950275,
+        "probability_up": 0.9774048135678184,
+        "probability_down": 0.022595186432181613,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T18:00:00+00:00",
+        "bar_index": 354,
+        "bid": 0.9972090197229574,
+        "ask": 0.9973090197229574,
+        "probability_up": 0.9703259299241122,
+        "probability_down": 0.02967407007588785,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T19:00:00+00:00",
+        "bar_index": 355,
+        "bid": 0.9972401391753264,
+        "ask": 0.9973401391753264,
+        "probability_up": 0.8576023184026966,
+        "probability_down": 0.14239768159730337,
+        "action": "BUY",
+        "accepted": true
+      },
+      {
+        "timestamp": "2024-01-15T20:00:00+00:00",
+        "bar_index": 356,
+        "bid": 0.9970866443406997,
+        "ask": 0.9971866443406997,
+        "probability_up": 0.51269516623988,
+        "probability_down": 0.48730483376012,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-15T21:00:00+00:00",
+        "bar_index": 357,
+        "bid": 0.9979316205106987,
+        "ask": 0.9980316205106987,
+        "probability_up": 0.28229557415260653,
+        "probability_down": 0.7177044258473935,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-15T22:00:00+00:00",
+        "bar_index": 358,
+        "bid": 0.997868400012949,
+        "ask": 0.997968400012949,
+        "probability_up": 0.45938755665443554,
+        "probability_down": 0.5406124433455645,
+        "action": "HOLD",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-15T23:00:00+00:00",
+        "bar_index": 359,
+        "bid": 0.9988966720460817,
+        "ask": 0.9989966720460817,
+        "probability_up": 0.2565072596064584,
+        "probability_down": 0.7434927403935416,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T00:00:00+00:00",
+        "bar_index": 360,
+        "bid": 0.998778350267284,
+        "ask": 0.998878350267284,
+        "probability_up": 0.2637714311788058,
+        "probability_down": 0.7362285688211943,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T01:00:00+00:00",
+        "bar_index": 361,
+        "bid": 0.9985549956439902,
+        "ask": 0.9986549956439902,
+        "probability_up": 0.19667470921319863,
+        "probability_down": 0.8033252907868014,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T02:00:00+00:00",
+        "bar_index": 362,
+        "bid": 0.9984155576122923,
+        "ask": 0.9985155576122923,
+        "probability_up": 0.18259239831873836,
+        "probability_down": 0.8174076016812617,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T03:00:00+00:00",
+        "bar_index": 363,
+        "bid": 0.9977077777102566,
+        "ask": 0.9978077777102566,
+        "probability_up": 0.03338518261278885,
+        "probability_down": 0.9666148173872111,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T04:00:00+00:00",
+        "bar_index": 364,
+        "bid": 0.9967567452945861,
+        "ask": 0.9968567452945861,
+        "probability_up": 0.011118508673297457,
+        "probability_down": 0.9888814913267026,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T05:00:00+00:00",
+        "bar_index": 365,
+        "bid": 0.996444598589101,
+        "ask": 0.9965445985891009,
+        "probability_up": 0.03336383211652456,
+        "probability_down": 0.9666361678834754,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T06:00:00+00:00",
+        "bar_index": 366,
+        "bid": 0.9969877048999662,
+        "ask": 0.9970877048999662,
+        "probability_up": 0.08856708411393847,
+        "probability_down": 0.9114329158860616,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T07:00:00+00:00",
+        "bar_index": 367,
+        "bid": 0.9958697491652906,
+        "ask": 0.9959697491652906,
+        "probability_up": 0.008575134047402571,
+        "probability_down": 0.9914248659525974,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T08:00:00+00:00",
+        "bar_index": 368,
+        "bid": 0.996431694070264,
+        "ask": 0.996531694070264,
+        "probability_up": 0.10653266786421701,
+        "probability_down": 0.893467332135783,
+        "action": "SELL",
+        "accepted": false
+      },
+      {
+        "timestamp": "2024-01-16T09:00:00+00:00",
+        "bar_index": 369,
+        "bid": 0.9952565322887311,
+        "ask": 0.9953565322887311,
+        "probability_up": 0.016777390923524663,
+        "probability_down": 0.9832226090764753,
+        "action": "SELL",
+        "accepted": false
+      }
+    ]
+  },
+  "agent_ensemble": {
+    "action": "SELL",
+    "composite_score": -0.255194,
+    "confidence": 0.255194,
+    "agents": {
+      "trend_agent": {
+        "action": "HOLD",
+        "score": -0.047122,
+        "reason": "EMA cross distance and MACD direction"
+      },
+      "momentum_agent": {
+        "action": "SELL",
+        "score": -1.0,
+        "reason": "RSI level and slope"
+      },
+      "volatility_agent": {
+        "action": "HOLD",
+        "score": 0.15,
+        "reason": "volatility expansion penalty"
+      },
+      "regime_agent": {
+        "action": "BUY",
+        "score": 0.7,
+        "reason": "market regime TRENDING_UP"
+      },
+      "divergence_agent": {
+        "action": "SELL",
+        "score": -1.0,
+        "reason": "divergence action SELL"
+      }
+    },
+    "weights": {
+      "trend_agent": 0.28,
+      "momentum_agent": 0.2,
+      "volatility_agent": 0.12,
+      "regime_agent": 0.2,
+      "divergence_agent": 0.2
+    },
+    "features": {
+      "EMA_CROSS_DISTANCE": -0.0004712224,
+      "MACD": 3.84564e-05,
+      "TREND_STRENGTH": 0.1989821988,
+      "RSI_14": 23.2467230061,
+      "RSI_SLOPE": -12.2970780064,
+      "ATR_PERCENT": 0.1385681181,
+      "VOLATILITY_RATIO": 1.0689000314
+    },
+    "regime": {
+      "regime": "TRENDING_UP",
+      "trend_slope": 0.0002512217185036673,
+      "trend_strength": 2.6840567292219863,
+      "annualized_volatility": 0.013019461107280084,
+      "return": 0.004988816688313968
+    },
+    "divergence": {
+      "strategy": "multi_oscillator_divergence",
+      "action": "SELL",
+      "confidence": 0.25,
+      "minimum_confluence": 1,
+      "analysis": {
+        "events": [
+          {
+            "oscillator": "OBV",
+            "type": "HIDDEN",
+            "direction": "BEARISH",
+            "pivot_indices": [
+              133,
+              141
+            ],
+            "price_points": [
+              0.9423702061583771,
+              0.941078834449577
+            ],
+            "oscillator_points": [
+              1528.0363130305657,
+              3447.002101087724
+            ],
+            "strength": 1.2558378172644729,
+            "timestamp": "2024-07-26 23:00:00"
+          }
+        ],
+        "regular_count": 0,
+        "hidden_count": 1,
+        "bullish_count": 0,
+        "bearish_count": 1,
+        "confluence_score": -1,
+        "bias": "BEARISH",
+        "oscillators": [
+          "RSI_14",
+          "MACD",
+          "STOCH_14",
+          "OBV"
+        ],
+        "lookback": 150
+      }
+    }
+  }
+}

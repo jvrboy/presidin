@@ -1,0 +1,244 @@
+{
+  "data": {
+    "source": "/home/user/deriv_R_50_5k.json",
+    "candles": 5000,
+    "window": 260
+  },
+  "stats": {
+    "label": "in_sample_aggressive",
+    "n": 217,
+    "wins": 68,
+    "losses": 149,
+    "winRate": 0.3134,
+    "skippedHold": 730,
+    "agreementThreshold": 0.72,
+    "netThreshold": 0.22,
+    "avgWin": 0.127,
+    "avgLoss": -0.0531,
+    "profitFactor": 1.0926,
+    "expectancy": 0.0034,
+    "total": 0.7324,
+    "sharpe": 0.583,
+    "maxDrawdownPct": -1.0592,
+    "exits": {
+      "SL": 134,
+      "TP": 68,
+      "HORIZON": 15
+    }
+  },
+  "topSources": [
+    {
+      "source": "tool:zscore",
+      "fires": 103,
+      "agreementWinRate": 0.699,
+      "avgPnl": -0.0015
+    },
+    {
+      "source": "stoch",
+      "fires": 23,
+      "agreementWinRate": 0.6957,
+      "avgPnl": -0.0043
+    },
+    {
+      "source": "agent:mean_reversion/rsi_bb",
+      "fires": 54,
+      "agreementWinRate": 0.6852,
+      "avgPnl": -0.0049
+    },
+    {
+      "source": "willr",
+      "fires": 134,
+      "agreementWinRate": 0.6791,
+      "avgPnl": -0.0057
+    },
+    {
+      "source": "acc:stochrsi",
+      "fires": 165,
+      "agreementWinRate": 0.6788,
+      "avgPnl": -0.0014
+    },
+    {
+      "source": "cmo",
+      "fires": 34,
+      "agreementWinRate": 0.6765,
+      "avgPnl": -0.0081
+    },
+    {
+      "source": "rsi",
+      "fires": 145,
+      "agreementWinRate": 0.6759,
+      "avgPnl": -0.0048
+    },
+    {
+      "source": "acc:price_pct",
+      "fires": 105,
+      "agreementWinRate": 0.6667,
+      "avgPnl": -0.0067
+    },
+    {
+      "source": "strat:rvi_mean",
+      "fires": 69,
+      "agreementWinRate": 0.6667,
+      "avgPnl": -0.0079
+    },
+    {
+      "source": "cci",
+      "fires": 107,
+      "agreementWinRate": 0.6636,
+      "avgPnl": -0.0073
+    },
+    {
+      "source": "acc:streak",
+      "fires": 38,
+      "agreementWinRate": 0.6579,
+      "avgPnl": 0.0239
+    },
+    {
+      "source": "agent:alpha_neural_zoo/mean_reversion_mlp",
+      "fires": 194,
+      "agreementWinRate": 0.6495,
+      "avgPnl": -0.0052
+    },
+    {
+      "source": "ml_zoo:mean_reversion_mlp",
+      "fires": 194,
+      "agreementWinRate": 0.6495,
+      "avgPnl": -0.0052
+    },
+    {
+      "source": "rvi",
+      "fires": 90,
+      "agreementWinRate": 0.6444,
+      "avgPnl": -0.0108
+    },
+    {
+      "source": "strat:cmo",
+      "fires": 28,
+      "agreementWinRate": 0.6429,
+      "avgPnl": -0.0158
+    },
+    {
+      "source": "tool:adv:market_structure",
+      "fires": 78,
+      "agreementWinRate": 0.6282,
+      "avgPnl": 0.0068
+    },
+    {
+      "source": "acc:autocorr",
+      "fires": 32,
+      "agreementWinRate": 0.625,
+      "avgPnl": 0.0362
+    },
+    {
+      "source": "agent:alpha_neural_zoo/divergence_siamese",
+      "fires": 142,
+      "agreementWinRate": 0.6197,
+      "avgPnl": -0.0022
+    },
+    {
+      "source": "agent:alpha_neural_zoo/liquidity_autoencoder",
+      "fires": 78,
+      "agreementWinRate": 0.6154,
+      "avgPnl": 0.0104
+    },
+    {
+      "source": "ml_zoo:liquidity_autoencoder",
+      "fires": 78,
+      "agreementWinRate": 0.6154,
+      "avgPnl": 0.0104
+    }
+  ],
+  "bottomSources": [
+    {
+      "source": "strat:ichimoku",
+      "fires": 104,
+      "agreementWinRate": 0.2885,
+      "avgPnl": -0.0029
+    },
+    {
+      "source": "agent:cloud/ichimoku",
+      "fires": 104,
+      "agreementWinRate": 0.2885,
+      "avgPnl": -0.0029
+    },
+    {
+      "source": "div:mom_div",
+      "fires": 98,
+      "agreementWinRate": 0.2857,
+      "avgPnl": -0.0071
+    },
+    {
+      "source": "tool:div:mom_div",
+      "fires": 98,
+      "agreementWinRate": 0.2857,
+      "avgPnl": -0.0071
+    },
+    {
+      "source": "agent:divergence/mom_div",
+      "fires": 98,
+      "agreementWinRate": 0.2857,
+      "avgPnl": -0.0071
+    },
+    {
+      "source": "div:cci_div",
+      "fires": 81,
+      "agreementWinRate": 0.284,
+      "avgPnl": -0.0049
+    },
+    {
+      "source": "tool:div:cci_div",
+      "fires": 81,
+      "agreementWinRate": 0.284,
+      "avgPnl": -0.0049
+    },
+    {
+      "source": "agent:divergence/cci_div",
+      "fires": 81,
+      "agreementWinRate": 0.284,
+      "avgPnl": -0.0049
+    },
+    {
+      "source": "div:macd_div",
+      "fires": 90,
+      "agreementWinRate": 0.2778,
+      "avgPnl": -0.0061
+    },
+    {
+      "source": "tool:div:macd_div",
+      "fires": 90,
+      "agreementWinRate": 0.2778,
+      "avgPnl": -0.0061
+    },
+    {
+      "source": "agent:divergence/macd_div",
+      "fires": 90,
+      "agreementWinRate": 0.2778,
+      "avgPnl": -0.0061
+    },
+    {
+      "source": "regime",
+      "fires": 36,
+      "agreementWinRate": 0.2778,
+      "avgPnl": -0.0055
+    },
+    {
+      "source": "tool:of:imbalance",
+      "fires": 67,
+      "agreementWinRate": 0.2687,
+      "avgPnl": -0.0029
+    },
+    {
+      "source": "agent:pullback/trend",
+      "fires": 20,
+      "agreementWinRate": 0.25,
+      "avgPnl": -0.0194
+    },
+    {
+      "source": "ttm_trend",
+      "fires": 25,
+      "agreementWinRate": 0.24,
+      "avgPnl": -0.011
+    }
+  ],
+  "generated": "2026-08-27"
+}

@@ -1,0 +1,267 @@
+{
+  "data": {
+    "source": "Deriv R_50 1-min candles (live fetch)",
+    "candles": 1000,
+    "feature_count": 213,
+    "feature_categories": [
+      [
+        "lag",
+        29
+      ],
+      [
+        "ma",
+        28
+      ],
+      [
+        "momentum",
+        27
+      ],
+      [
+        "candle",
+        22
+      ],
+      [
+        "volatility",
+        18
+      ],
+      [
+        "extra",
+        17
+      ],
+      [
+        "stat",
+        16
+      ],
+      [
+        "bands",
+        13
+      ],
+      [
+        "returns",
+        10
+      ],
+      [
+        "osc",
+        8
+      ],
+      [
+        "macd",
+        6
+      ],
+      [
+        "aroon",
+        6
+      ],
+      [
+        "adx",
+        5
+      ],
+      [
+        "time",
+        5
+      ],
+      [
+        "streak",
+        3
+      ],
+      [
+        "fisher",
+        3
+      ]
+    ]
+  },
+  "trade_stats": {
+    "n_trades": 50,
+    "n_wins": 14,
+    "n_losses": 36,
+    "win_rate": 0.28,
+    "avg_win": 0.1267,
+    "avg_loss": -0.0516,
+    "profit_factor": 0.9547,
+    "expectancy_pct_per_trade": -0.0017,
+    "total_pnl_pct": -0.0841,
+    "avg_hold_bars": 1.64,
+    "exit_reasons": {
+      "SL": 32,
+      "TP": 14,
+      "HORIZON": 4
+    },
+    "max_drawdown_pct": -0.6738
+  },
+  "ml": {
+    "cv_accuracy_mlp": 0.64,
+    "cv_auc_mlp": 0.4444444444444444,
+    "n_features": 213,
+    "n_training_samples": 50,
+    "top_permutation_features": [
+      [
+        "std_20",
+        0.0498
+      ],
+      [
+        "pct_rank_50",
+        0.03929
+      ],
+      [
+        "aroon_up14",
+        0.0379
+      ],
+      [
+        "lag_rsi14_3",
+        0.03294
+      ],
+      [
+        "fisher_sig",
+        0.03056
+      ],
+      [
+        "pdi14",
+        0.03056
+      ],
+      [
+        "lag_rsi14_1",
+        0.03036
+      ],
+      [
+        "dist_dema9",
+        0.02817
+      ],
+      [
+        "std_50",
+        0.02758
+      ],
+      [
+        "tsi",
+        0.02679
+      ],
+      [
+        "body_pos",
+        0.025
+      ],
+      [
+        "body_ratio",
+        0.0248
+      ]
+    ],
+    "logit_coef_top": [
+      [
+        "cmf_proxy_14",
+        0.4919
+      ],
+      [
+        "aroon_up14",
+        0.4566
+      ],
+      [
+        "kurt_20",
+        0.4049
+      ],
+      [
+        "up_wick_pct",
+        0.3614
+      ],
+      [
+        "gap_pct",
+        -0.3428
+      ],
+      [
+        "garman_klass_10",
+        -0.3424
+      ],
+      [
+        "gap",
+        -0.3409
+      ],
+      [
+        "aroon_osc14",
+        0.3306
+      ],
+      [
+        "body_ratio",
+        -0.3174
+      ],
+      [
+        "bb_width_z",
+        -0.3131
+      ]
+    ],
+    "uplift": {
+      "threshold": 0.4,
+      "trades_skipped": 41,
+      "losses_avoided": 29,
+      "wins_missed": 12,
+      "losses_left": 7,
+      "note": "in-sample illustration; skip rule = model_p_win < 0.4"
+    }
+  },
+  "loss_clusters": {
+    "cluster_1": {
+      "n_losers": 7,
+      "avg_pnl": -0.0413,
+      "signature": [
+        [
+          "bb_low_dist",
+          1.843
+        ],
+        [
+          "autocorr_5_20",
+          1.829
+        ],
+        [
+          "dist_low_20",
+          1.713
+        ],
+        [
+          "q25_dist",
+          1.558
+        ]
+      ]
+    },
+    "cluster_2": {
+      "n_losers": 20,
+      "avg_pnl": -0.0541,
+      "signature": [
+        [
+          "bb_up_dist",
+          1.38
+        ],
+        [
+          "aroon_up14",
+          -1.349
+        ],
+        [
+          "aroon_osc14",
+          -1.317
+        ],
+        [
+          "q75_dist",
+          1.314
+        ]
+      ]
+    },
+    "cluster_3": {
+      "n_losers": 9,
+      "avg_pnl": -0.0541,
+      "signature": [
+        [
+          "atr14_sma",
+          -1.16
+        ],
+        [
+          "lag_volz_1",
+          -1.147
+        ],
+        [
+          "vol_z_20",
+          -1.119
+        ],
+        [
+          "ret_z_20",
+          1.103
+        ]
+      ]
+    }
+  },
+  "generated_at": "2026-08-27",
+  "seed": 42
+}

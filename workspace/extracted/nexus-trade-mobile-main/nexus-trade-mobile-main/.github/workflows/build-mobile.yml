@@ -1,0 +1,299 @@
+name: Build All Apps (Android APK + iOS IPA + Windows installer)
+
+# Builds:
+#   1. NexusTradeMobile-android8plus.apk — Android, minSdk 26 (Android 8.0+),
+#      signed with the standard Android debug keystore.
+#   2. NexusTradeMobile-unsigned-ios16plus.ipa — iOS, deployment target 16.0+,
+#      unsigned archive.
+#   3. NexusTrade-Setup-<version>.exe — native Windows installer (NSIS,
+#      built with electron-builder) with a liquid-glass branded wizard:
+#      custom install directory, desktop/Start Menu shortcuts, license
+#      page, and a themed sidebar/header matching the app's dark UI. The
+#      installer wraps the same Expo web export used by the mobile apps
+#      inside a native Electron shell (desktop/main.js).
+#
+# IMPORTANT — why the APK is signed (not "unsigned"):
+#   Android's package installer REJECTS a truly unsigned APK outright
+#   ("App not installed" / INSTALL_PARSE_FAILED_NO_CERTIFICATES) — every APK
+#   that reaches an Android 8+ device must carry at least one signature.
+#   A prior version of this workflow stripped the release signingConfig to
+#   produce a literal app-release-unsigned.apk, which is why it failed to
+#   install on a real device. We now keep the standard Expo/RN debug keystore
+#   signature on the release build type, which the OS accepts for direct
+#   sideloading (enable "install unknown apps" on the device) while still
+#   requiring no developer signing account.
+#
+# The IPA remains a genuinely unsigned archive because iOS has no equivalent
+# "debug keystore" concept — it must be re-signed with a tool such as
+# AltStore, Sideloadly, or a real Apple signing certificate/profile before
+# it can be installed on a physical iPhone/iPad.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  android:
+    name: Build Android APK (debug-signed, installable)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Enable Corepack / pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.0 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses || true
+
+      - name: Expo prebuild (android)
+        run: npx expo prebuild --platform android --no-install --clean
+
+      - name: Verify release build keeps the debug-keystore signing config
+        # The default Expo/RN template signs the "release" build type with
+        # the debug keystore (android/app/debug.keystore, committed by the
+        # template with well-known credentials). Keep it — Android refuses
+        # to install a build with NO signature at all, so this is what makes
+        # the APK actually installable by sideloading. We only assert it's
+        # present here; nothing to change since prebuild already sets it up.
+        run: grep -A5 "release {" android/app/build.gradle
+
+      - name: Build debug-signed release APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Verify APK signature
+        run: |
+          APK_PATH=$(find android/app/build/outputs/apk/release -iname "*.apk" | head -n1)
+          # $ANDROID_HOME/build-tools can contain multiple installed
+          # versions on the runner image; a bare */apksigner glob then
+          # expands to multiple paths and apksigner's own arg parser
+          # chokes on the extra positional args ("Unsupported command").
+          # Pick exactly one (the newest) build-tools version instead.
+          APKSIGNER=$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -n1)apksigner
+          echo "Using apksigner: $APKSIGNER"
+          "$APKSIGNER" verify --print-certs "$APK_PATH" || \
+            (echo "::error::APK has no valid signature — it will fail to install" && exit 1)
+
+      - name: Locate and rename APK
+        run: |
+          APK_PATH=$(find android/app/build/outputs/apk/release -iname "*.apk" | head -n1)
+          echo "Found APK: $APK_PATH"
+          mkdir -p out
+          cp "$APK_PATH" out/NexusTradeMobile-android8plus.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NexusTradeMobile-android-apk
+          path: out/NexusTradeMobile-android8plus.apk
+          retention-days: 30
+
+  ios:
+    name: Build iOS IPA (unsigned)
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        # React Native 0.81 requires Xcode >= 16.1. Pick the newest available
+        # Xcode on the macos-15 runner instead of hardcoding an old version.
+        run: |
+          ls /Applications | grep -i xcode
+          LATEST_XCODE=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n1)
+          if [ -n "$LATEST_XCODE" ]; then
+            sudo xcode-select -s "$LATEST_XCODE"
+          else
+            sudo xcode-select -s /Applications/Xcode.app
+          fi
+          xcodebuild -version
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Enable Corepack / pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.0 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Expo prebuild (ios)
+        run: npx expo prebuild --platform ios --no-install --clean
+
+      - name: Install CocoaPods dependencies
+        working-directory: ios
+        run: pod install --repo-update
+
+      - name: Build unsigned archive (iphoneos, iOS 16+)
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -workspace NexusTradeMobile.xcworkspace \
+            -scheme NexusTradeMobile \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination "generic/platform=iOS" \
+            -archivePath "$PWD/build/NexusTradeMobile.xcarchive" \
+            IPHONEOS_DEPLOYMENT_TARGET=16.0 \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            DEVELOPMENT_TEAM="" \
+            AD_HOC_CODE_SIGNING_ALLOWED=YES \
+            archive
+
+      - name: Verify archive was produced
+        working-directory: ios
+        run: |
+          ls -la build/NexusTradeMobile.xcarchive/Products/Applications/
+
+      - name: Package unsigned IPA
+        working-directory: ios
+        run: |
+          mkdir -p Payload
+          cp -r build/NexusTradeMobile.xcarchive/Products/Applications/*.app Payload/
+          mkdir -p ../out
+          /usr/bin/zip -r -y ../out/NexusTradeMobile-unsigned-ios16plus.ipa Payload
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NexusTradeMobile-ios-ipa-unsigned
+          path: out/NexusTradeMobile-unsigned-ios16plus.ipa
+          retention-days: 30
+
+  web-export:
+    # Builds the static Expo web bundle that the Windows desktop shell
+    # wraps. Runs on ubuntu-latest (not windows-latest) purely for
+    # speed/cost — the exported bundle is plain HTML/JS/CSS with no
+    # native code, so building it on Linux is 100% equivalent to
+    # building it on Windows, and this lets the windows job skip
+    # straight to Electron packaging.
+    #
+    # A genuine fresh-install race (confirmed to reproduce on Linux too,
+    # not just Windows) must be worked around here:
+    # `react-native-css-interop`'s Metro plugin (dist/metro/index.js)
+    # eagerly pre-creates empty placeholder cache files for every
+    # platform EXCEPT "web" (ios.js/android.js/native.js/macos.js/
+    # windows.js — but no web.css) before Metro starts crawling.
+    # On a truly fresh node_modules install, web.css doesn't exist yet
+    # when Metro's Haste file-map crawler runs, and the crawler is
+    # not informed about it later — so when the web bundler later
+    # requests its SHA-1, Metro throws
+    # "Failed to get the SHA-1 for: .../react-native-css-interop/.cache/web.css".
+    # Restarting Metro (or, as here, pre-touching the file before the
+    # first crawl) avoids the race entirely because the file already
+    # exists by the time Metro indexes the filesystem.
+    name: Export Expo web bundle (for Windows installer)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Enable Corepack / pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.0 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Pre-touch react-native-css-interop web cache (fixes Metro SHA-1 race)
+        run: |
+          mkdir -p node_modules/react-native-css-interop/.cache
+          touch node_modules/react-native-css-interop/.cache/web.css
+          touch node_modules/react-native-css-interop/.cache/ios.js
+          touch node_modules/react-native-css-interop/.cache/android.js
+          touch node_modules/react-native-css-interop/.cache/native.js
+          touch node_modules/react-native-css-interop/.cache/macos.js
+          touch node_modules/react-native-css-interop/.cache/windows.js
+
+      - name: Export Expo web build
+        run: npx expo export --platform web
+
+      - name: Upload web build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexus-trade-web-export
+          path: dist/
+          retention-days: 1
+
+  windows:
+    name: Build Windows installer (NSIS, liquid-glass wizard)
+    needs: web-export
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Download web build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nexus-trade-web-export
+          path: desktop/web
+
+      - name: Verify web build was downloaded
+        shell: bash
+        run: |
+          test -f desktop/web/index.html || \
+            (echo "::error::desktop/web/index.html missing after artifact download" && exit 1)
+          ls -la desktop/web
+
+      - name: Install desktop (Electron) dependencies
+        working-directory: desktop
+        run: npm install
+
+      - name: Build Windows installer
+        working-directory: desktop
+        run: npm run dist:win
+
+      - name: Locate installer
+        shell: bash
+        working-directory: desktop
+        run: |
+          find release -maxdepth 1 -iname "*.exe" -exec ls -la {} \;
+          test -n "$(find release -maxdepth 1 -iname '*.exe')" || \
+            (echo "::error::No .exe installer was produced" && exit 1)
+
+      - name: Upload Windows installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NexusTrade-windows-installer
+          path: desktop/release/*.exe
+          retention-days: 30

@@ -1,0 +1,12 @@
+{
+  "name": "alpha-breakout-scalper",
+  "version": "2026-08-27",
+  "timeframes": ["1m", "5m"],
+  "symbols": ["R_10", "R_25", "R_50", "R_75", "R_100"],
+  "entry": {
+    "all": ["breakoutPressure > 0.42 or < -0.42", "volatilityRatio > 1.05", "alpha_breakout agrees with alpha_neural_zoo majority"],
+    "confirmations": ["pressureScore", "atrChannelPosition", "regimeComposite"]
+  },
+  "risk": { "maxStakePct": 0.5, "stopAtr": 1.2, "takeProfitAtr": 1.8, "cooldownBars": 5 },
+  "notes": "Momentum breakout template for synthetic forex/Deriv symbols using alpha indicator pack. Backtest before live use."
+}

@@ -1,0 +1,62 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install ruff
+      - run: ruff check app tests cli.py --select E9,F  # syntax + undefined names are hard failures
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      # CI installs the REAL pinned dependency set so drift (e.g. an unsolvable
+      # requirements.txt) fails here instead of only at deploy time
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - run: python -m pytest tests/ -q --cov=app --cov-report=term
+  migrations:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: {POSTGRES_PASSWORD: ci, POSTGRES_DB: ci}
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          for f in migrations/*.sql; do
+            psql "postgres://postgres:ci@localhost:5432/ci" -v ON_ERROR_STOP=1 -f "$f"
+          done
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: pip install pip-audit
+      - run: pip-audit -r requirements.txt --progress-spinner off
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: pip install -r requirements.txt
+      - run: |
+          APP_ENV=development APP_PASSWORD=ci-pass SESSION_SECRET=ci-secret-0123456789abcdef0123456789abcdef nohup uvicorn app.main:app --port 8123 &
+          sleep 5
+          curl -fsS http://127.0.0.1:8123/api/health
+          curl -fsS -o /dev/null -w "%{http_code}" http://127.0.0.1:8123/api/ready | grep -E "200|503"
+          # the API schema must be reachable with auth and closed without it
+          curl -fsS -o /dev/null -w "%{http_code}" http://127.0.0.1:8123/api/agents | grep -E "401"
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t everything-py .

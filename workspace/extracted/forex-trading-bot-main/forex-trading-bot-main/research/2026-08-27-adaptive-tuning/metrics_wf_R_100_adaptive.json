@@ -1,0 +1,37 @@
+{
+  "label": "wf_R_100_adaptive",
+  "n": 19,
+  "wins": 13,
+  "losses": 6,
+  "winRate": 0.6842,
+  "skipRegime": 46,
+  "skipHold": 195,
+  "skipTop": 616,
+  "skipBlender": 71,
+  "params": {
+    "AGREE": 0.55,
+    "NET": 0.1,
+    "BASE_SL": 2,
+    "BASE_TP": 0.4,
+    "REQUIRE_TOP": 2,
+    "CHOP_MIN": 30,
+    "CHOP_MAX": 70,
+    "BLENDER_MIN": 0.55
+  },
+  "avgWin": 0.0719,
+  "avgLoss": -0.2922,
+  "profitFactor": 0.5334,
+  "expectancy": -0.0431,
+  "total": -0.8181,
+  "maxDrawdownPct": -0.8952,
+  "exits": {
+    "TP": 13,
+    "SL": 6
+  },
+  "volBreakdown": {
+    "mid": 5,
+    "low": 10,
+    "extreme": 1,
+    "high": 3
+  }
+}

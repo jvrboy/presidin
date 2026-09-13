@@ -1,0 +1,26 @@
+# ── Nexus Trade · core runtime ──────────────────────────────────────────────
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.6
+websockets>=13.0
+pydantic>=2.12.0
+pandas>=2.2.2
+numpy>=2.1.1
+ta>=0.11.0
+python-multipart>=0.0.9
+aiofiles>=24.1.0
+httpx>=0.27.2
+python-dotenv>=1.0.1
+jinja2>=3.1.4
+# Light analytics — regime statistics + neural signal intelligence
+scikit-learn>=1.5,<2
+scipy>=1.13
+# Gymnasium trading environment used by the PPO endpoints (small, no torch)
+gymnasium>=0.29
+# MetaTrader5 real-time data + trading (Windows + MT5 terminal only;
+# the app degrades gracefully to the socket bridge / demo data without it)
+MetaTrader5>=5.0.45; sys_platform == "win32"
+#
+# Optional deep-RL stack (Stable-Baselines3 + PyTorch — a LARGE download):
+#   python -m pip install -r requirements-ml.txt
+# The bot runs fine without it; rule agents carry decisions until a
+# champion PPO model is trained.

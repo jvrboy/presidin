@@ -1,0 +1,179 @@
+{
+  "symbol": "XAUUSD",
+  "timeframe": "30m",
+  "data_source": "demo",
+  "fallback_reason": "RuntimeError: Historical data set is too short; at least 30 bars are required",
+  "bars_mined": 4000,
+  "horizon_bars": 12,
+  "strategy_count": 3,
+  "strategies": [
+    {
+      "indicator_a": "ELDER_IMPULSE",
+      "operator_a": "<",
+      "value_a": -0.5,
+      "indicator_b": "MACD",
+      "operator_b": ">",
+      "value_b": 0.0,
+      "direction": "SELL",
+      "train_samples": 361,
+      "train_hit_rate": 0.0,
+      "train_baseline": 0.4857,
+      "train_edge": 0.5143,
+      "validation_samples": 162,
+      "validation_hit_rate": 0.0123,
+      "validation_edge": 0.5019,
+      "score": 0.565767,
+      "stop_atr_multiple": 1.8,
+      "target_atr_multiple": 3.2,
+      "horizon_bars": 12,
+      "config": {
+        "entry_rules": [
+          {
+            "indicator": "ELDER_IMPULSE",
+            "operator": "<",
+            "value": -0.5
+          },
+          {
+            "indicator": "MACD",
+            "operator": ">",
+            "value": 0.0
+          }
+        ],
+        "exit_rules": [
+          {
+            "indicator": "ELDER_IMPULSE",
+            "operator": ">",
+            "value": 0.0
+          }
+        ],
+        "logic": "AND",
+        "direction": "SELL",
+        "atr_stop_multiple": 1.8,
+        "take_profit_multiple": 3.2,
+        "risk_per_trade_pct": 0.5,
+        "max_bars_in_trade": 24
+      },
+      "rank": 1,
+      "id": "mined_sell_elder_impulse_and_macd_h12",
+      "backtest": {
+        "net_profit_pct": 4.877,
+        "trades": 3,
+        "win_rate_pct": 100.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 0.149
+      }
+    },
+    {
+      "indicator_a": "WAVE_TREND",
+      "operator_a": "<",
+      "value_a": -9.3255828133,
+      "indicator_b": "MACD",
+      "operator_b": ">",
+      "value_b": 0.0,
+      "direction": "SELL",
+      "train_samples": 282,
+      "train_hit_rate": 0.0,
+      "train_baseline": 0.4857,
+      "train_edge": 0.5143,
+      "validation_samples": 132,
+      "validation_hit_rate": 0.0152,
+      "validation_edge": 0.4991,
+      "score": 0.561614,
+      "stop_atr_multiple": 1.8,
+      "target_atr_multiple": 3.2,
+      "horizon_bars": 12,
+      "config": {
+        "entry_rules": [
+          {
+            "indicator": "WAVE_TREND",
+            "operator": "<",
+            "value": -9.3255828133
+          },
+          {
+            "indicator": "MACD",
+            "operator": ">",
+            "value": 0.0
+          }
+        ],
+        "exit_rules": [
+          {
+            "indicator": "WAVE_TREND",
+            "operator": ">",
+            "value": 0.0
+          }
+        ],
+        "logic": "AND",
+        "direction": "SELL",
+        "atr_stop_multiple": 1.8,
+        "take_profit_multiple": 3.2,
+        "risk_per_trade_pct": 0.5,
+        "max_bars_in_trade": 24
+      },
+      "rank": 2,
+      "id": "mined_sell_wave_trend_and_macd_h12",
+      "backtest": {
+        "net_profit_pct": 4.877,
+        "trades": 3,
+        "win_rate_pct": 100.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 0.141
+      }
+    },
+    {
+      "indicator_a": "SQZ_MOMENTUM",
+      "operator_a": "<",
+      "value_a": -0.001258021,
+      "indicator_b": "MACD",
+      "operator_b": ">",
+      "value_b": 0.0,
+      "direction": "SELL",
+      "train_samples": 270,
+      "train_hit_rate": 0.0148,
+      "train_baseline": 0.4857,
+      "train_edge": 0.4995,
+      "validation_samples": 130,
+      "validation_hit_rate": 0.0154,
+      "validation_edge": 0.4989,
+      "score": 0.555113,
+      "stop_atr_multiple": 1.8,
+      "target_atr_multiple": 3.2,
+      "horizon_bars": 12,
+      "config": {
+        "entry_rules": [
+          {
+            "indicator": "SQZ_MOMENTUM",
+            "operator": "<",
+            "value": -0.001258021
+          },
+          {
+            "indicator": "MACD",
+            "operator": ">",
+            "value": 0.0
+          }
+        ],
+        "exit_rules": [
+          {
+            "indicator": "SQZ_MOMENTUM",
+            "operator": ">",
+            "value": 0.0
+          }
+        ],
+        "logic": "AND",
+        "direction": "SELL",
+        "atr_stop_multiple": 1.8,
+        "take_profit_multiple": 3.2,
+        "risk_per_trade_pct": 0.5,
+        "max_bars_in_trade": 24
+      },
+      "rank": 3,
+      "id": "mined_sell_sqz_momentum_and_macd_h12",
+      "backtest": {
+        "net_profit_pct": 3.226,
+        "trades": 2,
+        "win_rate_pct": 100.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 0.138
+      }
+    }
+  ]
+}

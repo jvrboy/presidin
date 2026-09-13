@@ -1,0 +1,30 @@
+{
+  "label": "gated_v8",
+  "n": 120,
+  "wins": 90,
+  "losses": 30,
+  "winRate": 0.75,
+  "skippedHold": 199,
+  "skippedRegime": 52,
+  "skippedTop": 576,
+  "thresholds": {
+    "AGREE": 0.55,
+    "NET": 0.1,
+    "SL_M": 2,
+    "TP_M": 0.4,
+    "REQUIRE_TOP": 2,
+    "CHOP_MIN": 30,
+    "CHOP_MAX": 70
+  },
+  "avgWin": 0.038,
+  "avgLoss": -0.0954,
+  "profitFactor": 1.1967,
+  "expectancy": 0.0047,
+  "total": 0.5627,
+  "maxDrawdownPct": -0.977,
+  "exits": {
+    "TP": 90,
+    "SL": 15,
+    "HORIZON": 15
+  }
+}

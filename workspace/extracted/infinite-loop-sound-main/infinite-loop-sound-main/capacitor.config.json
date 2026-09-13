@@ -1,0 +1,21 @@
+{
+  "appId": "com.divergenceiq.app",
+  "appName": "Divergence IQ",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "https"
+  },
+  "plugins": {
+    "CapacitorHttp": { "enabled": true },
+    "LocalNotifications": { "smallIcon": "ic_stat_icon" }
+  },
+  "ios": {
+    "contentInset": "always"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0a0e1a"
+  }
+}

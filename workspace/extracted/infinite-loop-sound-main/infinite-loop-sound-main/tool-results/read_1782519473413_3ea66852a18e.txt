@@ -1,0 +1,636 @@
+     1→   500→   500→backtesting over 8,700 hourly candles of real BTC/USD data from Deriv's public API, spanning from
+     2→   501→   501→June 2025 to June 2026, with cross-validation on 30-minute and 4-hour timeframes confirming the
+     3→   502→   502→pattern holds across multiple time horizons.
+     4→   503→   503→2. The Rules (Ultra Simple)
+     5→   504→   504→This strategy has only three rules. No thinking, no analysis, no decision-making. If the setup appears, you
+     6→   505→   505→take the trade. If it does not appear, you wait. There is no room for interpretation or emotional bias. The
+     7→   506→   506→rules are binary: either all three conditions are met, or they are not. This is what makes the strategy so
+     8→   507→   507→effective for daily routine trading. You can check your chart once per candle, and in less than 10 seconds
+     9→   508→   508→you know whether there is a trade or not. There is no need to stare at charts all day or monitor multiple
+    10→   509→   509→timeframes simultaneously.
+    11→   510→   510→Step-by-Step Setup Identification
+    12→   511→   511→Step 1: Look at the last 3 closed candles on your 1-hour chart (BTC/USD). For each candle, calculate the
+    13→   512→   512→body size (the distance between the open and close prices) and the total range (the distance between the
+    14→   513→   513→high and low prices). Divide the body by the range to get the body ratio. If all 3 candles have a body ratio
+    15→   514→   514→below 0.35 (meaning the body is less than 35% of the total candle range), the squeeze condition is met.
+    16→   515→   515→Candles that meet this condition look like they have very long wicks (shadows) and tiny real bodies. They
+    17→   516→   516→are often called doji-like or indecision candles, and when 3 of them appear in a row, it signals strong
+    18→   517→   517→market compression.
+    19→   518→   518→Step 2: Wait for the next candle (the 4th candle) to close. This is your signal candle. Check its direction:
+    20→   519→   519→if the close price is higher than the open price, this is a BULLISH signal (you will BUY). If the close
+    21→   520→   520→price is lower than the open price, this is a BEARISH signal (you will SELL). The direction of this candle
+    22→   521→   521→tells you which way the compressed energy is releasing, and that is the direction you trade.
+    23→   522→   522→Step 3: Enter the trade immediately when the next candle opens (the 5th candle after the squeeze). Set
+    24→   523→   523→your Take Profit at 0.20% above your entry (for a BUY) or 0.20% below (for a SELL). Set your Stop
+    25→   524→   524→Loss at 0.15% below your entry (for a BUY) or 0.15% above (for a SELL). This gives you a 1.33:1
+    26→   525→   525→reward-to-risk ratio. Walk away and let the trade play out. Do not move your stops or targets. The trade
+    27→   526→   526→will typically resolve within 1-6 candles.
+    28→   527→   527→Quick Reference Card
+    29→   528→   528→Timeframe
+    30→   529→   529→1-Hour (1H) candles
+    31→   530→   530→Asset
+    32→   531→   531→BTC/USD on Deriv
+    33→   532→   532→Condition
+    34→   533→   533→3 consecutive candles with body/range ratio < 0.35
+    35→   534→   534→Signal
+    36→   535→   535→Next candle closes bullish = BUY, bearish = SELL
+    37→   536→   536→Entry
+    38→   537→   537→Open of the candle immediately after the signal candle
+    39→   538→   538→Take Profit
+    40→   539→   539→0.20% from entry price
+    41→   540→   540→Stop Loss
+    42→   541→   541→0.15% from entry price
+    43→   542→   542→Risk:Reward
+    44→   543→   543→1:1.33 (favourable)
+    45→   544→   544→Max Hold
+    46→   545→   545→6 candles (6 hours)
+    47→   546→   546→3. Backtest Performance
+    48→   547→   547→The Squeeze Breakout strategy has been backtested on over 8,700 hourly BTC/USD candles spanning
+    49→   548→   548→June 2025 to June 2026, with additional cross-validation on 30-minute and 4-hour timeframes. The
+    50→   549→   549→results below show both the night session (SAST 00:00-05:00) and the day session (all other hours)
+    51→   550→   550→performance. The strategy works consistently in both sessions, with the day session showing slightly
+    52→   551→   551→higher overall metrics due to the larger sample size.
+    53→   552→   552→Night vs Day Session Comparison
+    54→   553→   553→Metric
+    55→   554→   554→Night Session
+    56→   555→   555→Day Session
+    57→   556→   556→Total Signals
+    58→   557→   557→531
+    59→   558→   558→1,
+    60→   559→   559→...
+    61→   560→   560→
+    62→   561→   561→===== Strategy1_SqueezeBreakout_Day.pdf (9633 chars) =====
+    63→   562→   562→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+    64→   563→   563→B T C  /  U S D
+    65→   564→   564→SQUEEZE BREAKOUT
+    66→   565→   565→Day Trading | All Other Hours
+    67→   566→   566→67.6% Win Rate | 1,800 Signals
+    68→   567→   567→100% Weekly Consistency
+    69→   568→   568→74.4% Best Day (Monday)
+    70→   569→   569→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+    71→   570→   570→B T C  /  U S D
+    72→   571→   571→SQUEEZE BREAKOUT
+    73→   572→   572→Day Trading | All Other Hours
+    74→   573→   573→67.6% Win Rate | 1,800 Signals
+    75→   574→   574→100% Weekly Consistency
+    76→   575→   575→74.4% Best Day (Monday)
+    77→   576→   576→BTC/USD SQUEEZE BREAKOUT
+    78→   577→   577→Day Trading Version | All Other Hours
+    79→   578→   578→1. Strategy Overview
+    80→   579→   579→The Squeeze Breakout strategy is one of the most reliable ultra-simple price action patterns for
+    81→   580→   580→BTC/USD trading. It works by identifying moments when the market compresses into a tight range,
+    82→   581→   581→indicated by candles with very small bodies relative to their total range. These periods of low activity are
+    83→   582→   582→almost always followed by a decisive move in one direction, and by entering in the direction of the
+    84→   583→   583→breakout candle, you capture that momentum with a high probability of success. This pattern is especially
+    85→   584→   584→powerful during low-liquidity hours when institutional money is absent, because the few participants who
+    86→   585→   585→are active tend to create these compression patterns that resolve cleanly without interference.
+    87→   586→   586→The core concept is simple: when 3 consecutive candles all have small bodies (body less than 35% of the
+    88→   587→   587→candle range), the market is compressing energy. The very next candle that closes in a clear direction is
+    89→   588→   588→your signal. You buy if that candle closed higher than it opened, or sell if it closed lower. There are no
+    90→   589→   589→indicators, no moving averages, no oscillators. Just raw price action. This strategy was discovered by
+    91→   590→   590→backtesting over 8,700 hourly candles of real BTC/USD data from Deriv's public API, spanning from
+    92→   591→   591→June 2025 to June 2026, with cross-validation on 30-minute and 4-hour timeframes confirming the
+    93→   592→   592→pattern holds across multiple time horizons.
+    94→   593→   593→2. The Rules (Ultra Simple)
+    95→   594→   594→This strategy has only three rules. No thinking, no analysis, no decision-making. If the setup appears, you
+    96→   595→   595→take the trade. If it does not appear, you wait. There is no room for interpretation or emotional bias. The
+    97→   596→   596→rules are binary: either all three conditions are met, or they are not. This is what makes the strategy so
+    98→   597→   597→effective for daily routine trading. You can check your chart once per candle, and in less than 10 seconds
+    99→   598→   598→you know whether there is a trade or not. There is no need to stare at charts all day or monitor multiple
+   100→   599→   599→timeframes simultaneously.
+   101→   600→   600→Step-by-Step Setup Identification
+   102→   601→   601→Step 1: Look at the last 3 closed candles on your 1-hour chart (BTC/USD). For each candle, calculate the
+   103→   602→   602→body size (the distance between the open and close prices) and the total range (the distance between the
+   104→   603→   603→high and low prices). Divide the body by the range to get the body ratio. If all 3 candles have a body ratio
+   105→   604→   604→below 0.35 (meaning the body is less than 35% of the total candle range), the squeeze condition is met.
+   106→   605→   605→Candles that meet this condition look like they have very long wicks (shadows) and tiny real bodies. They
+   107→   606→   606→are often called doji-like or indecision candles, and when 3 of them appear in a row, it signals strong
+   108→   607→   607→market compression.
+   109→   608→   608→Step 2: Wait for the next candle (the 4th candle) to close. This is your signal candle. Check its direction:
+   110→   609→   609→if the close price is higher than the open price, this is a BULLISH signal (you will BUY). If the close
+   111→   610→   610→price is lower than the open price, this is a BEARISH signal (you will SELL). The direction of this candle
+   112→   611→   611→tells you which way the compressed energy is releasing, and that is the direction you trade.
+   113→   612→   612→Step 3: Enter the trade immediately when the next candle opens (the 5th candle after the squeeze). Set
+   114→   613→   613→your Take Profit at 0.20% above your entry (for a BUY) or 0.20% below (for a SELL). Set your Stop
+   115→   614→   614→Loss at 0.15% below your entry (for a BUY) or 0.15% above (for a SELL). This gives you a 1.33:1
+   116→   615→   615→reward-to-risk ratio. Walk away and let the trade play out. Do not move your stops or targets. The trade
+   117→   616→   616→will typically resolve within 1-6 candles.
+   118→   617→   617→Quick Reference Card
+   119→   618→   618→Timeframe
+   120→   619→   619→1-Hour (1H) candles
+   121→   620→   620→Asset
+   122→   621→   621→BTC/USD on Deriv
+   123→   622→   622→Condition
+   124→   623→   623→3 consecutive candles with body/range ratio < 0.35
+   125→   624→   624→Signal
+   126→   625→   625→Next candle closes bullish = BUY, bearish = SELL
+   127→   626→   626→Entry
+   128→   627→   627→Open of the candle immediately after the signal candle
+   129→   628→   628→Take Profit
+   130→   629→   629→0.20% from entry price
+   131→   630→   630→Stop Loss
+   132→   631→   631→0.15% from entry price
+   133→   632→   632→Risk:Reward
+   134→   633→   633→1:1.33 (favourable)
+   135→   634→   634→Max Hold
+   136→   635→   635→6 candles (6 hours)
+   137→   636→   636→3. Backtest Performance
+   138→   637→   637→The day session version of the Squeeze Breakout strategy covers all hours outside the night window
+   139→   638→   638→(SAST 05:00 to 00:00). Surprisingly, this strategy performs even better during the day session, with a
+   140→   639→   639→higher win rate and perfect consistency metrics. This is likely because the squeeze pattern benefits from
+   141→   640→   640→the higher volume and cleaner trends that develop during active trading hours. The backtest covers 6,936
+   142→   641→   641→day-session hourly candles over approximately 12 months, generating 1,800 trade signals. The massive
+   143→   642→   642→sample 
+   144→   643→   643→...
+   145→   644→   644→
+   146→   645→   645→===== Strategy1_SqueezeBreakout_Night.pdf (10177 chars) =====
+   147→   646→   646→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+   148→   647→   647→B T C  /  U S D
+   149→   648→   648→SQUEEZE BREAKOUT
+   150→   649→   649→Night Trading | SAST 00:00 - 05:00
+   151→   650→   650→66.1% Win Rate | 531 Signals
+   152→   651→   651→100% Monthly Consistency
+   153→   652→   652→0.60% Max Drawdown
+   154→   653→   653→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+   155→   654→   654→B T C  /  U S D
+   156→   655→   655→SQUEEZE BREAKOUT
+   157→   656→   656→Night Trading | SAST 00:00 - 05:00
+   158→   657→   657→66.1% Win Rate | 531 Signals
+   159→   658→   658→100% Monthly Consistency
+   160→   659→   659→0.60% Max Drawdown
+   161→   660→   660→BTC/USD SQUEEZE BREAKOUT
+   162→   661→   661→Night Trading Version | SAST 00:00 - 05:00
+   163→   662→   662→1. Strategy Overview
+   164→   663→   663→The Squeeze Breakout strategy is one of the most reliable ultra-simple price action patterns for
+   165→   664→   664→BTC/USD trading. It works by identifying moments when the market compresses into a tight range,
+   166→   665→   665→indicated by candles with very small bodies relative to their total range. These periods of low activity are
+   167→   666→   666→almost always followed by a decisive move in one direction, and by entering in the direction of the
+   168→   667→   667→breakout candle, you capture that momentum with a high probability of success. This pattern is especially
+   169→   668→   668→powerful during low-liquidity hours when institutional money is absent, because the few participants who
+   170→   669→   669→are active tend to create these compression patterns that resolve cleanly without interference.
+   171→   670→   670→The core concept is simple: when 3 consecutive candles all have small bodies (body less than 35% of the
+   172→   671→   671→candle range), the market is compressing energy. The very next candle that closes in a clear direction is
+   173→   672→   672→your signal. You buy if that candle closed higher than it opened, or sell if it closed lower. There are no
+   174→   673→   673→indicators, no moving averages, no oscillators. Just raw price action. This strategy was discovered by
+   175→   674→   674→backtesting over 8,700 hourly candles of real BTC/USD data from Deriv's public API, spanning from
+   176→   675→   675→June 2025 to June 2026, with cross-validation on 30-minute and 4-hour timeframes confirming the
+   177→   676→   676→pattern holds across multiple time horizons.
+   178→   677→   677→2. The Rules (Ultra Simple)
+   179→   678→   678→This strategy has only three rules. No thinking, no analysis, no decision-making. If the setup appears, you
+   180→   679→   679→take the trade. If it does not appear, you wait. There is no room for interpretation or emotional bias. The
+   181→   680→   680→rules are binary: either all three conditions are met, or they are not. This is what makes the strategy so
+   182→   681→   681→effective for daily routine trading. You can check your chart once per candle, and in less than 10 seconds
+   183→   682→   682→you know whether there is a trade or not. There is no need to stare at charts all day or monitor multiple
+   184→   683→   683→timeframes simultaneously.
+   185→   684→   684→Step-by-Step Setup Identification
+   186→   685→   685→Step 1: Look at the last 3 closed candles on your 1-hour chart (BTC/USD). For each candle, calculate the
+   187→   686→   686→body size (the distance between the open and close prices) and the total range (the distance between the
+   188→   687→   687→high and low prices). Divide the body by the range to get the body ratio. If all 3 candles have a body ratio
+   189→   688→   688→below 0.35 (meaning the body is less than 35% of the total candle range), the squeeze condition is met.
+   190→   689→   689→Candles that meet this condition look like they have very long wicks (shadows) and tiny real bodies. They
+   191→   690→   690→are often called doji-like or indecision candles, and when 3 of them appear in a row, it signals strong
+   192→   691→   691→market compression.
+   193→   692→   692→Step 2: Wait for the next candle (the 4th candle) to close. This is your signal candle. Check its direction:
+   194→   693→   693→if the close price is higher than the open price, this is a BULLISH signal (you will BUY). If the close
+   195→   694→   694→price is lower than the open price, this is a BEARISH signal (you will SELL). The direction of this candle
+   196→   695→   695→tells you which way the compressed energy is releasing, and that is the direction you trade.
+   197→   696→   696→Step 3: Enter the trade immediately when the next candle opens (the 5th candle after the squeeze). Set
+   198→   697→   697→your Take Profit at 0.20% above your entry (for a BUY) or 0.20% below (for a SELL). Set your Stop
+   199→   698→   698→Loss at 0.15% below your entry (for a BUY) or 0.15% above (for a SELL). This gives you a 1.33:1
+   200→   699→   699→reward-to-risk ratio. Walk away and let the trade play out. Do not move your stops or targets. The trade
+   201→   700→   700→will typically resolve within 1-6 candles.
+   202→   701→   701→Quick Reference Card
+   203→   702→   702→Timeframe
+   204→   703→   703→1-Hour (1H) candles
+   205→   704→   704→Asset
+   206→   705→   705→BTC/USD on Deriv
+   207→   706→   706→Condition
+   208→   707→   707→3 consecutive candles with body/range ratio < 0.35
+   209→   708→   708→Signal
+   210→   709→   709→Next candle closes bullish = BUY, bearish = SELL
+   211→   710→   710→Entry
+   212→   711→   711→Open of the candle immediately after the signal candle
+   213→   712→   712→Take Profit
+   214→   713→   713→0.20% from entry price
+   215→   714→   714→Stop Loss
+   216→   715→   715→0.15% from entry price
+   217→   716→   716→Risk:Reward
+   218→   717→   717→1:1.33 (favourable)
+   219→   718→   718→Max Hold
+   220→   719→   719→6 candles (6 hours)
+   221→   720→   720→3. Backtest Performance
+   222→   721→   721→The following results are from backtesting the Squeeze Breakout strategy exclusively during the night
+   223→   722→   722→session (SAST 00:00 to 05:00, which is UTC 22:00 to 03:00). This 5-hour window was specifically
+   224→   723→   723→chosen because institutional market participants in Europe and North America are largely inactive during
+   225→   724→   724→these hours, creating a lower-liquidity environment where clean price patterns like the squeeze are more
+   226→   725→   725→likely to resolve predictably. The backtest covers 1,825 night-session hourly candles over approximately
+   227→   726→   726→12 mo
+   228→   727→   727→...
+   229→   728→   728→
+   230→   729→   729→===== Strategy2_SmallBodyBreakout_Complete.pdf (8941 chars) =====
+   231→   730→   730→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+   232→   731→   731→B T C  /  U S D
+   233→   732→   732→SMALL BODY BREAKOUT
+   234→   733→   733→BTC/USD Complete Strategy Guide
+   235→   734→   734→60.7% Night Win Rate
+   236→   735→   735→66.2% Day Win Rate
+   237→   736→   736→2.57x - 3.26x Profit Factor
+   238→   737→   737→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+   239→   738→   738→B T C  /  U S D
+   240→   739→   739→SMALL BODY BREAKOUT
+   241→   740→   740→BTC/USD Complete Strategy Guide
+   242→   741→   741→60.7% Night Win Rate
+   243→   742→   742→66.2% Day Win Rate
+   244→   743→   743→2.57x - 3.26x Profit Factor
+   245→   744→   744→BTC/USD SMALL BODY
+   246→   745→   745→BREAKOUT
+   247→   746→   746→Complete Strategy Guide | Night + Day Versions
+   248→   747→   747→1. Strategy Overview
+   249→   748→   748→The Small Body Breakout strategy is an even simpler pattern than the Squeeze. It requires only ONE
+   250→   749→   749→candle to generate a signal, making it the fastest and most straightforward trading approach you will ever
+   251→   750→   750→find. The concept is this: when a candle closes with a very small body relative to its total range (less than
+   252→   751→   751→15% of the high-low distance), it represents a moment of market indecision. The very next candle that
+   253→   752→   752→commits to a direction is your entry signal. You trade in the direction that the current candle is moving,
+   254→   753→   753→capturing the resolution of that indecision. This strategy produces more signals than the Squeeze because
+   255→   754→   754→the condition is easier to meet (only 1 candle instead of 3), and it has been validated across multiple
+   256→   755→   755→timeframes with consistently profitable results.
+   257→   756→   756→The logic behind this pattern is rooted in how markets resolve uncertainty. A candle with a tiny body and
+   258→   757→   757→long wicks tells you that buyers and sellers fought to a near-draw during that time period. Neither side
+   259→   758→   758→won convincingly. But markets do not stay in equilibrium for long. The very next candle tends to tip the
+   260→   759→   759→balance in one direction as one side gains the upper hand. By entering in that direction, you are essentially
+   261→   760→   760→riding the first wave of a new commitment from market participants. The backtest results confirm this
+   262→   761→   761→dynamic: across 1,408 total signals on the 1-hour chart (328 night + 1,080 day), the strategy achieves win
+   263→   762→   762→rates between 60-66% with profit factors consistently above 2.5x. Cross-validation on 30-minute data
+   264→   763→   763→shows even stronger results, with the night session reaching 65.3% win rate and a 3.14x profit factor.
+   265→   764→   764→2. The Rules (Even Simpler)
+   266→   765→   765→This strategy has only two steps. It is the simplest possible trading approach that still maintains a
+   267→   766→   766→statistical edge. There are no indicators, no calculations beyond one simple division, and no subjective
+   268→   767→   767→judgment calls. You either see the pattern or you do not. If you can identify a candle and divide two
+   269→   768→   768→numbers, you can trade this strategy. It is designed for people who want a zero-stress, zero-clutter trading
+   270→   769→   769→routine that they can execute every single day without fail.
+   271→   770→   770→Step-by-Step Setup Identification
+   272→   771→   771→Step 1: Look at the most recently CLOSED candle on your 1-hour BTC/USD chart. Measure its body
+   273→   772→   772→(distance between open and close) and its total range (distance between high and low). Divide the body by
+   274→   773→   773→the range. If this ratio is less than 0.15 (the body is less than 15% of the total range), the Small Body
+   275→   774→   774→condition is met. This candle looks like a spinning top or a long-legged doji, with wicks that are much
+   276→   775→   775→longer than the body. It tells you the market was undecided during that hour.
+   277→   776→   776→Step 2: Immediately enter a trade in the direction of the CURRENT candle (the one that is still forming
+   278→   777→   777→or has just started). If the current candle is moving upward (price is above its open), enter a BUY. If it is
+   279→   778→   778→moving downward (price is below its open), enter a SELL. Your entry price is the open of the current
+   280→   779→   779→candle. Set Take Profit at 0.25% from entry and Stop Loss at 0.15% from entry. This gives you a 1.67:1
+   281→   780→   780→reward-to-risk ratio, which is even more favourable than the Squeeze strategy. The trade should resolve
+   282→   781→   781→within 6 candles.
+   283→   782→   782→Quick Reference Card
+   284→   783→   783→Timeframe
+   285→   784→   784→1-Hour (1H) candles
+   286→   785→   785→Asset
+   287→   786→   786→BTC/USD on Deriv
+   288→   787→   787→Condition
+   289→   788→   788→Previous candle body/range ratio < 0.15
+   290→   789→   789→Signal
+   291→   790→   790→Current candle direction: up = BUY, down = SELL
+   292→   791→   791→Entry
+   293→   792→   792→Open of the current candle
+   294→   793→   793→Take Profit
+   295→   794→   794→0.25% from entry price
+   296→   795→   795→Stop Loss
+   297→   796→   796→0.15% from entry price
+   298→   797→   797→Risk:Reward
+   299→   798→   798→1:1.67 (favourable)
+   300→   799→   799→Max Hold
+   301→   800→   800→6 candles (6 hours)
+   302→   801→   801→3. Backtest Performance
+   303→   802→   802→The Small Body Breakout has been backtested on 8,700+ hourly BTC/USD candles with cross-validation
+   304→   803→   803→on 30-minute and 4-hour timeframes. The table below compares night and day session performance,
+   305→   804→   804→showing that the strategy is versatile and profitable in both contexts, with the day session offering more
+   306→   805→   805→frequent trading opportunities.
+   307→   806→   806→Night vs Day Session Comparison
+   308→   807→   807→Metric
+   309→   808→   808→Night Session
+   310→   809→   809→Day Session
+   311→   810→   810→Total Signals
+   312→   811→   811→328
+   313→   812→   812→1,080
+   314→   813→   813→Win Rate
+   315→   814→   814→60.7%
+   316→   815→   815→66.2%
+   317→   816→   816→Profit Factor
+   318→   817→   817→2.57x
+   319→   818→   818→3.26x
+   320→   819→   819→Metric
+   321→   820→   820→Night Session
+   322→   821→   821→Day Session
+   323→   822→   822→Weekly Consistency
+   324→   823→   823→64.8%
+   325→   824→   824→90.7%
+   326→   825→   825→Monthly Consistency
+   327→   826→   826→100.0%
+   328→   827→   827→100.0%
+   329→   828→   828→Walk-Forward Stability
+   330→   829→   829→4.3% difference
+   331→   830→   830→1.7% difference
+   332→   831→   831→Cross-Timeframe Validation
+   333→   832→   832→Timeframe
+   334→   833→   833→Night WR
+   335→   834→   834→Day WR
+   336→   835→   835→Night PF
+   337→   836→   836→Day PF
+   338→   837→   837→30-minute
+   339→   838→   838→65.3%
+   340→   839→   839→67.8%
+   341→   840→   840→3.14x
+   342→   841→   841→3.51x
+   343→   842→   842→1-hour (Primary)
+   344→   843→   843→60.7%
+   345→   844→   844→66.2%
+   346→   845→   845→2.57x
+   347→   846→   846→3.26x
+   348→   847→   847→4-hour
+   349→   848→   848→60.8%
+   350→   849→   849→60.4%
+   351→   850→   850→2.58x
+   352→   851→   851→2.54x
+   353→   852→   852→The 30-minute timeframe actually shows the strongest results for the Small
+   354→   853→   853→...
+   355→   854→   854→
+   356→   855→   855→===== Strategy2_SmallBodyBreakout_Day.pdf (8447 chars) =====
+   357→   856→   856→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+   358→   857→   857→B T C  /  U S D
+   359→   858→   858→SMALL BODY BREAKOUT
+   360→   859→   859→Day Trading | All Other Hours
+   361→   860→   860→66.2% Win Rate | 1,080 Signals
+   362→   861→   861→90.7% Weekly Consistency
+   363→   862→   862→3.26x Profit Factor
+   364→   863→   863→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+   365→   864→   864→B T C  /  U S D
+   366→   865→   865→SMALL BODY BREAKOUT
+   367→   866→   866→Day Trading | All Other Hours
+   368→   867→   867→66.2% Win Rate | 1,080 Signals
+   369→   868→   868→90.7% Weekly Consistency
+   370→   869→   869→3.26x Profit Factor
+   371→   870→   870→BTC/USD SMALL BODY
+   372→   871→   871→BREAKOUT
+   373→   872→   872→Day Trading Version | All Other Hours
+   374→   873→   873→1. Strategy Overview
+   375→   874→   874→The Small Body Breakout strategy is an even simpler pattern than the Squeeze. It requires only ONE
+   376→   875→   875→candle to generate a signal, making it the fastest and most straightforward trading approach you will ever
+   377→   876→   876→find. The concept is this: when a candle closes with a very small body relative to its total range (less than
+   378→   877→   877→15% of the high-low distance), it represents a moment of market indecision. The very next candle that
+   379→   878→   878→commits to a direction is your entry signal. You trade in the direction that the current candle is moving,
+   380→   879→   879→capturing the resolution of that indecision. This strategy produces more signals than the Squeeze because
+   381→   880→   880→the condition is easier to meet (only 1 candle instead of 3), and it has been validated across multiple
+   382→   881→   881→timeframes with consistently profitable results.
+   383→   882→   882→The logic behind this pattern is rooted in how markets resolve uncertainty. A candle with a tiny body and
+   384→   883→   883→long wicks tells you that buyers and sellers fought to a near-draw during that time period. Neither side
+   385→   884→   884→won convincingly. But markets do not stay in equilibrium for long. The very next candle tends to tip the
+   386→   885→   885→balance in one direction as one side gains the upper hand. By entering in that direction, you are essentially
+   387→   886→   886→riding the first wave of a new commitment from market participants. The backtest results confirm this
+   388→   887→   887→dynamic: across 1,408 total signals on the 1-hour chart (328 night + 1,080 day), the strategy achieves win
+   389→   888→   888→rates between 60-66% with profit factors consistently above 2.5x. Cross-validation on 30-minute data
+   390→   889→   889→shows even stronger results, with the night session reaching 65.3% win rate and a 3.14x profit factor.
+   391→   890→   890→2. The Rules (Even Simpler)
+   392→   891→   891→This strategy has only two steps. It is the simplest possible trading approach that still maintains a
+   393→   892→   892→statistical edge. There are no indicators, no calculations beyond one simple division, and no subjective
+   394→   893→   893→judgment calls. You either see the pattern or you do not. If you can identify a candle and divide two
+   395→   894→   894→numbers, you can trade this strategy. It is designed for people who want a zero-stress, zero-clutter trading
+   396→   895→   895→routine that they can execute every single day without fail.
+   397→   896→   896→Step-by-Step Setup Identification
+   398→   897→   897→Step 1: Look at the most recently CLOSED candle on your 1-hour BTC/USD chart. Measure its body
+   399→   898→   898→(distance between open and close) and its total range (distance between high and low). Divide the body by
+   400→   899→   899→the range. If this ratio is less than 0.15 (the body is less than 15% of the total range), the Small Body
+   401→   900→   900→condition is met. This candle looks like a spinning top or a long-legged doji, with wicks that are much
+   402→   901→   901→longer than the body. It tells you the market was undecided during that hour.
+   403→   902→   902→Step 2: Immediately enter a trade in the direction of the CURRENT candle (the one that is still forming
+   404→   903→   903→or has just started). If the current candle is moving upward (price is above its open), enter a BUY. If it is
+   405→   904→   904→moving downward (price is below its open), enter a SELL. Your entry price is the open of the current
+   406→   905→   905→candle. Set Take Profit at 0.25% from entry and Stop Loss at 0.15% from entry. This gives you a 1.67:1
+   407→   906→   906→reward-to-risk ratio, which is even more favourable than the Squeeze strategy. The trade should resolve
+   408→   907→   907→within 6 candles.
+   409→   908→   908→Quick Reference Card
+   410→   909→   909→Timeframe
+   411→   910→   910→1-Hour (1H) candles
+   412→   911→   911→Asset
+   413→   912→   912→BTC/USD on Deriv
+   414→   913→   913→Condition
+   415→   914→   914→Previous candle body/range ratio < 0.15
+   416→   915→   915→Signal
+   417→   916→   916→Current candle direction: up = BUY, down = SELL
+   418→   917→   917→Entry
+   419→   918→   918→Open of the current candle
+   420→   919→   919→Take Profit
+   421→   920→   920→0.25% from entry price
+   422→   921→   921→Stop Loss
+   423→   922→   922→0.15% from entry price
+   424→   923→   923→Risk:Reward
+   425→   924→   924→1:1.67 (favourable)
+   426→   925→   925→Max Hold
+   427→   926→   926→6 candles (6 hours)
+   428→   927→   927→3. Backtest Performance
+   429→   928→   928→The day session is where the Small Body Breakout truly shines. With 1,080 signals over 12 months, this is
+   430→   929→   929→a high-frequency strategy that produces roughly 3-4 trades per day. The 66.2% win rate combined with a
+   431→   930→   930→3.26x profit factor and 100% monthly consistency makes this one of the strongest simple strategies we
+   432→   931→   931→have ever backtested. The 90.7% weekly consistency means that in nearly 9 out of 10 weeks, this strategy
+   433→   932→   932→is profitable. Walk-forward validation confirms stability with 66.9% in the first half and 65.2% in the
+   434→   933→   933→second half, a difference of only 1.7 percentage points. This is as close to a set-and-forget daily trading
+   435→   934→   934→system as you will ever find. No indicators, no analysis, no stress.
+   436→   935→   935→Total Signals
+   437→   936→   936→1,080
+   438→   937→   937→Win Rate
+   439→   938→   938→66.2%
+   440→   939→   939→Profit Factor
+   441→   940→   940→3.26x
+   442→   941→   941→Weekly Consistency
+   443→   942→   942→90.7% of weeks profitable
+   444→   943→   943→Monthly Consistency
+   445→   944→   944→100.0% of months profitable
+   446→   945→   945→Walk-Forward: 1st Half /
+   447→   946→   946→...
+   448→   947→   947→
+   449→   948→   948→===== Strategy2_SmallBodyBreakout_Night.pdf (8447 chars) =====
+   450→   949→   949→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+   451→   950→   950→B T C  /  U S D
+   452→   951→   951→SMALL BODY BREAKOUT
+   453→   952→   952→Night Trading | SAST 00:00 - 05:00
+   454→   953→   953→60.7% Win Rate | 328 Signals
+   455→   954→   954→100% Monthly Consistency
+   456→   955→   955→1:1.67 Reward to Risk
+   457→   956→   956→D E R I V  |  1 H  T I M E F R A M E  |  N O  I N D I C AT O R S  |  P U R E  P R I C E  A C T I O N
+   458→   957→   957→B T C  /  U S D
+   459→   958→   958→SMALL BODY BREAKOUT
+   460→   959→   959→Night Trading | SAST 00:00 - 05:00
+   461→   960→   960→60.7% Win Rate | 328 Signals
+   462→   961→   961→100% Monthly Consistency
+   463→   962→   962→1:1.67 Reward to Risk
+   464→   963→   963→BTC/USD SMALL BODY
+   465→   964→   964→BREAKOUT
+   466→   965→   965→Night Trading Version | SAST 00:00 - 05:00
+   467→   966→   966→1. Strategy Overview
+   468→   967→   967→The Small Body Breakout strategy is an even simpler pattern than the Squeeze. It requires only ONE
+   469→   968→   968→candle to generate a signal, making it the fastest and most straightforward trading approach you will ever
+   470→   969→   969→find. The concept is this: when a candle closes with a very small body relative to its total range (less than
+   471→   970→   970→15% of the high-low distance), it represents a moment of market indecision. The very next candle that
+   472→   971→   971→commits to a direction is your entry signal. You trade in the direction that the current candle is moving,
+   473→   972→   972→capturing the resolution of that indecision. This strategy produces more signals than the Squeeze because
+   474→   973→   973→the condition is easier to meet (only 1 candle instead of 3), and it has been validated across multiple
+   475→   974→   974→timeframes with consistently profitable results.
+   476→   975→   975→The logic behind this pattern is rooted in how markets resolve uncertainty. A candle with a tiny body and
+   477→   976→   976→long wicks tells you that buyers and sellers fought to a near-draw during that time period. Neither side
+   478→   977→   977→won convincingly. But markets do not stay in equilibrium for long. The very next candle tends to tip the
+   479→   978→   978→balance in one direction as one side gains the upper hand. By entering in that direction, you are essentially
+   480→   979→   979→riding the first wave of a new commitment from market participants. The backtest results confirm this
+   481→   980→   980→dynamic: across 1,408 total signals on the 1-hour chart (328 night + 1,080 day), the strategy achieves win
+   482→   981→   981→rates between 60-66% with profit factors consistently above 2.5x. Cross-validation on 30-minute data
+   483→   982→   982→shows even stronger results, with the night session reaching 65.3% win rate and a 3.14x profit factor.
+   484→   983→   983→2. The Rules (Even Simpler)
+   485→   984→   984→This strategy has only two steps. It is the simplest possible trading approach that still maintains a
+   486→   985→   985→statistical edge. There are no indicators, no calculations beyond one simple division, and no subjective
+   487→   986→   986→judgment calls. You either see the pattern or you do not. If you can identify a candle and divide two
+   488→   987→   987→numbers, you can trade this strategy. It is designed for people who want a zero-stress, zero-clutter trading
+   489→   988→   988→routine that they can execute every single day without fail.
+   490→   989→   989→Step-by-Step Setup Identification
+   491→   990→   990→Step 1: Look at the most recently CLOSED candle on your 1-hour BTC/USD chart. Measure its body
+   492→   991→   991→(distance between open and close) and its total range (distance between high and low). Divide the body by
+   493→   992→   992→the range. If this ratio is less than 0.15 (the body is less than 15% of the total range), the Small Body
+   494→   993→   993→condition is met. This candle looks like a spinning top or a long-legged doji, with wicks that are much
+   495→   994→   994→longer than the body. It tells you the market was undecided during that hour.
+   496→   995→   995→Step 2: Immediately enter a trade in the direction of the CURRENT candle (the one that is still forming
+   497→   996→   996→or has just started). If the current candle is moving upward (price is above its open), enter a BUY. If it is
+   498→   997→   997→moving downward (price is below its open), enter a SELL. Your entry price is the open of the current
+   499→   998→   998→candle. Set Take Profit at 0.25% from entry and Stop Loss at 0.15% from entry. This gives you a 1.67:1
+   500→   999→   999→reward-to-risk ratio, which is even more favourable than the Squeeze strategy. The trade should resolve
+   501→  1000→  1000→within 6 candles.
+   502→  1001→  1001→Quick Reference Card
+   503→  1002→  1002→Timeframe
+   504→  1003→  1003→1-Hour (1H) candles
+   505→  1004→  1004→Asset
+   506→  1005→  1005→BTC/USD on Deriv
+   507→  1006→  1006→Condition
+   508→  1007→  1007→Previous candle body/range ratio < 0.15
+   509→  1008→  1008→Signal
+   510→  1009→  1009→Current candle direction: up = BUY, down = SELL
+   511→  1010→  1010→Entry
+   512→  1011→  1011→Open of the current candle
+   513→  1012→  1012→Take Profit
+   514→  1013→  1013→0.25% from entry price
+   515→  1014→  1014→Stop Loss
+   516→  1015→  1015→0.15% from entry price
+   517→  1016→  1016→Risk:Reward
+   518→  1017→  1017→1:1.67 (favourable)
+   519→  1018→  1018→Max Hold
+   520→  1019→  1019→6 candles (6 hours)
+   521→  1020→  1020→3. Backtest Performance
+   522→  1021→  1021→The night session backtest for the Small Body Breakout covers 1,825 night-session hourly candles over
+   523→  1022→  1022→approximately 12 months, generating 328 trade signals. While the signal count is lower than the day
+   524→  1023→  1023→session (which is expected given the shorter 5-hour window), the results are still strongly profitable with a
+   525→  1024→  1024→60.7% win rate and a 2.57x profit factor. The 100% monthly consistency score means that every single
+   526→  1025→  1025→month in the backtest period was profitable, which is an exceptional result for any trading strategy.
+   527→  1026→  1026→Walk-forward validation shows the strategy maintained its edge in both halves of the test period, with the
+   528→  1027→  1027→second half actually performing better (62.8% vs 58.5%), suggesting the pattern is stable and not
+   529→  1028→  1028→degrading over time.
+   530→  1029→  1029→Total Signals
+   531→  1030→  1030→328
+   532→  1031→  1031→Win Rate
+   533→  1032→  1032→60.7%
+   534→  1033→  1033→Profit Factor
+   535→  1034→  1034→2.57x
+   536→  1035→  1035→Weekly Consistency
+   537→  1036→  1036→64.8% of weeks profitable
+   538→  1037→  1037→Monthly Consist
+   539→  1038→  1038→...
+   540→  1039→  1039→
+   541→  1040→  1040→===== ZigZag_RSI_Divergence_Strategy.pdf (23724 chars) =====
+   542→  1041→  1041→T R A D I N G  S T R A T E G Y  B A C K T E S T  R E P O R T
+   543→  1042→  1042→ZigZag + RSI
+   544→  1043→  1043→Divergence
+   545→  1044→  1044→Strategy
+   546→  1045→  1045→A comprehensive price-action and ZigZag indicator based
+   547→  1046→  1046→strategy for identifying reversal and continuation signals
+   548→  1047→  1047→during the SAST 00:00-05:00 session. Backtested across
+   549→  1048→  1048→forex, crypto, metals, and synthetic indices using Deriv
+   550→  1049→  1049→historical data.
+   551→  1050→  1050→Data Source: Deriv Public API | Instruments: 22 | Timeframes: 5
+   552→  1051→  1051→Page 1
+   553→  1052→  1052→Table of Contents
+   554→  1053→  1053→2
+   555→  1054→  1054→1. Strategy Overview
+   556→  1055→  1055→2
+   557→  1056→  1056→2. ZigZag Indicator Settings
+   558→  1057→  1057→3
+   559→  1058→  1058→3. Signal Types
+   560→  1059→  1059→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 3
+   561→  1060→  1060→3.1 Bullish Divergence
+   562→  1061→  1061→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 3
+   563→  1062→  1062→3.2 Bearish Divergence
+   564→  1063→  1063→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 3
+   565→  1064→  1064→3.3 Pattern Reversal
+   566→  1065→  1065→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 4
+   567→  1066→  1066→3.4 Continuation
+   568→  1067→  1067→4
+   569→  1068→  1068→4. Entry and Exit Rules
+   570→  1069→  1069→4
+   571→  1070→  1070→5. Backtest Methodology
+   572→  1071→  1071→5
+   573→  1072→  1072→6. Overall Results
+   574→  1073→  1073→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 5
+   575→  1074→  1074→6.1 Per-Instrument Results
+   576→  1075→  1075→10
+   577→  1076→  1076→7. Performance by Asset Class
+   578→  1077→  1077→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+   579→  1078→  1078→7.1 Synthetic Indices
+   580→  1079→  1079→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+   581→  1080→  1080→7.2 Crypto
+   582→  1081→  1081→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+   583→  1082→  1082→7.3 Metals
+   584→  1083→  1083→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+   585→  1084→  1084→7.4 Forex
+   586→  1085→  1085→11
+   587→  1086→  1086→8. Monthly Consistency Analysis
+   588→  1087→  1087→11
+   589→  1088→  1088→9. Recommended Settings and Best Practices
+   590→  1089→  1089→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+   591→  1090→  1090→9.1 Best Performing Asset Classes
+   592→  1091→  1091→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+   593→  1092→  1092→9.2 Recommended Timeframes
+   594→  1093→  1093→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+   595→  1094→  1094→9.3 Risk Management
+   596→  1095→  1095→ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+   597→  1096→  1096→9.4 SAST Session Timing
+   598→  1097→  1097→Page 2
+   599→  1098→  1098→1. Strategy Overview
+   600→  1099→  1099→The ZigZag + RSI Divergence Strategy is a price-action-driven trading system that
+   601→  1100→  1100→combines swing point detection from the ZigZag indicator with momentum divergence
+   602→  1101→  1101→signals from the Relative Strength Index (RSI). The strategy is designed to identify
+   603→  1102→  1102→high-probability reversal and continuation setups during a specific trading window
+   604→  1103→  1103→aligned with the South African Standard Time (SAST) session, specifically between
+   605→  1104→  1104→00:00 and 05:00 SAST, which corresponds to 22:00-03:00 UTC.
+   606→  1105→  1105→At its core, the strategy detects structural swings in price using the ZigZag indicator,
+   607→  1106→  1106→which filters out minor price noise and highlights only significant trend changes. When a
+   608→  1107→  1107→new swing point is identified, the system evaluates RSI behavior at that point for
+   609→  1108→  1108→divergence patterns. A divergence occurs when price action and the oscillator move in
+   610→  1109→  1109→opposite directions, signaling a potential shift in momentum and an upcoming reversal.
+   611→  1110→  1110→The system is further enhanced with Stochastic Oscillator and MACD as confluence
+   612→  1111→  1111→filters. These secondary indicators confirm the strength and direction of the signal,
+   613→  1112→  1112→reducing false entries. Average True Range (ATR) is used to dynamically calculate
+   614→  1113→  1113→stop-loss and take-profit distances, ensuring that exits adapt to current market
+   615→  1114→  1114→volatility. This multi-indicator approach provides a robust framework that balances
+   616→  1115→  1115→sensitivity with specificity, filtering out noise while capturing genuine trading
+   617→  1116→  1116→opportunities.
+   618→  1117→  1117→The SAST trading window was specifically chosen to capture the overlap between the
+   619→  1118→  1118→late Asian session and the early London session, a period that often exhibits clean
+   620→  1119→  1119→directional moves ideal for this type of momentum-based strategy.
+   621→  1120→  1120→2. ZigZag Indicator Settings
+   622→  1121→  1121→The ZigZag indicator is a foundational component of this strategy. It operates by
+   623→  1122→  1122→connecting swing highs and swing lows on a price chart, filtering out price movements
+   624→  1123→  1123→that do not exceed a specified percentage threshold. The ZigZag Threshold is set to
+   625→  1124→  1124→2.5%, meaning that a price move must be at least 2.5% from the last swing point to
+   626→  1125→  1125→register as a new swing. This threshold was determined through a systematic
+   627→  1126→  1126→optimization process across all 22 instruments and 5 timeframes.
+   628→  1127→  1127→A lower threshold value would produce more swing points and more signals, but with
+   629→  1128→  1128→increased noise and a higher likelihood of false entries. Conversely, a higher threshold
+   630→  1129→  1129→would generate fewer signals but with greater significance and reliability. The 2.5%
+   631→  1130→  1130→setting strikes an optimal balance, producing enough signals for meaningful trade
+   632→  1131→  1131→frequency while maintaining the quality needed for a high win rate.
+   633→  1132→  1132→The ZigZag indicator does not predict future price movements; rather, it confirms and
+   634→  1133→  1133→labels swing points in retrospect. When combined with RSI divergence analysis at these
+   635→  1134→  1134→confirmed swing p
+   636→  1135→  1135→...

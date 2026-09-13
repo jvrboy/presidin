@@ -1,0 +1,59 @@
+name: Sync to Hugging Face Space
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Hugging Face token
+        id: check-hf-token
+        run: |
+          if [ -z "${{ secrets.HF_TOKEN }}" ]; then
+            echo "::warning title=Missing Secret::HF_TOKEN is missing. Skipping Hugging Face sync."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push snapshot to Hugging Face Space
+        if: ${{ steps.check-hf-token.outputs.skip != 'true' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer ${HF_TOKEN}" https://huggingface.co/api/whoami-v2 | grep -q "^200$" || { echo "::error title=Invalid HF_TOKEN::Hugging Face token is invalid or expired."; exit 1; }
+          # Push a clean single-commit snapshot (old git history contains
+          # binary files that Hugging Face rejects over plain git).
+          rm -rf .git
+          git init -b main
+          git config user.email "actions@github.com"
+          git config user.name "github-actions"
+
+          # Remove binary files that Hugging Face rejects.
+          # PDFs, WASM, and other large binaries must use HF Xet storage,
+          # not plain git. We exclude them from the sync.
+          find . -type f \( \
+            -name '*.pdf' \
+            -o -name '*.wasm' \
+            -o -name '*.exe' \
+            -o -name '*.dll' \
+            -o -name '*.so' \
+            -o -name '*.dylib' \
+            -o -name '*.zip' \
+            -o -name '*.tar.gz' \
+            -o -name '*.bin' \
+          \) -delete
+
+          # Also remove empty upload/ directory if it exists
+          rm -rf upload/
+
+          git add -A
+          git commit -m "Sync from GitHub: ${GITHUB_SHA::7}"
+          git push --force "https://Vietrin9:${HF_TOKEN}@huggingface.co/spaces/Vietrin9/infinite-loop-sound" main:main

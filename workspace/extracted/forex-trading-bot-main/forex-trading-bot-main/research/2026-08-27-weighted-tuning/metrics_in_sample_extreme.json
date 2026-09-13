@@ -1,0 +1,244 @@
+{
+  "data": {
+    "source": "/home/user/deriv_R_50_5k.json",
+    "candles": 5000,
+    "window": 260
+  },
+  "stats": {
+    "label": "in_sample_extreme",
+    "n": 30,
+    "wins": 8,
+    "losses": 22,
+    "winRate": 0.2667,
+    "skippedHold": 917,
+    "agreementThreshold": 0.8,
+    "netThreshold": 0.3,
+    "avgWin": 0.1185,
+    "avgLoss": -0.0516,
+    "profitFactor": 0.8349,
+    "expectancy": -0.0063,
+    "total": -0.1875,
+    "sharpe": -0.446,
+    "maxDrawdownPct": -0.3037,
+    "exits": {
+      "SL": 20,
+      "TP": 8,
+      "HORIZON": 2
+    }
+  },
+  "topSources": [
+    {
+      "source": "acc:stc",
+      "fires": 22,
+      "agreementWinRate": 0.7727,
+      "avgPnl": 0.0374
+    },
+    {
+      "source": "agent:alpha_neural_zoo/mean_reversion_mlp",
+      "fires": 27,
+      "agreementWinRate": 0.6667,
+      "avgPnl": 0.0015
+    },
+    {
+      "source": "ml_zoo:mean_reversion_mlp",
+      "fires": 27,
+      "agreementWinRate": 0.6667,
+      "avgPnl": 0.0015
+    },
+    {
+      "source": "ml_logistic",
+      "fires": 30,
+      "agreementWinRate": 0.6333,
+      "avgPnl": 0.0027
+    },
+    {
+      "source": "agent:trend/htf",
+      "fires": 25,
+      "agreementWinRate": 0.52,
+      "avgPnl": 0.0097
+    },
+    {
+      "source": "tool:fib",
+      "fires": 20,
+      "agreementWinRate": 0.5,
+      "avgPnl": -0.0002
+    },
+    {
+      "source": "ema_cross",
+      "fires": 30,
+      "agreementWinRate": 0.4333,
+      "avgPnl": 0.0053
+    },
+    {
+      "source": "kst",
+      "fires": 30,
+      "agreementWinRate": 0.4333,
+      "avgPnl": -0.0059
+    },
+    {
+      "source": "strat:ao",
+      "fires": 30,
+      "agreementWinRate": 0.4333,
+      "avgPnl": -0.0021
+    },
+    {
+      "source": "strat:kst",
+      "fires": 30,
+      "agreementWinRate": 0.4333,
+      "avgPnl": -0.0059
+    },
+    {
+      "source": "tool:volume_profile",
+      "fires": 30,
+      "agreementWinRate": 0.4333,
+      "avgPnl": -0.011
+    },
+    {
+      "source": "agent:trend/ltf",
+      "fires": 30,
+      "agreementWinRate": 0.4333,
+      "avgPnl": 0.0053
+    },
+    {
+      "source": "agent:momentum/ao",
+      "fires": 30,
+      "agreementWinRate": 0.4333,
+      "avgPnl": -0.0021
+    },
+    {
+      "source": "agent:vp_poc/magnet",
+      "fires": 24,
+      "agreementWinRate": 0.4167,
+      "avgPnl": -0.0144
+    },
+    {
+      "source": "supertrend",
+      "fires": 30,
+      "agreementWinRate": 0.3667,
+      "avgPnl": -0.0027
+    },
+    {
+      "source": "hurst",
+      "fires": 30,
+      "agreementWinRate": 0.3667,
+      "avgPnl": -0.0027
+    },
+    {
+      "source": "ao_delta",
+      "fires": 30,
+      "agreementWinRate": 0.3667,
+      "avgPnl": 0.0052
+    },
+    {
+      "source": "strat:psar",
+      "fires": 30,
+      "agreementWinRate": 0.3667,
+      "avgPnl": -0.0045
+    },
+    {
+      "source": "strat:supertrend_s",
+      "fires": 30,
+      "agreementWinRate": 0.3667,
+      "avgPnl": -0.0027
+    },
+    {
+      "source": "tool:sr",
+      "fires": 30,
+      "agreementWinRate": 0.3667,
+      "avgPnl": -0.0227
+    }
+  ],
+  "bottomSources": [
+    {
+      "source": "agent:structure/swings",
+      "fires": 24,
+      "agreementWinRate": 0.25,
+      "avgPnl": -0.0243
+    },
+    {
+      "source": "agent:alpha_neural_zoo/volatility_lstm",
+      "fires": 24,
+      "agreementWinRate": 0.25,
+      "avgPnl": -0.0082
+    },
+    {
+      "source": "agent:session/time",
+      "fires": 24,
+      "agreementWinRate": 0.25,
+      "avgPnl": -0.0106
+    },
+    {
+      "source": "ml_zoo:volatility_lstm",
+      "fires": 24,
+      "agreementWinRate": 0.25,
+      "avgPnl": -0.0082
+    },
+    {
+      "source": "bull_confluence",
+      "fires": 21,
+      "agreementWinRate": 0.2381,
+      "avgPnl": -0.0102
+    },
+    {
+      "source": "smi",
+      "fires": 21,
+      "agreementWinRate": 0.2381,
+      "avgPnl": -0.0101
+    },
+    {
+      "source": "agent:dmi/trend",
+      "fires": 21,
+      "agreementWinRate": 0.2381,
+      "avgPnl": -0.0132
+    },
+    {
+      "source": "tsi_accel",
+      "fires": 26,
+      "agreementWinRate": 0.2308,
+      "avgPnl": -0.0123
+    },
+    {
+      "source": "tool:advanced_confluence",
+      "fires": 26,
+      "agreementWinRate": 0.2308,
+      "avgPnl": -0.0117
+    },
+    {
+      "source": "elder",
+      "fires": 22,
+      "agreementWinRate": 0.2273,
+      "avgPnl": -0.0145
+    },
+    {
+      "source": "agent:alpha_neural_zoo/breakout_transformer",
+      "fires": 20,
+      "agreementWinRate": 0.2,
+      "avgPnl": -0.0193
+    },
+    {
+      "source": "ml_zoo:breakout_transformer",
+      "fires": 20,
+      "agreementWinRate": 0.2,
+      "avgPnl": -0.0193
+    },
+    {
+      "source": "ttm_squeeze",
+      "fires": 26,
+      "agreementWinRate": 0.1923,
+      "avgPnl": -0.0206
+    },
+    {
+      "source": "agent:alpha_neural_zoo/micro_trend_cnn",
+      "fires": 21,
+      "agreementWinRate": 0.1905,
+      "avgPnl": -0.0179
+    },
+    {
+      "source": "ml_zoo:micro_trend_cnn",
+      "fires": 21,
+      "agreementWinRate": 0.1905,
+      "avgPnl": -0.0179
+    }
+  ],
+  "generated": "2026-08-27"
+}

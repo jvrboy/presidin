@@ -1,0 +1,192 @@
+name: Build Unsigned iOS IPA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-ios:
+    name: Build unsigned Capacitor IPA (iOS 16+)
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web app
+        run: npm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Prepare static web bundle for Capacitor
+        run: |
+          rm -rf dist
+          mkdir -p dist
+          if [ -d ".vercel/output/static" ]; then
+            cp -R .vercel/output/static/. dist/
+          elif [ -d ".output/public" ]; then
+            cp -R .output/public/. dist/
+          elif [ -d "dist/client" ]; then
+            cp -R dist/client/. dist/
+            rm -rf dist/client dist/server 2>/dev/null || true
+          else
+            echo "::warning title=Custom static search::Checking for other build output locations..."
+            find . -name "index.html" -not -path "./node_modules/*" 2>/dev/null | head -10
+            # Last resort: build with basic vite output
+            echo "::warning title=Fallback::Trying fallback static build"
+            npx vite build --outDir dist 2>&1 | tail -5
+          fi
+
+          if [ ! -f dist/index.html ]; then
+            node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          // Search in common locations
+          const searchPaths = ['dist/client', '.vercel/output/static', '.output/public', 'dist/assets'];
+          for (const sp of searchPaths) {
+            if (fs.existsSync(path.join(sp, '..', 'index.html'))) {
+              console.log('Found index.html in', sp);
+              process.exit(0);
+            }
+          }
+          const assetsDir = path.join('dist', 'assets');
+          const assets = fs.existsSync(assetsDir) ? fs.readdirSync(assetsDir) : [];
+          const js = assets.find((name) => name.endsWith('.js'));
+          const css = assets.find((name) => name.endsWith('.css'));
+          fs.writeFileSync(
+            path.join('dist', 'index.html'),
+            `<!doctype html><html lang="en" class="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Divergence IQ</title>${css ? `<link rel="stylesheet" href="/assets/${css}">` : ''}</head><body class="dark"><div id="app"></div>${js ? `<script type="module" src="/assets/${js}"></script>` : ''}</body></html>`
+          );
+          NODE
+          fi
+
+          test -s dist/index.html && echo "=== dist/index.html exists ==="
+          du -sh dist
+
+      - name: Create and sync Capacitor iOS project
+        run: |
+          set +e
+          echo "=== Setting up Capacitor iOS project ==="
+
+          echo "Adding iOS platform..."
+          npx cap add ios 2>&1
+          echo "---"
+
+          echo "Syncing iOS project..."
+          npx cap sync ios 2>&1
+          echo "---"
+
+          echo "Checking for Podfile..."
+          if [ -f ios/App/Podfile ]; then
+            echo "Podfile EXISTS - using it"
+          else
+            echo "Podfile MISSING - creating manually"
+            mkdir -p ios/App
+            node scripts/setup-podfile.cjs
+          fi
+
+          echo "Podfile:"
+          cat ios/App/Podfile
+          echo "=== Done ==="
+          set -e
+
+      - name: Generate iOS app icons
+        run: |
+          node scripts/generate-ios-icons.cjs
+
+      - name: Enforce iOS 16 deployment target
+        run: |
+          PODFILE="ios/App/Podfile"
+          PBXPROJ="ios/App/App.xcodeproj/project.pbxproj"
+          if [ -f "$PODFILE" ]; then
+            if grep -q "platform :ios" "$PODFILE"; then
+              sed -i '' "s/platform :ios, '[0-9.]*'/platform :ios, '16.0'/" "$PODFILE"
+            else
+              sed -i '' "1s/^/platform :ios, '16.0'\n/" "$PODFILE"
+            fi
+          fi
+          if [ -f "$PBXPROJ" ]; then
+            sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*/IPHONEOS_DEPLOYMENT_TARGET = 16.0/g' "$PBXPROJ"
+          fi
+          if [ -f "ios/App/App.xcodeproj/project.pbxproj" ]; then
+            grep -R "IPHONEOS_DEPLOYMENT_TARGET = 16.0" ios/App/App.xcodeproj/project.pbxproj || echo "Warning: Could not verify deployment target"
+          fi
+
+      - name: Install CocoaPods
+        working-directory: ios/App
+        run: pod install --repo-update
+
+      - name: Build unsigned IPA
+        working-directory: ios/App
+        run: |
+          set -euo pipefail
+          for i in 1 2 3; do
+            xcodebuild clean archive \
+              -workspace App.xcworkspace \
+              -scheme App \
+              -configuration Release \
+              -sdk iphoneos \
+              -destination generic/platform=iOS \
+              -archivePath "$PWD/build/App.xcarchive" \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGN_IDENTITY="" \
+              AD_HOC_CODE_SIGNING_ALLOWED=NO \
+              DEVELOPMENT_TEAM="" \
+              PROVISIONING_PROFILE="" \
+              PROVISIONING_PROFILE_SPECIFIER="" \
+            && break || sleep 15
+          done
+
+          rm -rf build/Payload build/App.ipa
+          mkdir -p build/Payload
+          cp -R build/App.xcarchive/Products/Applications/App.app build/Payload/
+          (cd build && zip -qry App.ipa Payload)
+
+      - name: Verify IPA contents
+        run: |
+          set -euo pipefail
+          IPA_PATH="ios/App/build/App.ipa"
+          test -s "$IPA_PATH"
+          unzip -t "$IPA_PATH" >/dev/null
+          unzip -l "$IPA_PATH" | grep -E 'Payload/App\.app/(Info\.plist|public/index\.html)'
+          IPA_SIZE=$(stat -f%z "$IPA_PATH")
+          if [ "$IPA_SIZE" -lt 5000000 ]; then
+            echo "::warning title=Small IPA::IPA is $IPA_SIZE bytes; inspect the artifact if this is unexpected."
+          fi
+          echo "IPA_PATH=$IPA_PATH" >> "$GITHUB_ENV"
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DivergenceIQ-Unsigned-iOS16-IPA
+          path: ${{ env.IPA_PATH }}
+          if-no-files-found: error
+
+      - name: Upload IPA as GitHub Release
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="ios-unsigned-$(date +%Y%m%d-%H%M%S)"
+          gh release create "$TAG" \
+            --title "Unsigned iOS IPA - $(date +%Y-%m-%d)" \
+            --notes "Auto-built unsigned Capacitor IPA for iOS 16+. This build intentionally disables code signing." \
+            "$IPA_PATH#DivergenceIQ-Unsigned-iOS16.ipa"

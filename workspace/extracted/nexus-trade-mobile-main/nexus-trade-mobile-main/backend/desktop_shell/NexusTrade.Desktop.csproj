@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>NexusTrade</AssemblyName>
+    <RootNamespace>NexusTrade.Desktop</RootNamespace>
+    <ApplicationIcon>Assets\nexus.ico</ApplicationIcon>
+    <AssemblyTitle>Nexus Trade</AssemblyTitle>
+    <Product>Nexus Trade</Product>
+    <Description>Agentic Forex Trading Terminal — Micro-Kernel Edition</Description>
+    <Company>Nexus Trade</Company>
+    <Version>2.0.0</Version>
+    <FileVersion>2.0.0.0</FileVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <!-- Self-contained so the target PC needs NO .NET runtime installed -->
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>false</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <!-- Suppress warnings -->
+    <NoWarn>$(NoWarn);MSB3277;CS8600;CS8602;CS8603;CS8604</NoWarn>
+    <!-- Debug symbols for crash reporting -->
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- WebView2: native Chromium webview (same engine as Teams/Office) -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

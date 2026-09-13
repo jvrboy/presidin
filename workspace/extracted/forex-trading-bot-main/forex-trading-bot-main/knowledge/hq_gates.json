@@ -1,0 +1,43 @@
+{
+  "from_today_signal_losses": {
+    "min_mom3_pct_buy": 0.12,
+    "min_mom3_pct_sell": -0.12,
+    "prefer_rsi_buy_max": 45,
+    "prefer_rsi_sell_min": 55,
+    "fast_sl_cooldown_bars": 12,
+    "require_brief_pullback": true
+  },
+  "from_mt5_report_40917328": {
+    "max_consecutive_losses_before_pause": 3,
+    "max_trades_per_day": 8,
+    "max_trades_per_symbol_per_day": 3,
+    "prefer_long_when_htf_up": true,
+    "short_requires_htf_down_and_extension": true,
+    "ban_fx_overtrade": true,
+    "prefer_symbols": [
+      "R_25",
+      "R_10",
+      "R_75",
+      "1HZ15V",
+      "1HZ25V",
+      "1HZ50V",
+      "1HZ75V",
+      "1HZ90V",
+      "DSI20",
+      "DSI30",
+      "BOOM500",
+      "BOOM1000",
+      "CRASH500",
+      "CRASH1000",
+      "XAUUSD"
+    ],
+    "deprioritize_symbols": [
+      "EURUSD",
+      "GBPUSD",
+      "AUDUSD"
+    ],
+    "min_path_aware_oos_wr": 0.58,
+    "min_rr": 2.0,
+    "daily_loss_cap_pct": 1.0
+  }
+}

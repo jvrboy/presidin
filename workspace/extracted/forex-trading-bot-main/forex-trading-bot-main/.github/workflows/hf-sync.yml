@@ -1,0 +1,45 @@
+name: HF Registry Sync
+
+on:
+  push:
+    paths:
+      - 'models/**'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Push manifest + fallback weights to HuggingFace
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "HF_TOKEN secret not set — skipping HF sync"
+            exit 0
+          fi
+          pip install -q huggingface_hub
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from huggingface_hub import HfApi
+
+          repo = "justinsimpsad/forex-bot-weights"
+          api = HfApi(token=os.environ["HF_TOKEN"])
+
+          api.upload_file(
+              path_or_fileobj=str(Path("models/default-weights.json")),
+              path_in_repo="fallback/weights.json",
+              repo_id=repo,
+              repo_type="model",
+          )
+          api.upload_file(
+              path_or_fileobj=str(Path("models/manifest.json")),
+              path_in_repo="manifest.json",
+              repo_id=repo,
+              repo_type="model",
+          )
+          print("HF registry synced: manifest.json + fallback/weights.json")
+          PY

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg-teal" cx="50%" cy="40%">
+      <stop offset="0%" stop-color="#042f2e"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="225" fill="url(#bg-teal)"/>
+  <g opacity="0.15">
+    <path d="M0,716 Q256,512 512,716 T1024,716 V1024 H0 Z" fill="#2dd4bf"/>
+    <path d="M0,819 Q256,614 512,819 T1024,819 V1024 H0 Z" fill="#14b8a6"/>
+  </g>
+  <g transform="translate(512, 512)">
+    <circle r="286" fill="none" stroke="#14b8a6" stroke-width="40" opacity="0.3"/>
+    <circle r="204" fill="none" stroke="#2dd4bf" stroke-width="30" opacity="0.5"/>
+    <path d="M-153,51 L-51,-102 L51,81 L153,-51" fill="none" stroke="#14b8a6" stroke-width="35" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="-153" cy="51" r="15" fill="#2dd4bf"/>
+    <circle cx="-51" cy="-102" r="15" fill="#2dd4bf"/>
+    <circle cx="51" cy="81" r="15" fill="#2dd4bf"/>
+    <circle cx="153" cy="-51" r="15" fill="#2dd4bf"/>
+  </g>
+  <text x="512" y="942" text-anchor="middle" font-family="sans-serif" font-size="61" font-weight="bold" fill="#2dd4bf" opacity="0.6">DIQ</text>
+</svg>
