@@ -6,7 +6,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/presidin/theme-provider";
 import { QueryProvider } from "@/components/presidin/query-provider";
 import { ErrorBoundary } from "@/components/presidin/error-boundary";
-import { AuthProvider } from "@/components/presidin/auth-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,19 +20,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "PRESIDIN — Unified Trading Intelligence",
   description:
-    "PRESIDIN is a unified, cross-platform trading intelligence platform that fuses multi-agent signal generation, self-improving ML, a quant research lab, live execution, risk tooling, an AI assistant, and a built-in audio engine — into one native-grade app for iOS, Android, Web, Desktop and PWA.",
-  keywords: [
-    "PRESIDIN",
-    "forex",
-    "trading",
-    "multi-agent",
-    "quant lab",
-    "Deriv",
-    "MT5",
-    "machine learning",
-    "risk management",
-    "audio engine",
-  ],
+    "PRESIDIN is a unified trading intelligence platform with multi-agent signal generation, self-improving ML, live execution, risk tooling, an AI assistant, and a built-in audio engine.",
   authors: [{ name: "PRESIDIN" }],
   applicationName: "PRESIDIN",
   appleWebApp: {
@@ -45,13 +32,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
-  },
-  openGraph: {
-    title: "PRESIDIN — Unified Trading Intelligence",
-    description:
-      "Multi-agent signals, self-improving ML, quant lab, live execution, risk, AI chat, audio — one app.",
-    siteName: "PRESIDIN",
-    type: "website",
   },
 };
 
@@ -74,14 +54,12 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <QueryProvider>
-            <AuthProvider>
-              <ErrorBoundary>
-                <div className="aurora-bg" aria-hidden />
-                <div className="relative z-10">{children}</div>
-                <Toaster />
-                <Sonner position="top-right" richColors closeButton />
-              </ErrorBoundary>
-            </AuthProvider>
+            <ErrorBoundary>
+              <div className="aurora-bg" aria-hidden />
+              <div className="relative z-10">{children}</div>
+              <Toaster />
+              <Sonner position="top-right" richColors closeButton />
+            </ErrorBoundary>
           </QueryProvider>
         </ThemeProvider>
       </body>

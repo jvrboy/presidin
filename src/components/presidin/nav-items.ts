@@ -1,8 +1,6 @@
 import {
-  LayoutDashboard, Radio, Brain, FlaskConical, CandlestickChart,
-  Calculator, MessageSquare, Music, Bell, Settings, Sparkles,
-  Newspaper, CalendarDays, Wrench, Database, Cloud, Activity,
-  BookOpen, History,
+  LayoutDashboard, Radio, CandlestickChart, BookOpen, Calculator,
+  MessageSquare, Music, Bell, Settings,
 } from "lucide-react";
 import type { Section } from "@/stores/presidin";
 
@@ -11,7 +9,7 @@ export interface NavItem {
   label: string;
   shortLabel: string;
   icon: React.ComponentType<{ className?: string }>;
-  category: "overview" | "intelligence" | "research" | "execution" | "studio" | "system" | "backend";
+  category: "overview" | "execution" | "research" | "studio" | "system";
   description: string;
 }
 
@@ -22,47 +20,15 @@ export const NAV_ITEMS: NavItem[] = [
     shortLabel: "Home",
     icon: LayoutDashboard,
     category: "overview",
-    description: "Equity, signals, agents, market overview",
+    description: "Equity, signals, market overview, AI performance",
   },
   {
     id: "signals",
     label: "Signals",
     shortLabel: "Signals",
     icon: Radio,
-    category: "intelligence",
-    description: "Multi-agent signal feed with drill-down",
-  },
-  {
-    id: "agents",
-    label: "Agents",
-    shortLabel: "Agents",
-    icon: Sparkles,
-    category: "intelligence",
-    description: "Configure 17 voting agents + MasterAgent",
-  },
-  {
-    id: "ml",
-    label: "Self-Learning ML",
-    shortLabel: "ML",
-    icon: Brain,
-    category: "intelligence",
-    description: "Model registry, drift, anomaly, shadow, explainability",
-  },
-  {
-    id: "quant-lab",
-    label: "Quant Lab",
-    shortLabel: "Quant",
-    icon: FlaskConical,
-    category: "research",
-    description: "Backtest, walk-forward, Monte Carlo, PBO, HRP",
-  },
-  {
-    id: "risk",
-    label: "Risk Calculators",
-    shortLabel: "Risk",
-    icon: Calculator,
-    category: "research",
-    description: "Position size, Kelly, Risk of Ruin, Fib, Pivots",
+    category: "overview",
+    description: "Live multi-agent signal feed with auto-generation",
   },
   {
     id: "trading",
@@ -81,20 +47,12 @@ export const NAV_ITEMS: NavItem[] = [
     description: "Log, analyze, and learn from historical trades",
   },
   {
-    id: "news",
-    label: "News & Calendar",
-    shortLabel: "News",
-    icon: Newspaper,
+    id: "risk",
+    label: "Risk Calculators",
+    shortLabel: "Risk",
+    icon: Calculator,
     category: "research",
-    description: "Live news feed, economic calendar, sentiment",
-  },
-  {
-    id: "tools",
-    label: "Market Tools",
-    shortLabel: "Tools",
-    icon: Wrench,
-    category: "research",
-    description: "Currency strength, correlation, on-chain, session, sentiment analyzer",
+    description: "Position size, Kelly, Risk of Ruin, Fib, Pivots",
   },
   {
     id: "chat",
@@ -113,22 +71,6 @@ export const NAV_ITEMS: NavItem[] = [
     description: "Piano roll, mixer, FX, MIDI composer",
   },
   {
-    id: "backtests",
-    label: "Backtest History",
-    shortLabel: "BT History",
-    icon: History,
-    category: "research",
-    description: "Saved backtest results — compare strategies",
-  },
-  {
-    id: "backend",
-    label: "Backend Status",
-    shortLabel: "Backend",
-    icon: Database,
-    category: "backend",
-    description: "Supabase, Cloudflare, ML service, realtime",
-  },
-  {
     id: "notifications",
     label: "Notifications",
     shortLabel: "Alerts",
@@ -142,16 +84,14 @@ export const NAV_ITEMS: NavItem[] = [
     shortLabel: "Settings",
     icon: Settings,
     category: "system",
-    description: "Theme, providers, API keys, brokers, account",
+    description: "AI providers, brokers, auto-signal, learning config",
   },
 ];
 
 export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   { label: "Overview", items: NAV_ITEMS.filter((i) => i.category === "overview") },
-  { label: "Intelligence", items: NAV_ITEMS.filter((i) => i.category === "intelligence") },
-  { label: "Research", items: NAV_ITEMS.filter((i) => i.category === "research") },
   { label: "Execution", items: NAV_ITEMS.filter((i) => i.category === "execution") },
+  { label: "Research", items: NAV_ITEMS.filter((i) => i.category === "research") },
   { label: "Studio", items: NAV_ITEMS.filter((i) => i.category === "studio") },
-  { label: "Backend", items: NAV_ITEMS.filter((i) => i.category === "backend") },
   { label: "System", items: NAV_ITEMS.filter((i) => i.category === "system") },
 ];

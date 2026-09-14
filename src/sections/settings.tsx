@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { GlassPanel, SectionTitle, ShimmerButton, KpiCard } from "@/components/presidin/glass";
-import { Settings, Key, Brain, Palette, Smartphone, Plus, Trash2, Eye, EyeOff, Database, Cloud, CheckCircle2, XCircle, Save } from "lucide-react";
-import { useProvidersStore, useAccountStore, useThemeStore } from "@/stores/presidin";
+import { Settings, Key, Brain, Palette, Smartphone, Plus, Trash2, Eye, EyeOff, Database, Cloud, CheckCircle2, XCircle, Save, Cpu } from "lucide-react";
+import { useProvidersStore, useAccountStore, useThemeStore, useEngineConfigStore, useAgentConfigStore } from "@/stores/presidin";
 import { PROVIDERS, type ProviderId } from "@/lib/presidin/ai-providers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -93,8 +93,9 @@ export function SettingsSection() {
       />
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-6 max-w-3xl overflow-x-auto">
+        <TabsList className="grid grid-cols-7 max-w-3xl overflow-x-auto">
           <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="engine">Engine</TabsTrigger>
           <TabsTrigger value="providers">AI Providers</TabsTrigger>
           <TabsTrigger value="custom">Custom EP</TabsTrigger>
           <TabsTrigger value="brokers">Brokers</TabsTrigger>
@@ -136,6 +137,11 @@ export function SettingsSection() {
               </div>
             </div>
           </GlassPanel>
+        </TabsContent>
+
+        {/* Engine */}
+        <TabsContent value="engine" className="space-y-3">
+          <EngineTab />
         </TabsContent>
 
         {/* AI Providers */}
@@ -494,5 +500,142 @@ export function SettingsSection() {
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+function EngineTab() {
+  const {
+    enabled, intervalMs, symbols, timeframes, minConfidence,
+    autoExecute, autoExecuteThreshold, learningEnabled, retrainIntervalHours,
+    setConfig, toggle,
+  } = useEngineConfigStore();
+  const config = {
+    enabled, intervalMs, symbols, timeframes, minConfidence,
+    autoExecute, autoExecuteThreshold, learningEnabled, retrainIntervalHours,
+  };
+  return (
+    <>
+      <GlassPanel veil>
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Brain className="h-4 w-4 text-violet-400" />
+            <h3 className="text-sm font-semibold">Signal Engine</h3>
+          </div>
+          <Switch checked={config.enabled} onCheckedChange={() => toggle()} />
+        </div>
+        <p className="mb-4 text-xs text-muted-foreground">
+          When enabled, the engine automatically scans all configured symbols + timeframes on a timer,
+          generates signals using the 17-agent MasterAgent, persists them to Supabase, and broadcasts via WebSocket.
+        </p>
+        <div className="space-y-4">
+          <div>
+            <div className="mb-2 flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Scan interval</span>
+              <span className="tnum font-semibold">{(config.intervalMs / 1000).toFixed(0)}s</span>
+            </div>
+            <Slider
+              value={[config.intervalMs / 1000]}
+              onValueChange={(v) => setConfig({ intervalMs: v[0] * 1000 })}
+              min={15} max={600} step={15}
+              disabled={!config.enabled}
+            />
+            <div className="mt-1 flex justify-between text-[10px] text-muted-foreground">
+              <span>15s</span><span>10min</span>
+            </div>
+          </div>
+          <div>
+            <div className="mb-2 flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Min confidence to persist</span>
+              <span className="tnum font-semibold">{config.minConfidence}%</span>
+            </div>
+            <Slider
+              value={[config.minConfidence]}
+              onValueChange={(v) => setConfig({ minConfidence: v[0] })}
+              min={20} max={95} step={5}
+              disabled={!config.enabled}
+            />
+          </div>
+        </div>
+      </GlassPanel>
+
+      <GlassPanel veil>
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Cpu className="h-4 w-4 text-cyan-400" />
+            <h3 className="text-sm font-semibold">Self-Learning</h3>
+          </div>
+          <Switch checked={config.learningEnabled} onCheckedChange={(v) => setConfig({ learningEnabled: v })} />
+        </div>
+        <p className="mb-4 text-xs text-muted-foreground">
+          Evaluates past signals against live prices every 5 min, then retrains ML models on a schedule
+          using the calibration data. Agents with higher accuracy get more weight.
+        </p>
+        <div className="space-y-4">
+          <div>
+            <div className="mb-2 flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Retrain interval</span>
+              <span className="tnum font-semibold">{config.retrainIntervalHours}h</span>
+            </div>
+            <Slider
+              value={[config.retrainIntervalHours]}
+              onValueChange={(v) => setConfig({ retrainIntervalHours: v[0] })}
+              min={1} max={48} step={1}
+              disabled={!config.learningEnabled}
+            />
+            <div className="mt-1 flex justify-between text-[10px] text-muted-foreground">
+              <span>1h</span><span>48h</span>
+            </div>
+          </div>
+        </div>
+      </GlassPanel>
+
+      <GlassPanel veil>
+        <h3 className="mb-3 text-sm font-semibold">Scanned Symbols ({config.symbols.length})</h3>
+        <div className="flex flex-wrap gap-2">
+          {config.symbols.map((s) => (
+            <span key={s} className="rounded-md bg-violet-500/15 px-2.5 py-1 text-xs font-medium text-violet-200 ring-1 ring-violet-500/30">
+              {s}
+            </span>
+          ))}
+        </div>
+        <p className="mt-2 text-[10px] text-muted-foreground">Symbols are fixed to the default watchlist. Future versions will allow custom selection.</p>
+      </GlassPanel>
+
+      <GlassPanel veil>
+        <h3 className="mb-3 text-sm font-semibold">Scanned Timeframes ({config.timeframes.length})</h3>
+        <div className="flex flex-wrap gap-2">
+          {config.timeframes.map((t) => (
+            <span key={t} className="rounded-md bg-cyan-500/15 px-2.5 py-1 text-xs font-medium text-cyan-200 ring-1 ring-cyan-500/30">
+              {t}
+            </span>
+          ))}
+        </div>
+      </GlassPanel>
+
+      <GlassPanel veil>
+        <h3 className="mb-3 text-sm font-semibold">Auto-Execution (paper)</h3>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between rounded-lg bg-secondary/40 p-3">
+            <div>
+              <div className="text-sm font-medium">Auto-execute high-confidence signals</div>
+              <div className="text-xs text-muted-foreground">Paper trading only — places orders on signals above threshold</div>
+            </div>
+            <Switch checked={config.autoExecute} onCheckedChange={(v) => setConfig({ autoExecute: v })} />
+          </div>
+          <div>
+            <div className="mb-2 flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Auto-execute threshold</span>
+              <span className="tnum font-semibold">{config.autoExecuteThreshold}%</span>
+            </div>
+            <Slider
+              value={[config.autoExecuteThreshold]}
+              onValueChange={(v) => setConfig({ autoExecuteThreshold: v[0] })}
+              min={70} max={99} step={1}
+              disabled={!config.autoExecute}
+            />
+          </div>
+        </div>
+      </GlassPanel>
+    </>
   );
 }

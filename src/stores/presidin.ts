@@ -8,18 +8,11 @@ import { persist, createJSONStorage } from "zustand/middleware";
 export type Section =
   | "dashboard"
   | "signals"
-  | "agents"
-  | "ml"
-  | "quant-lab"
   | "trading"
   | "journal"
   | "risk"
-  | "news"
-  | "tools"
   | "chat"
   | "audio"
-  | "backtests"
-  | "backend"
   | "notifications"
   | "settings";
 
@@ -293,6 +286,46 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: "presidin-theme",
+      storage: createJSONStorage(() => (typeof window !== "undefined" ? localStorage : (undefined as any))),
+    }
+  )
+);
+
+// ============================================================
+// Signal Engine config (auto-signal + learning)
+// ============================================================
+
+interface EngineConfigState {
+  enabled: boolean;
+  intervalMs: number;
+  symbols: string[];
+  timeframes: string[];
+  minConfidence: number;
+  autoExecute: boolean;
+  autoExecuteThreshold: number;
+  learningEnabled: boolean;
+  retrainIntervalHours: number;
+  setConfig: (c: Partial<EngineConfigState>) => void;
+  toggle: () => void;
+}
+
+export const useEngineConfigStore = create<EngineConfigState>()(
+  persist(
+    (set) => ({
+      enabled: true,
+      intervalMs: 60_000,
+      symbols: ["frxEURUSD", "frxGBPUSD", "frxUSDJPY", "frxXAUUSD", "frxUS30", "frxUS500", "R_100", "BOOM1000"],
+      timeframes: ["15m", "1h", "4h"],
+      minConfidence: 60,
+      autoExecute: false,
+      autoExecuteThreshold: 85,
+      learningEnabled: true,
+      retrainIntervalHours: 6,
+      setConfig: (c) => set((s) => ({ ...s, ...c })),
+      toggle: () => set((s) => ({ enabled: !s.enabled })),
+    }),
+    {
+      name: "presidin-engine",
       storage: createJSONStorage(() => (typeof window !== "undefined" ? localStorage : (undefined as any))),
     }
   )

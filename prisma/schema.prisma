@@ -1,7 +1,4 @@
-// PRESIDIN — Prisma schema
-// SQLite default for local dev + fast cache.
-// Supabase Postgres used for production cloud storage via @supabase/supabase-js
-// (signals, trades, chat, logs, backtests tables — see src/lib/presidin/supabase.ts)
+// PRESIDIN — Prisma schema (personal app, no auth)
 
 generator client {
   provider = "prisma-client-js"
@@ -12,113 +9,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ============================================================
-// NextAuth models (PrismaAdapter compatible)
-// ============================================================
-
-model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  name          String?
-  passwordHash  String?
-  role          String    @default("user") // user | admin
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  settings      UserSetting[]
-  trades        Trade[]
-  signals       SignalRecord[]
-  chatThreads   ChatThread[]
-  authenticators Authenticator[]
-}
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-  @@unique([identifier, token])
-}
-
-model Authenticator {
-  id             String  @id @default(cuid())
-  userId         String
-  credentialID   String  @unique
-  publicKey      String
-  counter        Int     @default(0)
-  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  @@unique([userId, credentialID])
-}
-
-// ============================================================
-// PRESIDIN app models
-// ============================================================
-
-model UserSetting {
-  id      String @id @default(cuid())
-  userId  String
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  key     String
-  value   String
-  @@unique([userId, key])
-}
-
 model SignalRecord {
-  id          String   @id @default(cuid())
-  userId      String?
-  user        User?    @relation(fields: [userId], references: [id])
-  symbol      String
-  timeframe   String
-  direction   String   // BUY | SELL | NEUTRAL
-  confidence  Float
-  consensus   Float
-  votesJson   String   // JSON-stringified votes array
-  entryPrice  Float
-  stopLoss    Float
-  takeProfit  Float
-  rrRatio     Float
+  id           String   @id @default(cuid())
+  symbol       String
+  timeframe    String
+  direction    String   // BUY | SELL | NEUTRAL
+  confidence   Float
+  consensus    Float
+  votesJson    String
+  entryPrice   Float
+  stopLoss     Float
+  takeProfit   Float
+  rrRatio      Float
   positionSize Float
-  status      String   @default("active") // active | expired | executed | invalidated
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status       String   @default("active") // active | expired | executed | invalidated
+  outcome      String?  // win | loss | breakeven (set after evaluation)
+  evaluatedAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   @@index([symbol, timeframe])
   @@index([createdAt])
+  @@index([status])
 }
 
 model Trade {
   id          String   @id @default(cuid())
-  userId      String?
-  user        User?    @relation(fields: [userId], references: [id])
   symbol      String
-  broker      String   // deriv | mt5 | paper
-  direction   String   // BUY | SELL
+  broker      String   @default("paper")
+  direction   String
   quantity    Float
   entryPrice  Float
   exitPrice   Float?
@@ -128,7 +46,7 @@ model Trade {
   takeProfit  Float?
   pnl         Float?
   pnlPct      Float?
-  status      String   @default("open") // open | closed | cancelled
+  status      String   @default("open")
   notes       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -136,33 +54,10 @@ model Trade {
   @@index([status])
 }
 
-model ChatThread {
-  id        String   @id @default(cuid())
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id])
-  title     String
-  provider  String   // zai | openai | anthropic | gemini | groq
-  model     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  messages  ChatMessage[]
-}
-
-model ChatMessage {
-  id        String   @id @default(cuid())
-  threadId  String
-  thread    ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
-  role      String   // user | assistant | system
-  content   String
-  tokensIn  Int      @default(0)
-  tokensOut Int      @default(0)
-  createdAt DateTime @default(now())
-}
-
 model BotLog {
   id        String   @id @default(cuid())
-  level     String   // info | warn | error | debug
-  source    String   // signal | trade | ml | anomaly | system
+  level     String
+  source    String
   message   String
   data      String?
   createdAt DateTime @default(now())
@@ -172,12 +67,34 @@ model BotLog {
 
 model NotificationLog {
   id        String   @id @default(cuid())
-  channel   String   // telegram | discord | local | push
+  channel   String
   level     String
   title     String
   body      String
   source    String
   sentAt    DateTime @default(now())
   success   Boolean  @default(true)
-  @@index([sentAt])
+}
+
+model MlModelVersion {
+  id           String   @id @default(cuid())
+  modelType    String   // logistic | mlp_2layer | mlp_3layer
+  version      String
+  weightsJson  String
+  metricsJson  String
+  status       String   @default("candidate") // production | shadow | archived | candidate
+  trainedAt    DateTime @default(now())
+  samples      Int      @default(0)
+  @@index([modelType, status])
+}
+
+model LearningStats {
+  id             String   @id @default(cuid())
+  totalSignals   Int      @default(0)
+  correctSignals Int      @default(0)
+  accuracy       Float    @default(0)
+  bestStreak     Int      @default(0)
+  currentStreak  Int      @default(0)
+  lastRetrainedAt DateTime?
+  updatedAt      DateTime @updatedAt
 }

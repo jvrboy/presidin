@@ -4,18 +4,11 @@ import { Sidebar, TopBar } from "@/components/presidin/app-shell";
 import { useUIStore } from "@/stores/presidin";
 import { DashboardSection } from "@/sections/dashboard";
 import { SignalsSection } from "@/sections/signals";
-import { AgentsSection } from "@/sections/agents";
-import { MlSection } from "@/sections/ml";
-import { QuantLabSection } from "@/sections/quant-lab";
 import { TradingSection } from "@/sections/trading";
 import { JournalSection } from "@/sections/journal";
 import { RiskSection } from "@/sections/risk";
-import { NewsSection } from "@/sections/news";
-import { ToolsSection } from "@/sections/tools";
 import { ChatSection } from "@/sections/chat";
 import { AudioSection } from "@/sections/audio";
-import { BacktestsSection } from "@/sections/backtests";
-import { BackendSection } from "@/sections/backend";
 import { NotificationsSection } from "@/sections/notifications";
 import { SettingsSection } from "@/sections/settings";
 
@@ -30,18 +23,11 @@ export default function Home() {
           <div className="mx-auto max-w-7xl">
             {section === "dashboard" && <DashboardSection />}
             {section === "signals" && <SignalsSection />}
-            {section === "agents" && <AgentsSection />}
-            {section === "ml" && <MlSection />}
-            {section === "quant-lab" && <QuantLabSection />}
             {section === "trading" && <TradingSection />}
             {section === "journal" && <JournalSection />}
             {section === "risk" && <RiskSection />}
-            {section === "news" && <NewsSection />}
-            {section === "tools" && <ToolsSection />}
             {section === "chat" && <ChatSection />}
             {section === "audio" && <AudioSection />}
-            {section === "backtests" && <BacktestsSection />}
-            {section === "backend" && <BackendSection />}
             {section === "notifications" && <NotificationsSection />}
             {section === "settings" && <SettingsSection />}
           </div>

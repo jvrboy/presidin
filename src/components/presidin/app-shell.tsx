@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useUIStore, useAccountStore } from "@/stores/presidin";
+import { useUIStore, useAccountStore, useEngineConfigStore } from "@/stores/presidin";
 import { NAV_GROUPS } from "./nav-items";
 import { cn } from "@/lib/utils";
 import { Menu, X, ChevronRight, Activity } from "lucide-react";
@@ -130,6 +130,7 @@ export function Sidebar() {
 export function TopBar() {
   const { toggleSidebar, section } = useUIStore();
   const equity = useAccountStore((s) => s.equity);
+  const engineEnabled = useEngineConfigStore((s) => s.enabled);
   return (
     <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-border/60 bg-background/60 px-4 backdrop-blur-xl">
       <div className="flex items-center gap-3">
@@ -145,13 +146,17 @@ export function TopBar() {
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <div className="hidden items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1 text-xs ring-1 ring-emerald-500/20 sm:flex">
-          <span className="pulse-dot" />
-          <span className="font-medium text-emerald-300">Live</span>
+        <div className={`hidden items-center gap-2 rounded-full px-3 py-1 text-xs ring-1 sm:flex ${
+          engineEnabled ? "bg-emerald-500/10 ring-emerald-500/20" : "bg-slate-500/10 ring-slate-500/20"
+        }`}>
+          <span className={`pulse-dot ${engineEnabled ? "" : "neutral"}`} />
+          <span className={`font-medium ${engineEnabled ? "text-emerald-300" : "text-slate-400"}`}>
+            {engineEnabled ? "Engine On" : "Engine Off"}
+          </span>
           <span className="text-muted-foreground">·</span>
           <span className="tnum text-muted-foreground">{formatCurrency(equity)}</span>
         </div>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 text-xs font-bold text-white">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 text-xs font-bold text-white shadow-lg shadow-violet-500/30">
           P
         </div>
       </div>
