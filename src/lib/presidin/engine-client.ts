@@ -121,19 +121,25 @@ export function useSignalEngine() {
           );
           if (autoExecCandidates.length > 0) {
             try {
-              await Promise.all(autoExecCandidates.slice(0, 2).map((s) =>
-                fetch("/api/deriv/execute", {
+              await Promise.all(autoExecCandidates.slice(0, 2).map((s) => {
+                // Risk-adjusted position sizing:
+                // Base amount = 1 USD, scaled by (confidence / threshold) * (1 + (confidence - threshold) / 100)
+                // Higher confidence = larger stake, but capped at 5 USD
+                const confRatio = s.confidence / config.autoExecuteThreshold;
+                const stakeRaw = 1 * confRatio * (1 + (s.confidence - config.autoExecuteThreshold) / 100);
+                const stake = Math.min(5, Math.max(0.5, stakeRaw));
+                return fetch("/api/deriv/execute", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
                     symbol: Object.keys(SYMBOL_MAP).find((k) => SYMBOL_MAP[k].display === s.symbol) ?? "frxEURUSD",
                     direction: s.direction,
-                    amount: 1,
+                    amount: parseFloat(stake.toFixed(2)),
                     duration: 15,
                     durationUnit: "m",
                   }),
-                }).catch(() => {})
-              ));
+                }).catch(() => {});
+              }));
             } catch {}
           }
         }
@@ -200,6 +206,42 @@ export function useSignalEngine() {
     }, retrainMs);
     return () => clearInterval(retrainInterval);
   }, [config.learningEnabled, config.retrainIntervalHours, refreshStats]);
+
+  // Evaluate closed trades every 15 minutes
+  useEffect(() => {
+    if (!config.learningEnabled) return;
+    const evalInterval = setInterval(async () => {
+      try {
+        await fetch("/api/trades/evaluate", { method: "POST" });
+        await refreshStats();
+      } catch {}
+    }, 15 * 60 * 1000); // every 15min
+    return () => clearInterval(evalInterval);
+  }, [config.learningEnabled, refreshStats]);
+
+  // Daily learning report — fires once per day at a random offset
+  useEffect(() => {
+    if (!config.learningEnabled) return;
+    // Check if we've already sent today's report
+    const lastReport = localStorage.getItem("presidin:last-daily-report");
+    const today = new Date().toISOString().slice(0, 10);
+    if (lastReport === today) return; // already sent today
+
+    // Send after 30s on mount (if not already sent today)
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/learning/daily-report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dispatch: true }),
+        });
+        if (res.ok) {
+          localStorage.setItem("presidin:last-daily-report", today);
+        }
+      } catch {}
+    }, 30_000);
+    return () => clearTimeout(timer);
+  }, [config.learningEnabled]);
 
   // Load stats on mount
   useEffect(() => { refreshStats(); }, [refreshStats]);

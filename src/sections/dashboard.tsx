@@ -9,6 +9,7 @@ import { runMasterAgent, type Signal } from "@/lib/presidin/agents";
 import { useSignalEngine } from "@/hooks/use-signal-engine";
 import { LearningInsightsPanel } from "@/components/presidin/learning-insights";
 import { AdvancedAnalyticsPanel } from "@/components/presidin/advanced-analytics";
+import { ConfluencePanel } from "@/components/presidin/confluence-panel";
 import { Activity, TrendingUp, TrendingDown, Zap, Brain, Radio, DollarSign, Cpu, Sparkles, ArrowUpRight, ArrowDownRight, RefreshCw, Pause, Play, BrainCircuit } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 
@@ -315,6 +316,9 @@ export function DashboardSection() {
           </div>
         </GlassPanel>
       )}
+
+      {/* Multi-timeframe confluence */}
+      <ConfluencePanel />
 
       {/* Learning Insights panel */}
       <LearningInsightsPanel />
