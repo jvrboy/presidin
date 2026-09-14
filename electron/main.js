@@ -1,9 +1,11 @@
 /**
  * PRESIDIN — Electron main process
  * Wraps the Next.js static export as a native desktop app.
+ * Handles both dev (loads from :3000) and production (loads from out/index.html).
  */
-const { app, BrowserWindow, shell } = require("electron");
+const { app, BrowserWindow, shell, Menu } = require("electron");
 const path = require("path");
+const fs = require("fs");
 
 let mainWindow = null;
 
@@ -24,17 +26,30 @@ function createWindow() {
     },
   });
 
-  // In production: load the built static export
-  // In development: load from the dev server
+  // Dev mode: load from dev server
   const isDev = process.env.PRESIDIN_DEV === "1";
   if (isDev) {
     mainWindow.loadURL("http://localhost:3000");
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, "..", "out", "index.html"));
+    // Production: load the built static export
+    // Next.js export puts files in out/ directory
+    const outDir = path.join(__dirname, "..", "out");
+    const indexPath = path.join(outDir, "index.html");
+    if (fs.existsSync(indexPath)) {
+      mainWindow.loadFile(indexPath);
+    } else {
+      // Fallback: try loading from dist/
+      const distPath = path.join(__dirname, "..", "dist", "index.html");
+      if (fs.existsSync(distPath)) {
+        mainWindow.loadFile(distPath);
+      } else {
+        mainWindow.loadURL("data:text/html,<h1>PRESIDIN build not found</h1><p>Run <code>bun run build && bun next export</code> first.</p>");
+      }
+    }
   }
 
-  // Open external links in the system browser
+  // Open external links in system browser
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith("http")) {
       shell.openExternal(url);
@@ -42,6 +57,38 @@ function createWindow() {
     }
     return { action: "allow" };
   });
+
+  // Build menu
+  const template = [
+    {
+      label: "File",
+      submenu: [
+        { role: "quit" },
+      ],
+    },
+    {
+      label: "View",
+      submenu: [
+        { role: "reload" },
+        { role: "forceReload" },
+        { role: "toggleDevTools" },
+        { type: "separator" },
+        { role: "resetZoom" },
+        { role: "zoomIn" },
+        { role: "zoomOut" },
+        { type: "separator" },
+        { role: "togglefullscreen" },
+      ],
+    },
+    {
+      label: "Window",
+      submenu: [
+        { role: "minimize" },
+        { role: "close" },
+      ],
+    },
+  ];
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 app.whenReady().then(() => {

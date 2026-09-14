@@ -66,6 +66,7 @@ export function useSignalEngine() {
           const tfDef = TIMEFRAMES.find((t) => t.value === tf);
           if (!tfDef) continue;
           try {
+            // Use fetchHistory which tries real Deriv WebSocket first, falls back to synthetic
             const candles = await marketData.fetchHistory(symbol, tfDef.seconds, 200);
             const signal = runMasterAgent(def.display, tf, candles, agentConfig);
             if (signal.confidence >= config.minConfidence && signal.direction !== "NEUTRAL") {
@@ -74,6 +75,38 @@ export function useSignalEngine() {
           } catch {}
         }
       }
+
+      // Detect confluences from this batch — boost confidence for aligned TFs
+      if (newSignals.length >= 2) {
+        try {
+          const { detectConfluence } = await import("./confluence");
+          const confluences = detectConfluence(newSignals);
+          // For TRIPLE confluences, add a boosted signal to the list
+          for (const c of confluences) {
+            if (c.level === "TRIPLE" || c.level === "DOUBLE") {
+              // Create a confluence signal that the auto-executor will pick up
+              const boostedSignal: Signal = {
+                id: `conf_${Date.now()}_${c.symbol}_${c.level}`,
+                symbol: c.symbol,
+                timeframe: c.timeframes.join("+"),
+                direction: c.direction,
+                confidence: c.boostedConfidence,
+                votes: c.signals.flatMap((s: any) => s.votes ?? []),
+                consensusScore: c.consensusScore,
+                suggestedEntry: c.suggestedEntry,
+                suggestedStopLoss: c.suggestedStopLoss,
+                suggestedTakeProfit: c.suggestedTakeProfit,
+                riskRewardRatio: c.riskRewardRatio,
+                positionSize: c.positionSize,
+                createdAt: Date.now(),
+                expiresAt: Date.now() + 30 * 60 * 1000,
+              };
+              newSignals.unshift(boostedSignal); // put confluence signals first
+            }
+          }
+        } catch {}
+      }
+
       if (newSignals.length > 0) {
         setRecentSignals((prev) => [...newSignals, ...prev].slice(0, 50));
         setLastRun(Date.now());
@@ -222,12 +255,10 @@ export function useSignalEngine() {
   // Daily learning report — fires once per day at a random offset
   useEffect(() => {
     if (!config.learningEnabled) return;
-    // Check if we've already sent today's report
     const lastReport = localStorage.getItem("presidin:last-daily-report");
     const today = new Date().toISOString().slice(0, 10);
-    if (lastReport === today) return; // already sent today
+    if (lastReport === today) return;
 
-    // Send after 30s on mount (if not already sent today)
     const timer = setTimeout(async () => {
       try {
         const res = await fetch("/api/learning/daily-report", {
@@ -240,6 +271,33 @@ export function useSignalEngine() {
         }
       } catch {}
     }, 30_000);
+    return () => clearTimeout(timer);
+  }, [config.learningEnabled]);
+
+  // Weekly performance review — fires once per week
+  useEffect(() => {
+    if (!config.learningEnabled) return;
+    const lastWeekly = localStorage.getItem("presidin:last-weekly-report");
+    const thisWeek = new Date().toISOString().slice(0, 10).split("-").slice(0, 2).join("-"); // YYYY-MM
+    // Use ISO week number instead
+    const now = new Date();
+    const weekNum = Math.ceil(((now.getTime() - new Date(now.getFullYear(), 0, 1).getTime()) / 86400000 + new Date(now.getFullYear(), 0, 1).getDay() + 1) / 7);
+    const weekKey = `${now.getFullYear()}-W${weekNum}`;
+    if (lastWeekly === weekKey) return;
+
+    // Send after 60s on mount (if not already sent this week)
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/learning/weekly-report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dispatch: true }),
+        });
+        if (res.ok) {
+          localStorage.setItem("presidin:last-weekly-report", weekKey);
+        }
+      } catch {}
+    }, 60_000);
     return () => clearTimeout(timer);
   }, [config.learningEnabled]);
 

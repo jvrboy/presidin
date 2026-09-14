@@ -1,0 +1,89 @@
+name: Build Windows EXE (Electron)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build Next.js
+        run: bun run build
+        env:
+          DATABASE_URL: file:./db/custom.db
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Export static
+        run: bun next export || true
+        continue-on-error: true
+
+      - name: Install Electron Builder
+        run: bun add -d electron electron-builder
+
+      - name: Build Electron app (Windows)
+        run: npx electron-builder --win --dir
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Electron installer (NSIS)
+        run: npx electron-builder --win nsis
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Find EXE files
+        id: find_exe
+        shell: bash
+        run: |
+          find . -name "*.exe" -type f 2>/dev/null || true
+          EXE_PATH=$(find . -name "*.exe" -type f | head -1)
+          echo "exe_path=$EXE_PATH" >> $GITHUB_OUTPUT
+
+      - name: Upload EXE artifact
+        if: steps.find_exe.outputs.exe_path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: presidin-windows-exe
+          path: |
+            **/*.exe
+            release/**/*.exe
+            dist/**/*.exe
+          retention-days: 30
+
+      - name: Create release
+        if: github.ref == 'refs/heads/main' && steps.find_exe.outputs.exe_path != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: windows-${{ github.run_number }}
+          name: PRESIDIN Windows EXE #${{ github.run_number }}
+          files: |
+            **/*.exe
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

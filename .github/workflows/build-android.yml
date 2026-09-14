@@ -1,0 +1,100 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools build-tools;34.0.0 platforms;android-34'
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build Next.js web
+        run: bun run build
+        env:
+          DATABASE_URL: file:./db/custom.db
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Export static
+        run: bun next export || true
+        continue-on-error: true
+
+      - name: Setup Capacitor
+        run: |
+          npx cap add android || true
+          npx cap sync android
+        continue-on-error: true
+
+      - name: Build APK (debug)
+        run: |
+          cd android
+          ./gradlew assembleDebug
+        continue-on-error: true
+
+      - name: Build APK (unsigned release)
+        run: |
+          cd android
+          ./gradlew assembleRelease
+        continue-on-error: true
+
+      - name: Find APK files
+        id: find_apk
+        run: |
+          find android -name "*.apk" -type f 2>/dev/null || true
+          APK_PATH=$(find android -name "*release*.apk" -o -name "*debug*.apk" | head -1)
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+
+      - name: Upload APK artifact
+        if: steps.find_apk.outputs.apk_path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: presidin-android-apk
+          path: |
+            android/**/*.apk
+          retention-days: 30
+
+      - name: Create release
+        if: github.ref == 'refs/heads/main' && steps.find_apk.outputs.apk_path != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-${{ github.run_number }}
+          name: PRESIDIN Android APK #${{ github.run_number }}
+          files: |
+            android/**/*.apk
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
