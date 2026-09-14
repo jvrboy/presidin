@@ -60,3 +60,7 @@ server.log
 /.zscripts/
 /.next/
 /bun.lock
+
+# Mini-service lockfiles
+mini-services/**/bun.lock
+mini-services/**/node_modules/

@@ -1,6 +1,7 @@
 import {
   LayoutDashboard, Radio, Brain, FlaskConical, CandlestickChart,
   Calculator, MessageSquare, Music, Bell, Settings, Sparkles,
+  Newspaper, CalendarDays, Wrench, Database, Cloud, Activity,
 } from "lucide-react";
 import type { Section } from "@/stores/presidin";
 
@@ -9,7 +10,7 @@ export interface NavItem {
   label: string;
   shortLabel: string;
   icon: React.ComponentType<{ className?: string }>;
-  category: "overview" | "intelligence" | "research" | "execution" | "studio" | "system";
+  category: "overview" | "intelligence" | "research" | "execution" | "studio" | "system" | "backend";
   description: string;
 }
 
@@ -71,6 +72,22 @@ export const NAV_ITEMS: NavItem[] = [
     description: "Positions, orders, history, broker connect",
   },
   {
+    id: "news",
+    label: "News & Calendar",
+    shortLabel: "News",
+    icon: Newspaper,
+    category: "research",
+    description: "Live news feed, economic calendar, sentiment",
+  },
+  {
+    id: "tools",
+    label: "Market Tools",
+    shortLabel: "Tools",
+    icon: Wrench,
+    category: "research",
+    description: "Currency strength, correlation, on-chain, session, sentiment analyzer",
+  },
+  {
     id: "chat",
     label: "AI Assistant",
     shortLabel: "AI",
@@ -85,6 +102,14 @@ export const NAV_ITEMS: NavItem[] = [
     icon: Music,
     category: "studio",
     description: "Piano roll, mixer, FX, MIDI composer",
+  },
+  {
+    id: "backend",
+    label: "Backend Status",
+    shortLabel: "Backend",
+    icon: Database,
+    category: "backend",
+    description: "Supabase, Cloudflare, ML service, realtime",
   },
   {
     id: "notifications",
@@ -110,5 +135,6 @@ export const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   { label: "Research", items: NAV_ITEMS.filter((i) => i.category === "research") },
   { label: "Execution", items: NAV_ITEMS.filter((i) => i.category === "execution") },
   { label: "Studio", items: NAV_ITEMS.filter((i) => i.category === "studio") },
+  { label: "Backend", items: NAV_ITEMS.filter((i) => i.category === "backend") },
   { label: "System", items: NAV_ITEMS.filter((i) => i.category === "system") },
 ];

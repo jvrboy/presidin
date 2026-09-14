@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { GlassPanel, SectionTitle, ShimmerButton } from "@/components/presidin/glass";
 import { MessageSquare, Send, Trash2, Bot, User, Loader2 } from "lucide-react";
 import { useProvidersStore } from "@/stores/presidin";
+import { PROVIDERS } from "@/lib/presidin/ai-providers";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
@@ -27,21 +28,16 @@ You help users with:
 - Quant Lab (backtest, walk-forward, Monte Carlo, PBO, HRP, Deflated Sharpe)
 - Risk management (position size, Kelly, Risk of Ruin, Fibonacci, Pivots, etc.)
 - Live trading on Deriv/MT5/paper
+- News, economic calendar, currency strength, correlation matrix, sentiment analysis
 - VINNY audio engine (piano roll, mixer, FX, MIDI composer)
 - Notifications (Telegram/Discord/push/local)
+- 19 supported AI providers + custom OpenAI/Anthropic-compatible endpoints
 
 Be concise, accurate, and pragmatic. Reference specific features of PRESIDIN when relevant.`;
 
-const PROVIDERS = [
-  { id: "zai", label: "PRESIDIN AI (default)", model: "glm-4.6" },
-  { id: "openai", label: "OpenAI GPT-4o", model: "gpt-4o" },
-  { id: "anthropic", label: "Anthropic Claude 3.5 Sonnet", model: "claude-3-5-sonnet" },
-  { id: "gemini", label: "Google Gemini 1.5 Pro", model: "gemini-1.5-pro" },
-  { id: "groq", label: "Groq Llama 3.1 70B", model: "llama-3.1-70b" },
-];
-
 export function ChatSection() {
-  const [provider, setProvider] = useState("zai");
+  const { activeProvider, activeModel, providerModels, setActiveProvider } = useProvidersStore();
+  const [provider, setProvider] = useState(activeProvider || "zai");
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
@@ -83,6 +79,7 @@ export function ChatSection() {
           })),
           provider,
           system: SYSTEM_PROMPT,
+          model: providerModels[provider] || activeModel || undefined,
         }),
       });
       const data = await res.json();
@@ -92,7 +89,7 @@ export function ChatSection() {
         role: "assistant",
         content: data.content,
         provider: data.provider || provider,
-        model: data.model || PROVIDERS.find((p) => p.id === provider)?.model,
+        model: data.model || PROVIDERS.find((p) => p.id === provider)?.defaultModel,
         timestamp: Date.now(),
         tokensIn: data.tokensIn,
         tokensOut: data.tokensOut,
@@ -133,13 +130,15 @@ export function ChatSection() {
         icon={<MessageSquare className="h-5 w-5" />}
         right={
           <div className="flex items-center gap-2">
-            <Select value={provider} onValueChange={setProvider}>
-              <SelectTrigger className="h-8 w-48 text-xs">
+            <Select value={provider} onValueChange={(v) => { setProvider(v); setActiveProvider(v); }}>
+              <SelectTrigger className="h-8 w-56 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {PROVIDERS.map((p) => (
-                  <SelectItem key={p.id} value={p.id}>{p.label}</SelectItem>
+                  <SelectItem key={p.id} value={p.id}>
+                    {p.label} {p.defaultModel ? `(${p.defaultModel})` : ""}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>

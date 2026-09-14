@@ -1,0 +1,12 @@
+{
+  "name": "presidin-realtime",
+  "version": "1.0.0",
+  "description": "PRESIDIN WebSocket service for real-time signals, market data, and ML updates",
+  "scripts": {
+    "dev": "bun --hot index.ts",
+    "start": "bun index.ts"
+  },
+  "dependencies": {
+    "socket.io": "latest"
+  }
+}

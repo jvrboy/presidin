@@ -13,8 +13,11 @@ export type Section =
   | "quant-lab"
   | "trading"
   | "risk"
+  | "news"
+  | "tools"
   | "chat"
   | "audio"
+  | "backend"
   | "notifications"
   | "settings";
 
@@ -198,6 +201,27 @@ interface ProvidersState {
   setTelegram: (bot: string, chat: string) => void;
   discordWebhook?: string;
   setDiscord: (w: string) => void;
+  // Custom OpenAI-compatible endpoint
+  customOpenaiEndpoint?: string;
+  customOpenaiKey?: string;
+  customOpenaiModel?: string;
+  setCustomOpenai: (endpoint: string, key: string, model: string) => void;
+  // Custom Anthropic-compatible endpoint
+  customAnthropicEndpoint?: string;
+  customAnthropicKey?: string;
+  customAnthropicModel?: string;
+  setCustomAnthropic: (endpoint: string, key: string, model: string) => void;
+  // Supabase
+  supabaseUrl?: string;
+  supabaseAnonKey?: string;
+  setSupabase: (url: string, anonKey: string) => void;
+  // Active AI provider (default zai)
+  activeProvider: string;
+  activeModel?: string;
+  setActiveProvider: (p: string, m?: string) => void;
+  // Default model per provider
+  providerModels: Record<string, string>;
+  setProviderModel: (provider: string, model: string) => void;
 }
 
 function mask(key: string): string {
@@ -228,6 +252,16 @@ export const useProvidersStore = create<ProvidersState>()(
       setDerivToken: (derivToken) => set({ derivToken }),
       setTelegram: (telegramBotToken, telegramChatId) => set({ telegramBotToken, telegramChatId }),
       setDiscord: (discordWebhook) => set({ discordWebhook }),
+      setCustomOpenai: (customOpenaiEndpoint, customOpenaiKey, customOpenaiModel) =>
+        set({ customOpenaiEndpoint, customOpenaiKey, customOpenaiModel }),
+      setCustomAnthropic: (customAnthropicEndpoint, customAnthropicKey, customAnthropicModel) =>
+        set({ customAnthropicEndpoint, customAnthropicKey, customAnthropicModel }),
+      setSupabase: (supabaseUrl, supabaseAnonKey) => set({ supabaseUrl, supabaseAnonKey }),
+      activeProvider: "zai",
+      setActiveProvider: (activeProvider, activeModel) => set({ activeProvider, activeModel }),
+      providerModels: {},
+      setProviderModel: (provider, model) =>
+        set((s) => ({ providerModels: { ...s.providerModels, [provider]: model } })),
     }),
     {
       name: "presidin-providers",

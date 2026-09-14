@@ -9,8 +9,11 @@ import { MlSection } from "@/sections/ml";
 import { QuantLabSection } from "@/sections/quant-lab";
 import { TradingSection } from "@/sections/trading";
 import { RiskSection } from "@/sections/risk";
+import { NewsSection } from "@/sections/news";
+import { ToolsSection } from "@/sections/tools";
 import { ChatSection } from "@/sections/chat";
 import { AudioSection } from "@/sections/audio";
+import { BackendSection } from "@/sections/backend";
 import { NotificationsSection } from "@/sections/notifications";
 import { SettingsSection } from "@/sections/settings";
 
@@ -30,8 +33,11 @@ export default function Home() {
             {section === "quant-lab" && <QuantLabSection />}
             {section === "trading" && <TradingSection />}
             {section === "risk" && <RiskSection />}
+            {section === "news" && <NewsSection />}
+            {section === "tools" && <ToolsSection />}
             {section === "chat" && <ChatSection />}
             {section === "audio" && <AudioSection />}
+            {section === "backend" && <BackendSection />}
             {section === "notifications" && <NotificationsSection />}
             {section === "settings" && <SettingsSection />}
           </div>
