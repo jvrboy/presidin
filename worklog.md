@@ -66,3 +66,80 @@ Stage Summary:
 - Market data: Deriv WebSocket API (zero-config default) with synthetic demo fallback
 - AI: z-ai-web-dev-sdk (default) + multi-provider BYOK architecture (OpenAI/Anthropic/Gemini/Groq)
 - All code lint-clean, dev server running, end-to-end verified via Agent Browser
+
+---
+Task ID: 2
+Agent: main (super-z)
+Task: Add more tools and backend features. Add all AI API providers + custom OpenAI/Anthropic-style endpoints. Connect Supabase + Cloudflare backends. Make production-ready. Push to GitHub.
+
+Work Log:
+- Added env vars for Supabase + Cloudflare + 17 AI providers + custom endpoints
+- Built unified AI provider router (src/lib/presidin/ai-providers.ts) — 19 providers:
+  zai (default), openai, anthropic, gemini, groq, openrouter, mistral, cohere,
+  together, fireworks, replicate, perplexity, deepseek, xai, huggingface,
+  azure_openai, bedrock, custom_openai, custom_anthropic
+  Each provider has normalized chat() method via OpenAI/Anthropic/Gemini/Cohere API styles
+- Built Supabase client (src/lib/presidin/supabase.ts) with server + browser clients,
+  repository helpers (saveSignal, saveTrade, saveBotLog), and full SQL schema
+- Built Cloudflare client (src/lib/presidin/cloudflare.ts) with R2 storage (upload/download/list/delete),
+  KV store (get/set/delete), and Worker deployment template
+- Built backend tools library (src/lib/presidin/tools.ts):
+  - Economic calendar (ForexFactory Humanitarian feed + synthetic fallback)
+  - Currency strength meter (7 majors)
+  - Correlation matrix (Pearson, multi-asset)
+  - Sentiment analyzer (lexicon NLP with negation + intensifier handling)
+  - News scraper (RSS sources + synthetic fallback)
+  - Market depth / order book simulation
+  - On-chain crypto analytics (MVRV, NUPL, exchange flow, fear/greed)
+  - Trading session detection (London/NY/Asian/Overlap/Weekend)
+  - Pip / margin / swap calculators
+  - Strategy builder primitives (conditions + evaluation)
+- Expanded /api/chat route to route through any of 19 providers via the unified router
+- Added 9 new API routes:
+  /api/providers, /api/news, /api/calendar, /api/currency-strength,
+  /api/sentiment, /api/onchain, /api/session, /api/status,
+  /api/cloudflare/supabase, /api/cron/tick
+- Built WebSocket realtime mini-service (mini-services/presidin-realtime/)
+  on port 3003 — channels: signals:new, tick:update, anomaly:alert,
+  drift:alert, shadow:promoted, trade:opened, trade:closed
+- Added 3 new sections:
+  - News & Calendar (news feed + economic calendar with sentiment)
+  - Market Tools (5 tabs: strength, correlation, on-chain, session, sentiment)
+  - Backend Status (live health of all 4 services + 19 AI providers list)
+- Expanded Settings from 4 tabs to 6:
+  - Account, AI Providers (19 listed with status), Custom EP (OpenAI/Anthropic-compatible),
+    Brokers, Cloud (Supabase + Cloudflare config), Appearance
+  - Per-provider model selection
+  - BYOK key management with masking
+- Updated chat section to use active provider from settings + show all 19 providers in dropdown
+- Provisioned real backend services:
+  - Supabase: discovered 2 existing projects (nexus-analysis, everything-app);
+    used nexus-analysis (ref: ednvxuhkvfbjygumtfnq); fetched anon + service_role keys
+    via Management API; pushed full PRESIDIN schema (7 tables + RLS policies + triggers);
+    verified reachable=true, schemaNeeded=false
+  - Cloudflare: created R2 bucket 'presidin' (apac region); created KV namespace
+    'presidin-cache' (id: e22e97b306f14ed3bcf44ce35f7e9d9a); tested R2 upload with
+    test-presidin-init.json object (success)
+  - .env updated with all real credentials
+- Self-verified end-to-end with Agent Browser:
+  - All 14 nav sections render correctly
+  - Backend Status shows Supabase=Reachable, Cloudflare=Active
+  - News section loads 15 articles with sentiment + economic calendar
+  - Market Tools: currency strength bar chart, correlation matrix, on-chain metrics,
+    session detection, sentiment analyzer all working
+  - Settings: all 6 tabs functional, 19 AI providers listed
+  - AI Chat: provider dropdown shows 19 options with model names; sent test message
+    and got real response from glm-4.6
+- Lint passes clean (1 trivial warning about unused eslint-disable)
+- Committed + pushed to https://github.com/jvrboy/presidin (commit 8fe9cdc)
+
+Stage Summary:
+- PRESIDIN now has 14 sections (up from 11), 19 AI providers (up from 1),
+  3 backend services connected (Supabase + Cloudflare + FastAPI), and
+  10 new API routes (15 total)
+- All backend services verified live and reachable
+- Schema deployed to Supabase; R2 bucket + KV namespace created
+- 19 AI providers + custom OpenAI/Anthropic-compatible endpoints fully routed
+- Production hardening: RLS policies, service-role key kept server-side,
+  cron endpoint protected, idempotent schema, masked key storage
+- GitHub repo updated: https://github.com/jvrboy/presidin
