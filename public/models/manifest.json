@@ -1,0 +1,25 @@
+{
+  "generatedAt": 1789366085656,
+  "samples": 5925,
+  "features": 21,
+  "models": [
+    {
+      "id": "logistic",
+      "file": "logistic.json",
+      "accuracy": 0.8610970464135022,
+      "f1": 0
+    },
+    {
+      "id": "mlp_2layer",
+      "file": "mlp_2layer.json",
+      "accuracy": 0.8447257383966245,
+      "f1": 0.2163543441226576
+    },
+    {
+      "id": "mlp_3layer",
+      "file": "mlp_3layer.json",
+      "accuracy": 0.8578902953586498,
+      "f1": 0.07268722466960352
+    }
+  ]
+}

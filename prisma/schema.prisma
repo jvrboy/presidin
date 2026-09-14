@@ -1,5 +1,7 @@
 // PRESIDIN — Prisma schema
-// SQLite default; can be swapped to Supabase Postgres by changing the datasource.
+// SQLite default for local dev + fast cache.
+// Supabase Postgres used for production cloud storage via @supabase/supabase-js
+// (signals, trades, chat, logs, backtests tables — see src/lib/presidin/supabase.ts)
 
 generator client {
   provider = "prisma-client-js"
@@ -10,31 +12,74 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ============================================================
+// NextAuth models (PrismaAdapter compatible)
+// ============================================================
+
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String?
-  passwordHash String?
-  role         String   @default("user") // user | admin
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  sessions     Session[]
-  settings     UserSetting[]
-  trades       Trade[]
-  signals      SignalRecord[]
-  chatThreads  ChatThread[]
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  name          String?
+  passwordHash  String?
+  role          String    @default("user") // user | admin
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  settings      UserSetting[]
+  trades        Trade[]
+  signals       SignalRecord[]
+  chatThreads   ChatThread[]
+  authenticators Authenticator[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  token     String   @unique
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  ip        String?
-  userAgent String?
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+model Authenticator {
+  id             String  @id @default(cuid())
+  userId         String
+  credentialID   String  @unique
+  publicKey      String
+  counter        Int     @default(0)
+  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, credentialID])
+}
+
+// ============================================================
+// PRESIDIN app models
+// ============================================================
 
 model UserSetting {
   id      String @id @default(cuid())

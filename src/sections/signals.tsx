@@ -6,13 +6,15 @@ import { useWatchlistStore, useAccountStore, useAgentConfigStore } from "@/store
 import { SYMBOL_MAP, DEFAULT_ACTIVE_SYMBOLS, TIMEFRAMES, formatPrice, formatPercent } from "@/lib/presidin/symbols";
 import { marketData } from "@/lib/presidin/market-data";
 import { runMasterAgent, type Signal, AGENT_REGISTRY } from "@/lib/presidin/agents";
-import { Radio, RefreshCw, Filter, ArrowUp, ArrowDown, Brain, Activity } from "lucide-react";
+import { useSocket } from "@/hooks/use-socket";
+import { Radio, RefreshCw, Filter, ArrowUp, ArrowDown, Brain, Activity, Wifi } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, Cell } from "recharts";
 
 export function SignalsSection() {
   const { activeSymbol, setActiveSymbol, activeTimeframe, setActiveTimeframe } = useWatchlistStore();
   const { equity } = useAccountStore();
   const { getConfig } = useAgentConfigStore();
+  const { connected: wsConnected, subscribe } = useSocket();
   const [signal, setSignal] = useState<Signal | null>(null);
   const [history, setHistory] = useState<Signal[]>([]);
   const [scanning, setScanning] = useState(false);
@@ -33,6 +35,14 @@ export function SignalsSection() {
   useEffect(() => {
     generateSignal(activeSymbol);
   }, [activeSymbol, activeTimeframe, generateSignal]);
+
+  // Subscribe to real-time signals from WebSocket
+  useEffect(() => {
+    const unsub = subscribe<Signal>("signals:new", (incoming) => {
+      setHistory((h) => [incoming, ...h].slice(0, 50));
+    });
+    return unsub;
+  }, [subscribe]);
 
   // Scan all symbols
   const scanAll = useCallback(() => {
@@ -70,10 +80,16 @@ export function SignalsSection() {
         subtitle="17 voting agents + MasterAgent arbiter produce consensus signals"
         icon={<Radio className="h-5 w-5" />}
         right={
-          <ShimmerButton onClick={scanAll} disabled={scanning} className="text-xs">
-            <RefreshCw className={`h-3.5 w-3.5 ${scanning ? "animate-spin" : ""}`} />
-            Scan all symbols
-          </ShimmerButton>
+          <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs ring-1 ${wsConnected ? "bg-emerald-500/10 text-emerald-300 ring-emerald-500/20" : "bg-slate-500/10 text-slate-400 ring-slate-500/20"}`}>
+              <Wifi className={`h-3 w-3 ${wsConnected ? "" : "opacity-50"}`} />
+              {wsConnected ? "Live" : "Offline"}
+            </div>
+            <ShimmerButton onClick={scanAll} disabled={scanning} className="text-xs">
+              <RefreshCw className={`h-3.5 w-3.5 ${scanning ? "animate-spin" : ""}`} />
+              Scan all symbols
+            </ShimmerButton>
+          </div>
         }
       />
 

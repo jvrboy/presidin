@@ -1,0 +1,16 @@
+name = "presidin-cron"
+main = "worker.ts"
+compatibility_date = "2024-09-23"
+account_id = "9b97b661b9ece0cf6e8fc50ed5c0879d"
+
+# Trigger the worker every minute
+[triggers]
+crons = ["* * * * *"]
+
+# Environment variables — set via:
+#   wrangler secret put PRESIDIN_URL
+#   wrangler secret put PRESIDIN_CRON_SECRET
+# Or use [vars] for non-secret values
+[vars]
+PRESIDIN_URL = "http://localhost:3000"
+PRESIDIN_CRON_SECRET = "presidin-cron-dev"

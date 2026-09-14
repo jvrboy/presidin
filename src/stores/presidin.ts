@@ -12,11 +12,13 @@ export type Section =
   | "ml"
   | "quant-lab"
   | "trading"
+  | "journal"
   | "risk"
   | "news"
   | "tools"
   | "chat"
   | "audio"
+  | "backtests"
   | "backend"
   | "notifications"
   | "settings";

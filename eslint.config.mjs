@@ -46,7 +46,7 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
     "react-hooks/set-state-in-effect": "off",
   },
 }, {
-  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "examples/**", "skills", "workspace/**", "upload/**", "mini-services/**", "electron/**"]
+  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "examples/**", "skills", "workspace/**", "upload/**", "mini-services/**", "electron/**", "cloudflare-worker/**"]
 }];
 
 export default eslintConfig;

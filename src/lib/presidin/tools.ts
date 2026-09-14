@@ -254,11 +254,97 @@ const NEWS_SOURCES = [
   { name: "ForexLive", url: "https://www.forexlive.com/feed/" },
   { name: "DailyFX", url: "https://www.dailyfx.com/feeds/all" },
   { name: "Investing", url: "https://www.investing.com/rss/news_1.rss" },
+  { name: "Reuters FX", url: "https://feeds.reuters.com/reuters/businessNews" },
+  { name: "CNBC", url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114" },
 ];
 
+// Use rss2json proxy to bypass CORS (free tier, 10k requests/day)
+const RSS2JSON_ENDPOINT = "https://api.rss2json.com/v1/api.json";
+
+interface Rss2JsonResponse {
+  status: string;
+  items: Array<{
+    title: string;
+    pubDate: string;
+    link: string;
+    description: string;
+    author?: string;
+    categories?: string[];
+  }>;
+  feed?: { title?: string; url?: string };
+}
+
 export async function fetchNews(limit = 20): Promise<NewsArticle[]> {
-  // In production, fetch from RSS feeds. For now, return synthetic news.
-  // Real implementation would parse RSS XML and run sentiment analysis.
+  // Try real RSS feeds via rss2json proxy
+  const allArticles: NewsArticle[] = [];
+  const sourcesToTry = NEWS_SOURCES.slice(0, 3); // Limit to 3 sources for speed
+
+  const results = await Promise.allSettled(
+    sourcesToTry.map(async (source) => {
+      const url = `${RSS2JSON_ENDPOINT}?rss_url=${encodeURIComponent(source.url)}&count=${Math.ceil(limit / sourcesToTry.length)}`;
+      const res = await fetch(url, {
+        signal: AbortSignal.timeout(8000),
+        next: { revalidate: 300 }, // Cache 5 min
+      });
+      if (!res.ok) throw new Error(`${source.name} HTTP ${res.status}`);
+      const data: Rss2JsonResponse = await res.json();
+      if (data.status !== "ok") throw new Error(`${source.name} status ${data.status}`);
+      return data.items.map((item, i): NewsArticle => {
+        // Strip HTML tags from description
+        const summary = item.description
+          .replace(/<[^>]*>/g, "")
+          .replace(/&[a-z]+;/g, " ")
+          .trim()
+          .slice(0, 300);
+        const fullText = `${item.title} ${summary}`;
+        return {
+          id: `${source.name}_${i}_${Date.now()}`,
+          title: item.title.trim(),
+          summary,
+          source: source.name,
+          url: item.link,
+          publishedAt: item.pubDate || new Date().toISOString(),
+          sentiment: analyzeSentiment(fullText),
+          symbols: extractSymbols(fullText),
+        };
+      });
+    })
+  );
+
+  for (const result of results) {
+    if (result.status === "fulfilled") {
+      allArticles.push(...result.value);
+    }
+  }
+
+  // Sort by date descending
+  allArticles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
+  if (allArticles.length === 0) {
+    // Fallback to synthetic headlines if all RSS feeds fail
+    return generateSyntheticNews(limit);
+  }
+
+  return allArticles.slice(0, limit);
+}
+
+/** Extract ticker symbols mentioned in text */
+function extractSymbols(text: string): string[] {
+  const symbols: string[] = [];
+  const upper = text.toUpperCase();
+  const pairs = ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "AUDUSD", "USDCAD", "NZDUSD", "EURJPY", "GBPJPY"];
+  for (const p of pairs) {
+    if (upper.includes(p)) symbols.push(p);
+  }
+  if (upper.includes("XAUUSD") || upper.includes("GOLD")) symbols.push("XAUUSD");
+  if (upper.includes("XAGUSD") || upper.includes("SILVER")) symbols.push("XAGUSD");
+  if (upper.includes("BITCOIN") || upper.includes("BTC")) symbols.push("BTCUSD");
+  if (upper.includes("ETHEREUM") || upper.includes("ETH")) symbols.push("ETHUSD");
+  if (upper.includes("DOLLAR") || upper.includes("DXY") || upper.includes("BUCK")) symbols.push("DXY");
+  return symbols;
+}
+
+function generateSyntheticNews(limit: number): NewsArticle[] {
   const headlines = [
     { title: "Dollar firms as Fed officials signal hawkish pause", source: "ForexLive" },
     { title: "Euro extends gains on positive German PMI data", source: "DailyFX" },

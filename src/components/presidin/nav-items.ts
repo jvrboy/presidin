@@ -2,6 +2,7 @@ import {
   LayoutDashboard, Radio, Brain, FlaskConical, CandlestickChart,
   Calculator, MessageSquare, Music, Bell, Settings, Sparkles,
   Newspaper, CalendarDays, Wrench, Database, Cloud, Activity,
+  BookOpen, History,
 } from "lucide-react";
 import type { Section } from "@/stores/presidin";
 
@@ -72,6 +73,14 @@ export const NAV_ITEMS: NavItem[] = [
     description: "Positions, orders, history, broker connect",
   },
   {
+    id: "journal",
+    label: "Trade Journal",
+    shortLabel: "Journal",
+    icon: BookOpen,
+    category: "execution",
+    description: "Log, analyze, and learn from historical trades",
+  },
+  {
     id: "news",
     label: "News & Calendar",
     shortLabel: "News",
@@ -102,6 +111,14 @@ export const NAV_ITEMS: NavItem[] = [
     icon: Music,
     category: "studio",
     description: "Piano roll, mixer, FX, MIDI composer",
+  },
+  {
+    id: "backtests",
+    label: "Backtest History",
+    shortLabel: "BT History",
+    icon: History,
+    category: "research",
+    description: "Saved backtest results — compare strategies",
   },
   {
     id: "backend",
