@@ -1,9 +1,0 @@
-[
-  "Trade only elite_oos symbols unless expanding after more OOS samples",
-  "Confidence >= 0.70",
-  "Use per-symbol SL/TP multipliers from best cfg",
-  "Cooldownoldown 12-18 five-minute bars between signals on same symbol",
-  "5m must agree with HTF bias; require mom3+mom5",
-  "Skip chop; skip RSI exhaustion",
-  "Not ready for aggressive multi-pair $2 live size"
-]

@@ -1,8 +1,0 @@
-[build]
-  functions = "netlify/functions"
-
-# Scheduled function (Netlify free tier supports scheduled functions)
-# You can also configure this in the Netlify UI under Functions → Scheduled
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"  # only if you also deploy the Next app here as failover

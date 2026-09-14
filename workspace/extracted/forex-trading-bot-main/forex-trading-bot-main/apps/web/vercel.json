@@ -1,4 +1,0 @@
-{
-  "installCommand": "pnpm config set registry https://registry.npmjs.org/ && pnpm config set fetch-timeout 600000 && pnpm install --no-frozen-lockfile",
-  "framework": "nextjs"
-}

@@ -1,3 +1,0 @@
-# Colab-only extras (interactive notebook mode). Production installs requirements.txt only.
-pyngrok==7.2.3
-nest_asyncio==1.6.0
