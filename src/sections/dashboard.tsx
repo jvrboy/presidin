@@ -8,6 +8,7 @@ import { marketData } from "@/lib/presidin/market-data";
 import { runMasterAgent, type Signal } from "@/lib/presidin/agents";
 import { useSignalEngine } from "@/hooks/use-signal-engine";
 import { LearningInsightsPanel } from "@/components/presidin/learning-insights";
+import { AdvancedAnalyticsPanel } from "@/components/presidin/advanced-analytics";
 import { Activity, TrendingUp, TrendingDown, Zap, Brain, Radio, DollarSign, Cpu, Sparkles, ArrowUpRight, ArrowDownRight, RefreshCw, Pause, Play, BrainCircuit } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 
@@ -317,6 +318,9 @@ export function DashboardSection() {
 
       {/* Learning Insights panel */}
       <LearningInsightsPanel />
+
+      {/* Advanced analytics: curves + matrix + weights */}
+      <AdvancedAnalyticsPanel />
 
       {/* Learning progress footer */}
       <GlassPanel veil className="!p-4">

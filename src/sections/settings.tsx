@@ -346,6 +346,7 @@ export function SettingsSection() {
                   <ShimmerButton onClick={() => { setDerivToken(deriv); toast.success("Deriv token saved"); }} className="mt-2 !text-xs">
                     Save Deriv token
                   </ShimmerButton>
+                  <DerivStatusChecker />
                 </div>
               </div>
               <div className="rounded-lg bg-amber-500/10 p-3 ring-1 ring-amber-500/20">
@@ -703,5 +704,58 @@ function PaletteButton({ id, label, colors }: { id: string; label: string; color
         <div className="absolute right-2 top-2 h-2 w-2 rounded-full bg-violet-400 glow-pulse" />
       )}
     </button>
+  );
+}
+
+function DerivStatusChecker() {
+  const [status, setStatus] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+  const check = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/deriv/execute");
+      const data = await res.json();
+      setStatus(data);
+    } catch (err) {
+      setStatus({ connected: false, error: "Failed to check" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-2">
+      <button
+        onClick={check}
+        disabled={loading}
+        className="rounded-md bg-secondary/60 px-3 py-1.5 text-xs font-medium hover:bg-secondary"
+      >
+        {loading ? "Checking…" : "Test Deriv connection"}
+      </button>
+      {status && (
+        <div className={`mt-2 rounded-md p-2 text-xs ${
+          status.connected ? "bg-emerald-500/10 text-emerald-300" : "bg-amber-500/10 text-amber-300"
+        }`}>
+          {status.connected ? (
+            <>
+              <div className="font-semibold">✓ Connected to Deriv</div>
+              {status.balance !== null && status.balance !== undefined && (
+                <div className="mt-0.5">Balance: ${status.balance?.toFixed(2)}</div>
+              )}
+              {status.openPositions !== undefined && (
+                <div className="text-[10px]">Open positions: {status.openPositions}</div>
+              )}
+              <div className="text-[10px] opacity-70">Token: {status.tokenMasked}</div>
+            </>
+          ) : (
+            <>
+              <div className="font-semibold">⚠ Not connected</div>
+              <div className="text-[10px]">{status.reason ?? status.error ?? "Unknown"}</div>
+            </>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

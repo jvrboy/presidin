@@ -99,6 +99,44 @@ export function useSignalEngine() {
             }).catch(() => {})
           ));
         } catch {}
+
+        // Auto-push high-confidence signals to notifications
+        const highConfidence = newSignals.filter((s) => s.confidence >= 75);
+        if (highConfidence.length > 0) {
+          try {
+            await Promise.all(highConfidence.slice(0, 3).map((s) =>
+              fetch("/api/signals/push", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ signal: s }),
+              }).catch(() => {})
+            ));
+          } catch {}
+        }
+
+        // Auto-execute on Deriv if enabled + very high confidence
+        if (config.autoExecute) {
+          const autoExecCandidates = newSignals.filter(
+            (s) => s.confidence >= config.autoExecuteThreshold && s.direction !== "NEUTRAL"
+          );
+          if (autoExecCandidates.length > 0) {
+            try {
+              await Promise.all(autoExecCandidates.slice(0, 2).map((s) =>
+                fetch("/api/deriv/execute", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    symbol: Object.keys(SYMBOL_MAP).find((k) => SYMBOL_MAP[k].display === s.symbol) ?? "frxEURUSD",
+                    direction: s.direction,
+                    amount: 1,
+                    duration: 15,
+                    durationUnit: "m",
+                  }),
+                }).catch(() => {})
+              ));
+            } catch {}
+          }
+        }
       }
       // Refresh stats after generating
       await refreshStats();

@@ -1,19 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getExecutor } from "@/lib/presidin/deriv-executor";
+import { db } from "@/lib/db";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 /**
- * Execute a trade on Deriv via the buy contract API.
- * Requires DERIV_API_TOKEN in .env (or passed in the request).
+ * Execute a real trade on Deriv via WebSocket.
+ * Requires DERIV_API_TOKEN in .env.
  *
  * POST /api/deriv/execute
  * Body: {
  *   symbol: "frxEURUSD",
  *   direction: "BUY" | "SELL",
- *   amount: 1,           // stake in account currency
- *   contractType: "CALL" | "PUT",  // CALL=up/BUY, PUT=down/SELL
- *   duration: 15,        // minutes
- *   durationUnit: "m",
+ *   amount: 1,           // stake in USD
+ *   duration: 15,
+ *   durationUnit: "m",   // s/m/h/d
  *   token?: string       // optional override
  * }
  */
@@ -21,46 +23,99 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const {
-      symbol, direction, amount = 1, duration = 15, durationUnit = "m", token: bodyToken,
+      symbol, direction, amount = 1, duration = 15, durationUnit = "m",
+      token: bodyToken,
     } = body;
 
     if (!symbol || !direction) {
       return NextResponse.json({ error: "symbol and direction required" }, { status: 400 });
     }
 
-    const token = bodyToken || process.env.DERIV_API_TOKEN;
-    if (!token) {
+    if (direction !== "BUY" && direction !== "SELL") {
+      return NextResponse.json({ error: "direction must be BUY or SELL" }, { status: 400 });
+    }
+
+    const executor = await getExecutor(bodyToken);
+    if (!executor) {
       return NextResponse.json({
-        error: "DERIV_API_TOKEN not set. Add your Deriv API token in .env or Settings → Brokers.",
+        error: "Deriv executor unavailable. Add DERIV_API_TOKEN to .env or Settings → Brokers.",
         demo: true,
       }, { status: 400 });
     }
 
-    const contractType = direction === "BUY" ? "CALL" : "PUT";
+    const result = await executor.buy({ symbol, direction, amount, duration, durationUnit });
 
-    // Deriv WebSocket API — buy contract
-    // We use the REST-like endpoint via WebSocket from the server.
-    // Deriv doesn't have a REST API; we need to use WebSocket.
-    // For now, return a structured response showing what would be sent.
+    // Persist the trade to the database
+    if (result.ok && result.contractId) {
+      try {
+        await db.trade.create({
+          data: {
+            symbol,
+            broker: "deriv",
+            direction,
+            quantity: amount,
+            entryPrice: result.buyPrice ?? 0,
+            entryTime: new Date(),
+            status: "open",
+            notes: `Deriv contract ${result.contractId} · payout ${result.payout ?? "?"} · ${duration}${durationUnit}`,
+          },
+        });
+      } catch {}
+    }
 
-    // In production, this would open a WebSocket to wss://ws.derivws.com/websockets/v3?app_id=1089
-    // and send: { buy: 1, price: amount, parameters: { amount, basis: "stake", contract_type, currency, duration, duration_unit, symbol } }
+    // Log the result
+    try {
+      await db.botLog.create({
+        data: {
+          level: result.ok ? "info" : "error",
+          source: "deriv-execute",
+          message: `${direction} ${symbol} ${amount} USD ${duration}${durationUnit} → ${result.ok ? "ok" : "FAILED"}`,
+          data: JSON.stringify({ ...result, symbol, direction, amount }),
+        },
+      });
+    } catch {}
 
     return NextResponse.json({
-      status: "would_execute",
-      message: "Deriv auto-execution requires WebSocket connection from server. This endpoint is ready — wire the Deriv WebSocket client to complete the trade.",
-      request: {
-        symbol,
-        contract_type: contractType,
-        amount,
-        basis: "stake",
-        currency: "USD",
-        duration,
-        duration_unit: durationUnit,
-      },
-      tokenMasked: token ? `${token.slice(0, 4)}...${token.slice(-4)}` : null,
+      ...result,
+      symbol,
+      direction,
+      amount,
+      duration,
+      durationUnit,
+      balance: executor.currentBalance,
     });
   } catch (err: any) {
     return NextResponse.json({ error: err?.message }, { status: 500 });
   }
+}
+
+/**
+ * GET — check Deriv connection status + balance
+ */
+export async function GET() {
+  const token = process.env.DERIV_API_TOKEN;
+  if (!token) {
+    return NextResponse.json({
+      connected: false,
+      reason: "DERIV_API_TOKEN not set",
+      demo: true,
+    });
+  }
+  const executor = await getExecutor();
+  if (!executor) {
+    return NextResponse.json({
+      connected: false,
+      reason: "Failed to connect / authorize",
+      tokenMasked: `${token.slice(0, 4)}...${token.slice(-4)}`,
+    });
+  }
+  const balance = await executor.getBalance();
+  const positions = await executor.getOpenPositions();
+  return NextResponse.json({
+    connected: true,
+    authorized: executor.isAuthorized,
+    balance,
+    openPositions: positions.length,
+    tokenMasked: `${token.slice(0, 4)}...${token.slice(-4)}`,
+  });
 }
