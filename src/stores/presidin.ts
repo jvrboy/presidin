@@ -272,8 +272,14 @@ export const useProvidersStore = create<ProvidersState>()(
 interface ThemeState {
   density: "comfortable" | "compact";
   reducedMotion: boolean;
+  palette: "aurora" | "emerald" | "sunset" | "carbon" | "rosegold" | "ocean";
+  glassIntensity: "low" | "medium" | "high";
+  auroraFlow: boolean;
   setDensity: (d: "comfortable" | "compact") => void;
   setReducedMotion: (r: boolean) => void;
+  setPalette: (p: ThemeState["palette"]) => void;
+  setGlassIntensity: (g: ThemeState["glassIntensity"]) => void;
+  setAuroraFlow: (a: boolean) => void;
 }
 
 export const useThemeStore = create<ThemeState>()(
@@ -281,8 +287,14 @@ export const useThemeStore = create<ThemeState>()(
     (set) => ({
       density: "comfortable",
       reducedMotion: false,
+      palette: "aurora",
+      glassIntensity: "medium",
+      auroraFlow: true,
       setDensity: (density) => set({ density }),
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
+      setPalette: (palette) => set({ palette }),
+      setGlassIntensity: (glassIntensity) => set({ glassIntensity }),
+      setAuroraFlow: (auroraFlow) => set({ auroraFlow }),
     }),
     {
       name: "presidin-theme",

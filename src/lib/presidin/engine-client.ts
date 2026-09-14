@@ -66,7 +66,7 @@ export function useSignalEngine() {
           const tfDef = TIMEFRAMES.find((t) => t.value === tf);
           if (!tfDef) continue;
           try {
-            const candles = marketData.syntheticHistory(symbol, tfDef.seconds, 200);
+            const candles = await marketData.fetchHistory(symbol, tfDef.seconds, 200);
             const signal = runMasterAgent(def.display, tf, candles, agentConfig);
             if (signal.confidence >= config.minConfidence && signal.direction !== "NEUTRAL") {
               newSignals.push(signal);

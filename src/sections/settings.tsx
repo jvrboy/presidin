@@ -30,7 +30,7 @@ export function SettingsSection() {
     providerModels, setProviderModel,
   } = useProvidersStore();
   const { equity, balance, currency, setEquity, setBalance, riskPerTrade, setRisk } = useAccountStore();
-  const { density, reducedMotion, setDensity, setReducedMotion } = useThemeStore();
+  const { density, reducedMotion, setDensity, setReducedMotion, palette, setPalette, glassIntensity, setGlassIntensity, auroraFlow, setAuroraFlow } = useThemeStore();
   const [showKey, setShowKey] = useState<string | null>(null);
   const [newProvider, setNewProvider] = useState("openai");
   const [newLabel, setNewLabel] = useState("");
@@ -438,16 +438,57 @@ export function SettingsSection() {
         {/* Appearance */}
         <TabsContent value="appearance" className="space-y-3">
           <GlassPanel veil>
-            <h3 className="mb-3 text-sm font-semibold">Theme & Density</h3>
-            <div className="space-y-3">
-              <div>
-                <label className="text-xs text-muted-foreground">Color palette</label>
-                <div className="mt-2 flex items-center gap-3">
-                  <div className="flex h-12 items-center gap-1 rounded-lg bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 p-3 text-xs font-bold text-white">
-                    Aurora (active)
+            <h3 className="mb-1 text-sm font-semibold">Color Palette</h3>
+            <p className="mb-3 text-xs text-muted-foreground">6 palettes — switch instantly. Applies across the entire app.</p>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              <PaletteButton id="aurora" label="Aurora" colors={["#818cf8", "#a78bfa", "#22d3ee"]} />
+              <PaletteButton id="emerald" label="Emerald Gold" colors={["#10b981", "#059669", "#84cc16"]} />
+              <PaletteButton id="sunset" label="Sunset" colors={["#f97316", "#ec4899", "#d946ef"]} />
+              <PaletteButton id="carbon" label="Carbon Electric" colors={["#3b82f6", "#6366f1", "#a3e635"]} />
+              <PaletteButton id="rosegold" label="Rose Gold" colors={["#f472b6", "#be185d", "#fb923c"]} />
+              <PaletteButton id="ocean" label="Ocean" colors={["#0ea5e9", "#38bdf8", "#2dd4bf"]} />
+            </div>
+          </GlassPanel>
+
+          <GlassPanel veil>
+            <h3 className="mb-3 text-sm font-semibold">Glass Intensity</h3>
+            <p className="mb-3 text-xs text-muted-foreground">Controls backdrop-blur strength on glass panels.</p>
+            <div className="grid grid-cols-3 gap-2">
+              {(["low", "medium", "high"] as const).map((g) => (
+                <button
+                  key={g}
+                  onClick={() => setGlassIntensity(g)}
+                  className={`rounded-lg p-3 text-xs capitalize transition ${
+                    glassIntensity === g
+                      ? "bg-violet-500/20 ring-1 ring-violet-500/40 font-semibold"
+                      : "bg-secondary/40 hover:bg-secondary"
+                  }`}
+                >
+                  <div className="font-semibold">{g}</div>
+                  <div className="text-[10px] text-muted-foreground">
+                    {g === "low" ? "12px blur" : g === "medium" ? "20px blur" : "36px blur"}
                   </div>
-                  <div className="text-xs text-muted-foreground">Indigo → Violet → Cyan</div>
+                </button>
+              ))}
+            </div>
+          </GlassPanel>
+
+          <GlassPanel veil>
+            <h3 className="mb-3 text-sm font-semibold">Animations</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between rounded-lg bg-secondary/40 p-3">
+                <div>
+                  <div className="text-sm font-medium">Aurora flow background</div>
+                  <div className="text-xs text-muted-foreground">Animated mesh gradient behind everything</div>
                 </div>
+                <Switch checked={auroraFlow} onCheckedChange={setAuroraFlow} />
+              </div>
+              <div className="flex items-center justify-between rounded-lg bg-secondary/40 p-3">
+                <div>
+                  <div className="text-sm font-medium">Reduce motion</div>
+                  <div className="text-xs text-muted-foreground">Disable all animations (accessibility)</div>
+                </div>
+                <Switch checked={reducedMotion} onCheckedChange={setReducedMotion} />
               </div>
               <div>
                 <label className="text-xs text-muted-foreground">Layout density</label>
@@ -461,13 +502,6 @@ export function SettingsSection() {
                     <div className="text-muted-foreground">Tighter spacing, more content</div>
                   </button>
                 </div>
-              </div>
-              <div className="flex items-center justify-between rounded-lg bg-secondary/40 p-3">
-                <div>
-                  <div className="text-sm font-medium">Reduce motion</div>
-                  <div className="text-xs text-muted-foreground">Disable aurora background animation + shimmer effects</div>
-                </div>
-                <Switch checked={reducedMotion} onCheckedChange={setReducedMotion} />
               </div>
             </div>
           </GlassPanel>
@@ -637,5 +671,37 @@ function EngineTab() {
         </div>
       </GlassPanel>
     </>
+  );
+}
+
+function PaletteButton({ id, label, colors }: { id: string; label: string; colors: string[] }) {
+  const { palette, setPalette } = useThemeStore();
+  const isActive = palette === id;
+  return (
+    <button
+      onClick={() => setPalette(id as any)}
+      className={`group relative overflow-hidden rounded-xl p-3 text-left transition-all hover:scale-[1.02] ${
+        isActive ? "ring-2 ring-violet-500/60" : "ring-1 ring-border/40"
+      }`}
+      style={{
+        background: `linear-gradient(135deg, ${colors[0]}33, ${colors[1]}22, ${colors[2]}33)`,
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <div className="flex -space-x-1">
+          {colors.map((c, i) => (
+            <div
+              key={i}
+              className="h-5 w-5 rounded-full border-2 border-background"
+              style={{ background: c }}
+            />
+          ))}
+        </div>
+        <span className="text-xs font-semibold">{label}</span>
+      </div>
+      {isActive && (
+        <div className="absolute right-2 top-2 h-2 w-2 rounded-full bg-violet-400 glow-pulse" />
+      )}
+    </button>
   );
 }

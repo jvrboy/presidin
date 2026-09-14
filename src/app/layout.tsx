@@ -6,6 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/presidin/theme-provider";
 import { QueryProvider } from "@/components/presidin/query-provider";
 import { ErrorBoundary } from "@/components/presidin/error-boundary";
+import { ThemeAttributes } from "@/components/presidin/theme-attributes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,6 +56,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <QueryProvider>
             <ErrorBoundary>
+              <ThemeAttributes />
               <div className="aurora-bg" aria-hidden />
               <div className="relative z-10">{children}</div>
               <Toaster />

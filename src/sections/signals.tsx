@@ -308,6 +308,87 @@ export function SignalsSection() {
           ))}
         </div>
       </GlassPanel>
+
+      {/* Shadow-Mode Backtest */}
+      <ShadowTestPanel />
     </div>
+  );
+}
+
+function ShadowTestPanel() {
+  const { activeSymbol, activeTimeframe } = useWatchlistStore();
+  const [running, setRunning] = useState(false);
+  const [result, setResult] = useState<any>(null);
+
+  const runTest = async () => {
+    setRunning(true);
+    setResult(null);
+    try {
+      const res = await fetch("/api/engine/shadow-test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          symbol: activeSymbol,
+          timeframe: activeTimeframe,
+          candleCount: 500,
+        }),
+      });
+      const data = await res.json();
+      setResult(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  return (
+    <GlassPanel veil>
+      <div className="mb-3 flex items-center justify-between">
+        <div>
+          <h3 className="text-sm font-semibold">Shadow-Mode Backtest</h3>
+          <p className="text-xs text-muted-foreground">Run the engine on historical data to validate accuracy before going live</p>
+        </div>
+        <ShimmerButton onClick={runTest} disabled={running} className="text-xs">
+          <RefreshCw className={`h-3.5 w-3.5 ${running ? "animate-spin" : ""}`} />
+          {running ? "Testing…" : "Run test"}
+        </ShimmerButton>
+      </div>
+      {result && (
+        <div className="space-y-3">
+          {result.backtest && (
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <div className="rounded-lg bg-secondary/40 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Signals</div>
+                <div className="tnum text-lg font-bold">{result.signalCount}</div>
+              </div>
+              <div className="rounded-lg bg-secondary/40 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Win Rate</div>
+                <div className="tnum text-lg font-bold">{result.backtest.metrics.winRate.toFixed(1)}%</div>
+              </div>
+              <div className="rounded-lg bg-secondary/40 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Sharpe</div>
+                <div className="tnum text-lg font-bold">{result.backtest.metrics.sharpe.toFixed(2)}</div>
+              </div>
+              <div className="rounded-lg bg-secondary/40 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Max DD</div>
+                <div className="tnum text-lg font-bold">{result.backtest.metrics.maxDrawdownPct.toFixed(1)}%</div>
+              </div>
+            </div>
+          )}
+          {result.recommendation && (
+            <div className={`rounded-lg p-3 text-xs ${
+              result.recommendation === "GO_LIVE"
+                ? "bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/20"
+                : result.recommendation === "SHADOW_MODE"
+                ? "bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/20"
+                : "bg-rose-500/10 text-rose-300 ring-1 ring-rose-500/20"
+            }`}>
+              <strong>Recommendation:</strong> {result.recommendation === "GO_LIVE" ? "✓ Safe to deploy live" : result.recommendation === "SHADOW_MODE" ? "⚠ Keep in shadow mode" : "✗ Do not deploy"}
+            </div>
+          )}
+        </div>
+      )}
+    </GlassPanel>
   );
 }

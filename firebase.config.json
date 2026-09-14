@@ -1,0 +1,20 @@
+{
+  "firebase": {
+    "apiKey": "",
+    "authDomain": "",
+    "projectId": "",
+    "storageBucket": "",
+    "messagingSenderId": "",
+    "appId": "",
+    "measurementId": ""
+  },
+  " Capacitor": {
+    "pushNotifications": {
+      "enabled": true,
+      "sound": "bell.wav",
+      "vibrate": true,
+      "smallIcon": "ic_stat_icon",
+      "iconColor": "#8B5CF6"
+    }
+  }
+}
